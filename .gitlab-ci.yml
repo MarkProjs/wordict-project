@@ -61,7 +61,8 @@ test:
 lint:
   stage: lint
   before_script:
-    - npm install -g eslint eslint-plugin-security@latest eslint-plugin-react@latest
+    - npm install -g eslint 
+    - cd client && npm install --save-dev eslint-plugin-security@latest eslint-plugin-react@latest
   script:
     - eslint --ext .js .
 
