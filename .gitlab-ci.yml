@@ -102,3 +102,20 @@ prod-deploy:
     - "az webapp config appsettings set --resource-group $RESOURCE_GROUP_NAME --name $APP_NAME --settings ATLAS_URI=$ATLAS_URI"
     - "az webapp config appsettings set --resource-group $RESOURCE_GROUP_NAME --name $APP_NAME --settings AZURE_SAS=$AZURE_SAS"
     - "az webapp deployment source config-zip --resource-group $RESOURCE_GROUP_NAME --name $APP_NAME --src deploy.zip"
+
+dev-deploy:
+  stage: deploy
+  image:  mcr.microsoft.com/azure-cli
+  dependencies:
+    - build-frontend
+    - build-backend
+  only:
+    - staging
+  before_script:
+    - "az login --allow-no-subscriptions --service-principal -u $DEV_AZ_SP_ID -p $DEV_AZ_SP_SECRET --tenant $DEV_AZ_TENANT"
+  script:
+    - zip -r deploy.zip client/build server ./package.json
+    - "az webapp config appsettings set --resource-group $RESOURCE_GROUP_NAME --name $DEV_APP_NAME --settings WEBSITE_RUN_FROM_PACKAGE='1'"
+    - "az webapp config appsettings set --resource-group $RESOURCE_GROUP_NAME --name $DEV_APP_NAME --settings ATLAS_URI=$ATLAS_URI"
+    - "az webapp config appsettings set --resource-group $RESOURCE_GROUP_NAME --name $DEV_APP_NAME --settings AZURE_SAS=$AZURE_SAS"
+    - "az webapp deployment source config-zip --resource-group $RESOURCE_GROUP_NAME --name $DEV_APP_NAME --src deploy.zip"
