@@ -111,7 +111,6 @@ dev-deploy:
     - build-backend
   only:
     - staging
-    - deployment-improvement
   before_script:
     - "az login --allow-no-subscriptions --service-principal -u $DEV_AZ_SP_ID -p $DEV_AZ_SP_SECRET --tenant $DEV_AZ_TENANT"
   script:
