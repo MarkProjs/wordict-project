@@ -44,7 +44,17 @@ build-backend:
     paths:
       - server/node_modules/
 
-test:
+test-frontend:
+  stage: test
+  dependencies:
+    - build
+  dependencies:
+    - build-frontend
+  script:
+    - echo "UNCOMMENT THE TESTS"
+    # - cd client && npm run test
+
+test-backend:
   stage: test
   dependencies:
     - build
@@ -54,8 +64,8 @@ test:
   dependencies:
     - build-backend
   script:
+    - echo "UNCOMMENT THE TESTS"
     # - cd server && npm run test
-    - echo "Uncomment actual test when some have been made"
 
 # from M Frydrychowicz
 lint:
@@ -76,7 +86,7 @@ lint:
 #    - node ./specs/start.js ./specs/db-postgres.spec.js
 
 
-deploy:
+prod-deploy:
   stage: deploy
   image:  mcr.microsoft.com/azure-cli
   dependencies:
@@ -84,10 +94,11 @@ deploy:
     - build-backend
   only:
     - main
-    - staging
   before_script:
     - "az login --allow-no-subscriptions --service-principal -u $AZ_SP_ID -p $AZ_SP_SECRET --tenant $AZ_TENANT"
   script:
     - zip -r deploy.zip client/build server ./package.json
-##    - "az webapp config appsettings set --resource-group $RESOURCE_GROUP_NAME --name $APP_NAME --settings WEBSITE_RUN_FROM_PACKAGE='1'"
+    - "az webapp config appsettings set --resource-group $RESOURCE_GROUP_NAME --name $APP_NAME --settings WEBSITE_RUN_FROM_PACKAGE='1'"
+    - "az webapp config appsettings set --resource-group $RESOURCE_GROUP_NAME --name $APP_NAME --settings ATLAS_URI=$ATLAS_URI"
+    - "az webapp config appsettings set --resource-group $RESOURCE_GROUP_NAME --name $APP_NAME --settings AZURE_SAS=$AZURE_SAS"
     - "az webapp deployment source config-zip --resource-group $RESOURCE_GROUP_NAME --name $APP_NAME --src deploy.zip"
