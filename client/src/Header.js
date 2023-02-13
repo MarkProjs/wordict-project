@@ -5,7 +5,7 @@ function Header() {
         WORDICT
       </div>
       <div className="description">
-        Whatever the description is
+        Word catalogue where users can search for words but also play!
       </div>
     </>
   );
