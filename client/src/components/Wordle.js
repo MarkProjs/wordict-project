@@ -1,38 +1,52 @@
 import WordRow from "./WordRow.js";
-import { useRef } from "react";
+import * as GameLogic from "../controllers/GameLogic.js";
+import { useEffect, useRef } from "react";
 
 function Wordle(props) {
   const keyEventFuncs = useRef([]);
   const currentRow = useRef(0);
+  const letters = useRef(new Array(props.wordLength).fill(""));
 
   function addInputListener(listenerFunc) {
     keyEventFuncs.current.push(listenerFunc);
   }
 
-  //Change to passed in by props later
-  function handleInput(e) {
-    let key = e.key;
+  function handleInput(e, send = undefined) {
+    let key = e.key.toLocaleUpperCase();
     //validate key
-    let valid = true;
-    if (valid) {
-      if (key === "Enter") {
+    if (GameLogic.validateInput(key)) {
+      console.log(letters.current)
+      console.log(letters.current.every(letter => console.log(letter)))
+      if (key === props.submitKey && letters.current.every(letter => letter !== "")) {
         //Submit game logic code stuff here
+        console.log(letters.current.join(""));
         currentRow.current = currentRow.current + 1 >= props.attempts ? 0 : currentRow.current + 1;
-        console.log("Enter" + currentRow.current);
-      } else {
+        console.log("Enter " + currentRow.current);
+        letters.current.forEach((letter, index, array) => {
+          array[index.toFixed()] = "";
+        })
+      } else if (key !== props.submitKey) {
         keyEventFuncs.current[currentRow.current](key);
+        send?.call(key);
       }
     }
 
   }
 
+  useEffect(() => {
+    props.addInputListener(handleInput);
+  }, []);
+  
+
   return (
-    <section onKeyUp={(e) => handleInput(e)} tabIndex={0}>
-      {new Array(props.attempts).fill(0).map((elem, index) => {
+    <section>
+      {letters.current.map((elem, index) => {
         return <WordRow 
           key={index} 
           wordLength={props.wordLength} 
           addInputListener={addInputListener}
+          letters={letters.current}
+          deleteKey={props.deleteKey}
         />
       })}
     </section>
