@@ -1,6 +1,10 @@
 .letter-box {
   margin: 0;
-  border: 1rem solid black;
+  border: 0.2rem solid black;
+  margin: 0.2rem;
   font-size: 2rem;
+  font-weight: bold;
   padding: 0.5rem;
+  width: 3rem;
+  height: 3rem;
 }
