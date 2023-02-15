@@ -24,6 +24,7 @@ function App() {
         submitKey={validInputs.submitKey}
         deleteKey={validInputs.deleteKey}
         addInputListener={addInputListener}
+        defaultValue={validInputs.empty}
       />
     </div>
   );

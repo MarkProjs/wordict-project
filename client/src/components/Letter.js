@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import "./Letter.css"
 
 function Letter(props) {
-  const [letter, setLetter] = useState("");
+  const [letter, setLetter] = useState(props.defaultValue);
 
   useEffect(() => {
     props.addLetter(setLetter);

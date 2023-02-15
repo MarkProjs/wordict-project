@@ -1,5 +1,5 @@
 import Letter from "./Letter.js";
-import {useEffect, useRef, useState} from "react";
+import {useEffect, useRef} from "react";
 import "./WordRow.css"
 
 function WordRow(props) {
@@ -9,10 +9,12 @@ function WordRow(props) {
   function updateLetters(letter) {
     console.log(letter); 
     console.log(currentLetter.current);
-    if (letter === "Backspace" && currentLetter.current > 0) {
-      stateFuncs.current[--currentLetter.current]("");
-    } else if (letter !== "Backspace" && currentLetter.current < props.wordLength) {
+    if (letter === props.deleteKey && currentLetter.current > 0) {
+      stateFuncs.current[--currentLetter.current](props.defaultValue);
+      props.letters[currentLetter.current] = props.defaultValue;
+    } else if (letter !== props.deleteKey && currentLetter.current < props.wordLength) {
       stateFuncs.current[currentLetter.current](letter);
+      props.letters[currentLetter.current] = letter;
       currentLetter.current++;
     }
   }
@@ -27,8 +29,12 @@ function WordRow(props) {
 
   return (
     <article className="word-row">
-      {new Array(props.wordLength).fill(0).map((elem, index) => {
-        return <Letter key={index} addLetter={addLetter}/>
+      {props.letters.map((elem, index) => {
+        return <Letter 
+          key={index} 
+          addLetter={addLetter}
+          defaultValue={props.defaultValue}  
+        />
       })}
     </article>
   );
