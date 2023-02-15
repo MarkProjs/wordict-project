@@ -4,11 +4,16 @@ import { useEffect, useRef } from "react";
 
 function Wordle(props) {
   const keyEventFuncs = useRef([]);
+  const styleEventFuncs = useRef([]);
   const currentRow = useRef(0);
   const letters = useRef(new Array(props.word.length).fill(props.defaultValue));
 
   function addInputListener(listenerFunc) {
     keyEventFuncs.current.push(listenerFunc);
+  }
+
+  function addStyleListener(styleFunc) {
+    styleEventFuncs.current.push(styleFunc);
   }
 
   function handleInput(e, send = undefined) {
@@ -24,6 +29,7 @@ function Wordle(props) {
         //Submit game logic code stuff here
         console.log(letters.current.join(""));
         let results = GameLogic.checkSubmission(letters.current.join(""), props.word);
+        styleEventFuncs.current[currentRow.current](results);
         currentRow.current = currentRow.current + 1 >= props.attempts ? 0 : currentRow.current + 1;
         console.log("Enter " + currentRow.current);
         letters.current.forEach((letter, index, array) => {
@@ -49,6 +55,7 @@ function Wordle(props) {
           key={index} 
           wordLength={props.word.length} 
           addInputListener={addInputListener}
+          addStyleListener={addStyleListener}
           letters={letters.current}
           deleteKey={props.deleteKey}
           defaultValue={props.defaultValue}
