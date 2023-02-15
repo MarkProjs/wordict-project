@@ -23,6 +23,7 @@ function Wordle(props) {
       ) {
         //Submit game logic code stuff here
         console.log(letters.current.join(""));
+        let results = GameLogic.checkSubmission(letters.current.join(""), props.word);
         currentRow.current = currentRow.current + 1 >= props.attempts ? 0 : currentRow.current + 1;
         console.log("Enter " + currentRow.current);
         letters.current.forEach((letter, index, array) => {
