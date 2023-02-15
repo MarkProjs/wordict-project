@@ -6,7 +6,7 @@ function NavBar() {
         <li>Dictionary</li>
         <li>Play Wordle!</li>
         <li>Play Wordle Online</li>
-        <li>LeaderBoard</li>
+        <li>Leaderboard</li>
         <li>About!</li>
       </ul>
     </>
