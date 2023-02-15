@@ -20,7 +20,7 @@ function App() {
     <div className="App" onKeyUp={(e) => handleInput(e)} tabIndex={0}>
       <Wordle 
         attempts={6} 
-        wordLength={5}
+        word={"WATER"}
         submitKey={validInputs.submitKey}
         deleteKey={validInputs.deleteKey}
         addInputListener={addInputListener}

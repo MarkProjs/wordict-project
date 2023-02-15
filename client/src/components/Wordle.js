@@ -5,7 +5,7 @@ import { useEffect, useRef } from "react";
 function Wordle(props) {
   const keyEventFuncs = useRef([]);
   const currentRow = useRef(0);
-  const letters = useRef(new Array(props.wordLength).fill(props.defaultValue));
+  const letters = useRef(new Array(props.word.length).fill(props.defaultValue));
 
   function addInputListener(listenerFunc) {
     keyEventFuncs.current.push(listenerFunc);
@@ -17,7 +17,10 @@ function Wordle(props) {
     if (GameLogic.validateInput(key)) {
       console.log(letters.current)
       console.log(letters.current.every(letter => console.log(letter)))
-      if (key === props.submitKey && letters.current.every(letter => letter !== props.defaultValue)) {
+      if (
+        key === props.submitKey 
+        && letters.current.every(letter => letter !== props.defaultValue)
+      ) {
         //Submit game logic code stuff here
         console.log(letters.current.join(""));
         currentRow.current = currentRow.current + 1 >= props.attempts ? 0 : currentRow.current + 1;
@@ -43,7 +46,7 @@ function Wordle(props) {
       {letters.current.map((elem, index) => {
         return <WordRow 
           key={index} 
-          wordLength={props.wordLength} 
+          wordLength={props.word.length} 
           addInputListener={addInputListener}
           letters={letters.current}
           deleteKey={props.deleteKey}
