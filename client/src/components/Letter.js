@@ -2,15 +2,15 @@ import { useEffect, useState } from "react";
 import "./Letter.css"
 
 function Letter(props) {
-  const [letter, setLetter] = useState(props.defaultValue);
+  const [letter, setLetter] = useState({style: "", key: props.defaultValue});
 
   useEffect(() => {
     props.addLetter(setLetter);
   }, []);
 
   return (
-    <p className="letter-box">
-      {letter}
+    <p className={`letter-box ${letter.style}`}>
+      {letter.key}
     </p>
   );
 }

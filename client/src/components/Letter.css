@@ -8,3 +8,15 @@
   width: 3rem;
   height: 3rem;
 }
+
+.right {
+  background-color: green;
+}
+
+.half-right {
+  background-color: yellow;
+}
+
+.wrong {
+  background-color: red;
+}
