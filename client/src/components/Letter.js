@@ -5,7 +5,8 @@ function Letter(props) {
   const [letter, setLetter] = useState({style: "", key: props.defaultValue});
 
   useEffect(() => {
-    props.addLetter(setLetter);
+    // Subscribe to the parent state event with the state function
+    props.subToStateEvent(setLetter);
   }, []);
 
   return (
