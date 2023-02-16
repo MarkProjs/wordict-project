@@ -2,13 +2,15 @@ import WordRow from "./WordRow.js";
 import * as GameLogic from "../controllers/GameLogic.js";
 import { useEffect, useRef } from "react";
 
+const ROW_PREFIX = "R-";
+
 function Wordle(props) {
 
   // Contains all of the functions subscribed to the key event
-  const keyEvent = useRef([]);
+  const keyEvent = useRef(new Map());
 
   // Contains all of the functions subscribed to the style event
-  const styleEvent = useRef([]);
+  const styleEvent = useRef(new Map());
 
   const currentRow = useRef(0);
 
@@ -17,19 +19,21 @@ function Wordle(props) {
 
   /**
    * Subscribe a function to the key event
+   * @param {String} key The key associated with the subscription
    * @param {Function} subFunc The function to subscribe to the key event
    */
-  function subToKeyEvent(subFunc) {
-    keyEvent.current.push(subFunc);
+  function subToKeyEvent(key, subFunc) {
+    keyEvent.current.set(key, subFunc);
   }
 
 
   /**
    * Subscribe a function to the style event
+   * @param {String} key The key associated with the subscription
    * @param {Function} subFunc The function to subscribe to the style event
    */
-  function subToStyleEvent(subFunc) {
-    styleEvent.current.push(subFunc);
+  function subToStyleEvent(key, subFunc) {
+    styleEvent.current.set(key, subFunc);
   }
 
   /**
@@ -53,7 +57,7 @@ function Wordle(props) {
         let results = GameLogic.checkSubmission(letters.current.join(""), props.word);
 
         // Trigger the style event for the current row
-        styleEvent.current[currentRow.current](results);
+        styleEvent.current.get(ROW_PREFIX + currentRow.current)(results);
 
         currentRow.current++;
 
@@ -64,7 +68,7 @@ function Wordle(props) {
       } else if (key !== props.submitKey) {
 
         // Trigger the key event for the current row
-        keyEvent.current[currentRow.current](key);
+        keyEvent.current.get(ROW_PREFIX + currentRow.current)(key);
         
         // If the key should be sent somewhere else send it here
         send?.call(key);
@@ -75,7 +79,7 @@ function Wordle(props) {
 
   useEffect(() => {
     // Get keyboard input from the parent component
-    props.addInputListener(handleInput);
+    props.addInputListener(props.id, handleInput);
   }, []);
   
 
@@ -84,6 +88,7 @@ function Wordle(props) {
       {letters.current.map((elem, index) => {
         return <WordRow 
           key={index} 
+          id={ROW_PREFIX + index}
           wordLength={props.word.length} 
           subToKeyEvent={subToKeyEvent}
           subToStyleEvent={subToStyleEvent}

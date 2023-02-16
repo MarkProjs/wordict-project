@@ -6,7 +6,7 @@ function Letter(props) {
 
   useEffect(() => {
     // Subscribe to the parent state event with the state function
-    props.subToStateEvent(setLetter);
+    props.subToStateEvent(props.id, setLetter);
   }, []);
 
   return (
