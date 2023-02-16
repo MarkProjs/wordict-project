@@ -1,4 +1,3 @@
-import React from 'react';
 import { Nav, NavLink, Bars, 
   NavMenu, NavBtn, NavBtnLink } from './NavbarElem.js';
 
