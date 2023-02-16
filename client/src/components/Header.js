@@ -1,4 +1,5 @@
 import NavBar from "./NavBar/NavBar.js";
+import { BrowserRouter as Router } from "react-router-dom";
 
 function Header() {
   return(
@@ -6,7 +7,10 @@ function Header() {
       <div className="title">
         WORDICT
       </div>
-      <NavBar/>
+      <Router>
+        <NavBar/>
+      </Router>
+      
     </>
   );
 }
