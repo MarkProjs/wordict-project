@@ -4,10 +4,22 @@ const RIGHT = 0;
 const HALF_RIGHT = 1;
 const WRONG = 2;
 
+/**
+ * Check if the input is valid when compared to the valid inputs
+ * @param {String} input String representing the input from the user
+ * @returns Boolean representting the validity
+ */
 function validateInput(input) {
   return validInput.validInput.includes(input)
 }
 
+/**
+ * Compares the word the user is trying to guess with the word they have guessed
+ * and returns the correctness of each letter
+ * @param {String} submission Represents the word that the user has guessed
+ * @param {String} word Represents the word that the user is trying to guess
+ * @returns An array containing whether each letter is in the correct position or not
+ */
 function checkSubmission(submission, word) {
   const result = [];
   submission.split("").forEach((letter, index, array) => {
