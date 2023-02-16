@@ -1,29 +1,58 @@
 import Letter from "./Letter.js";
 import {useEffect, useRef} from "react";
-import { RIGHT, HALF_RIGHT, WRONG } from "../controllers/GameLogic.js";
+import { RIGHT, HALF_RIGHT} from "../controllers/GameLogic.js";
 import "./WordRow.css"
 
 function WordRow(props) {
-  const stateFuncs = useRef([]);
+
+  // Contains all the functions subscribed to the state event
+  const stateEvent = useRef([]);
+
   const currentLetter = useRef(0);
 
+  /**
+   * Subscribe a function to the state event
+   * @param {Function} subFunc The function to subscribe to the state event
+   */
+  function subToStateEvent(subFunc) {
+    stateEvent.current.push(subFunc);
+  }
+
+  /**
+   * Update the state of the current letter component to reflect the overall state of the row
+   * @param {String} letter The string representing the key that was pressed
+   */
   function updateLetters(letter) {
-    console.log(letter); 
-    console.log(currentLetter.current);
+
     if (letter === props.deleteKey && currentLetter.current > 0) {
-      stateFuncs.current[--currentLetter.current]((prev) => {
+
+      // Trigger the state event to remove the letter in the active letter component
+      stateEvent.current[--currentLetter.current]((prev) => {
         return {...prev, key: props.defaultValue};
       });
+
+      // Update the parent array representation of the row to reflect the change
       props.letters[currentLetter.current] = props.defaultValue;
+
     } else if (letter !== props.deleteKey && currentLetter.current < props.wordLength) {
-      stateFuncs.current[currentLetter.current]((prev) => {
+
+      // Trigger the state event to add the letter to the active letter component
+      stateEvent.current[currentLetter.current]((prev) => {
         return {...prev, key: letter};
       });
+
+      // Update the parent array representation of the row to reflect the change
       props.letters[currentLetter.current] = letter;
+
       currentLetter.current++;
     }
   }
 
+  /**
+   * Update the state of all the letters in the row to show the user if their guesses were correct
+   * @param {Array<Int>} styles An array containing integers representing the styling that 
+   * should be applied to each letter
+   */
   function applyLetterStyles(styles) {
     styles.forEach((styleNum, index) => {
       let style = "";
@@ -34,27 +63,26 @@ function WordRow(props) {
       } else {
         style = "wrong";
       }
-      stateFuncs.current[index.valueOf()]((prev) => {
+
+      // Trigger the state event to update the style of the letter
+      stateEvent.current[index.valueOf()]((prev) => {
         return {...prev, style: style}
       });
     });
   }
 
   useEffect(() => {
-    props.addInputListener(updateLetters);
-    props.addStyleListener(applyLetterStyles);
+    // Subscribe to the parent events
+    props.subToKeyEvent(updateLetters);
+    props.subToStyleEvent(applyLetterStyles);
   }, []);
-
-  function addLetter(stateFunc) {
-    stateFuncs.current.push(stateFunc);
-  }
 
   return (
     <article className="word-row">
       {props.letters.map((elem, index) => {
         return <Letter 
           key={index} 
-          addLetter={addLetter}
+          subToStateEvent={subToStateEvent}
           defaultValue={props.defaultValue}  
         />
       })}
