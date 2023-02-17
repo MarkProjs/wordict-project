@@ -23,17 +23,40 @@ const wordSchema = new mongoose.Schema({
     type: String,
     unique: true
   },
-  length: {
-    type: Number,
-    set: function() {
-      return this.word.length
-    }
-  },
+  length: Number,
   definitions: [DefinitionSchema],
-  rhymes: [{}],
-  synonyms: [{}]
+  rhymes: {
+    type: [{}],
+    default: []
+  },
+  synonyms: {
+    type: [{}],
+    default: []
+  }
 });
 
+/**
+ * @async
+ * @param {Number} randValue random number of documents to skip
+ * @param {Object} query query object of the form {field: value}
+ * @returns a word that matches the query, selected based on the randomValue
+ */
+wordSchema.statics.getRandomUsingVal = async function(randValue, query = {}){
+  return await Words.findOne(query).skip(randValue).exec();
+}
+
+/**
+ * @async
+ * @returns {Array} and array with all the words represented in the form {word: word};
+ */
+wordSchema.statics.getOnlyWordFields =  async function(){
+  return await Words.find().select('word -_id').exec();
+}
+
+wordSchema.pre('save', function (next) {
+  this.length = this.get('word').length;
+  next();
+});
 
 const Words = mongoose.model('WordsV3', wordSchema);
 console.log("Schemas made");
@@ -46,35 +69,6 @@ process.on("SIGINT", async () => {
   process.exit();
 });
 
-
-
-// TESTS 
-
-await test()
-async function test(){
-  Words.deleteMany({});
-  const newWord = new Words({
-    word: "rum",
-    length: "",
-    definitions: [
-      {
-        type: "n.",
-        definition: "A queer or odd person or thing; a country parson."
-      }
-    ],
-    rhymes: [],
-    synonyms: []
-  });
-  await newWord.save();
-  console.log("Saved");
-
-  console.log(await getWordsWithoutDefinitions());
-
-  await mongoose.disconnect();
-}
-
-// END TEST
-
 /**
  * disconnect from the databse
  * @void
@@ -83,42 +77,35 @@ async function test(){
 async function disconnect(){
   await mongoose.disconnect();
 }
-/**
- * @async
- * @param {Object} query query object of the form {field: value}
- * @returns {Number} count of all the words that match the query
- */
-async function getCountOfWordsWithQuery(query){
-  return await Words.count(query);
-}
-/**
- * @async
- * @param {Object} query query object of the form {field: value}
- * @returns the found document
- */
-async function getWordWithQuery(query){
-  return await Words.findOne(query);
-}
-/**
- * @async
- * @param {Number} randValue random number of documents to skip
- * @param {Object} query query object of the form {field: value}
- * @returns a word that matches the query, selected based on the randomValue
- */
-async function getRandomWordWithQuery(randValue, query){
-  return await Words.findOne(query).skip(randValue).exec();
-}
-/**
- * @async
- * @returns {Array} and array with all the words represented in the form {word: word};
- */
-async function getWordsWithoutDefinitions(){
-  return await Words.find().select('word -_id').exec();
+
+// TESTS 
+
+//await test()
+// eslint-disable-next-line no-unused-vars
+async function test(){
+//   Words.deleteMany();
+  const newWord = new Words({
+    word: "tank",
+    definitions: [
+      {
+        type: "n.",
+        definition: "exaple def"
+      },
+      {
+        type: "v.",
+        definition: "example def 2"
+      }
+    ]
+  });
+  await newWord.save();
+  console.log(await Words.getOnlyWordFields());
+  console.log("Saved");
+
+  await mongoose.disconnect();
 }
 
+// END TEST
 
-export default {
-  disconnect, getCountOfWordsWithQuery,
-  getRandomWordWithQuery, getWordWithQuery,
-  getWordsWithoutDefinitions
+export {
+  disconnect, Words
 };
