@@ -14,4 +14,23 @@ router.get("/:word/definition", async (req, res) => {
   res.json(data);
 })
 
+// at top level
+let words;
+/* try {
+  const db = new DB();
+  words = db.getDictionary();
+} catch (error) {
+  console.error(error);
+}*/
+
+/**
+ * Get API to retrieve Dictionary
+ */
+router.get("/dictionary", async (req, res) => {
+  words = [{"word": "monkey"}, {"word": "evolution"}, {"word": "stick"}, {"word": "rock"}];
+  // Retrieve data from MongoDB
+
+  res.json(words);
+})
+
 export default router;
