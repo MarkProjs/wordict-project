@@ -14,6 +14,8 @@ function Wordle(props) {
 
   const currentRow = useRef(0);
 
+  const gameDone = useRef(false);
+
   // Set the default value of the letters to be an array of default values
   const letters = useRef(new Array(props.word.length).fill(props.defaultValue));
 
@@ -45,7 +47,7 @@ function Wordle(props) {
     let key = e.key.toLocaleUpperCase();
 
     //validate key
-    if (GameLogic.validateInput(key)) {
+    if (GameLogic.validateInput(key) && !gameDone.current) {
       
       // Only submit if their entire word is filled 
       // TODO add check if it is a valid word
@@ -60,6 +62,11 @@ function Wordle(props) {
         styleEvent.current.get(ROW_PREFIX + currentRow.current)(results);
 
         currentRow.current++;
+        if (results.every(result => result === GameLogic.RIGHT)) {
+          gameDone.current = true;
+        } else if (currentRow.current >= letters.current.length) {
+          gameDone.current = true;
+        }
 
         //clear the current word that is being written
         letters.current.forEach((letter, index, array) => {
