@@ -1,5 +1,5 @@
 import WordRow from "./WordRow.js";
-import * as GameLogic from "../controllers/GameLogic.js";
+import * as GameLogic from "../../controllers/GameLogic.js";
 import { useEffect, useRef } from "react";
 
 const ROW_PREFIX = "R-";

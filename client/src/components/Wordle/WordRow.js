@@ -1,6 +1,6 @@
 import Letter from "./Letter.js";
 import {useEffect, useRef} from "react";
-import { RIGHT, HALF_RIGHT} from "../controllers/GameLogic.js";
+import { RIGHT, HALF_RIGHT} from "../../controllers/GameLogic.js";
 import "./WordRow.css"
 
 const LETTER_PREFIX = "L-";
