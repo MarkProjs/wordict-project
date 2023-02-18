@@ -1,5 +1,8 @@
 import validInput from "./ValidInput.json"
 
+// Constants for the correctness of each letter
+// theoretically can use any three values as long as they
+// can be put into an array and are each unique
 const RIGHT = 0;
 const HALF_RIGHT = 1;
 const WRONG = 2;
@@ -21,23 +24,42 @@ function validateInput(input) {
  * @returns An array containing whether each letter is in the correct position or not
  */
 function checkSubmission(submission, word) {
+  // Holds the correctness of each letter in the guess
   const result = [];
-  submission.split("").forEach((letter, index, array) => {
-    if (letter === word.charAt(index)) {
+
+  let submissionArray = submission.split("");
+  let wordArray = word.split("");
+
+  submissionArray.forEach((letter, index) => {
+
+    if (letter === wordArray[index.valueOf()]) {
+
       result.push(RIGHT);
+
+      // Consume the letter in the correct word array so you get
+      // the correct amount of half right letters
+      wordArray[index.valueOf()] = "";
+
     } else {
-      let nextOccurence = word.indexOf(letter, index);
+
+      let nextOccurence = wordArray.indexOf(letter);
+
       if (nextOccurence === -1) {
-        let prevOccurence = word.indexOf(letter)
-        if (prevOccurence !== -1 && result[prevOccurence.valueOf()] !== RIGHT) {
-          result.push(HALF_RIGHT);
-        } else {
-          result.push(WRONG);
-        }
-      } else if (array[nextOccurence.valueOf()] !== letter) {
-        result.push(HALF_RIGHT);
-      } else {
+        
         result.push(WRONG);
+
+      } else if (submissionArray[nextOccurence.valueOf()] !== letter) {
+        
+        result.push(HALF_RIGHT);
+        
+        // Consume the letter in the correct word array so you get
+        // the correct amount of half right letters
+        wordArray[nextOccurence.valueOf()] = "";
+
+      } else {
+
+        result.push(WRONG);
+
       }
     }
   });
