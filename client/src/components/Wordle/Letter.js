@@ -7,13 +7,13 @@ function Letter(props) {
   useEffect(() => {
     // Subscribe to the parent state event with the state function
     props.subToStateEvent(props.id, setLetter);
-  }, []);
+  }, [props]);
 
   return (
     <p className={`letter-box ${letter.style}`}>
       {letter.key}
     </p>
-  );
+  ); 
 }
 
 export default Letter;
