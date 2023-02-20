@@ -7,7 +7,7 @@ function Popup(props) {
   useEffect(() => {
     // Subscribe to the parent events
     props.subToGameStateEvent(props.id, setGameState);
-  }, []);
+  });
 
   return (
     <>

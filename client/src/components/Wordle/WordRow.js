@@ -1,6 +1,6 @@
 import Letter from "./Letter.js";
-import {useEffect, useRef} from "react";
-import { RIGHT, HALF_RIGHT} from "../../controllers/GameLogic.js";
+import { useEffect } from "react";
+import { RIGHT, HALF_RIGHT } from "../../controllers/GameLogic.js";
 import "./WordRow.css"
 
 const LETTER_PREFIX = "L-";
@@ -8,9 +8,9 @@ const LETTER_PREFIX = "L-";
 function WordRow(props) {
 
   // Contains all the functions subscribed to the state event
-  const stateEvent = useRef(new Map());
+  const stateEvent = new Map();
 
-  const currentLetter = useRef(0);
+  let currentLetter = 0;
 
   /**
    * Subscribe a function to the state event
@@ -18,7 +18,7 @@ function WordRow(props) {
    * @param {Function} subFunc The function to subscribe to the state event
    */
   function subToStateEvent(key, subFunc) {
-    stateEvent.current.set(key, subFunc);
+    stateEvent.set(key, subFunc);
   }
 
   /**
@@ -27,27 +27,27 @@ function WordRow(props) {
    */
   function updateLetters(letter) {
 
-    if (letter === props.deleteKey && currentLetter.current > 0) {
+    if (letter === props.deleteKey && currentLetter > 0) {
 
       // Trigger the state event to remove the letter in the active letter component
-      stateEvent.current.get(LETTER_PREFIX + --currentLetter.current)((prev) => {
+      stateEvent.get(LETTER_PREFIX + --currentLetter)((prev) => {
         return {...prev, key: props.defaultValue};
       });
 
       // Update the parent array representation of the row to reflect the change
-      props.letters[currentLetter.current] = props.defaultValue;
+      props.letters[currentLetter.valueOf()] = props.defaultValue;
 
-    } else if (letter !== props.deleteKey && currentLetter.current < props.wordLength) {
+    } else if (letter !== props.deleteKey && currentLetter < props.wordLength) {
 
       // Trigger the state event to add the letter to the active letter component
-      stateEvent.current.get(LETTER_PREFIX + currentLetter.current)((prev) => {
+      stateEvent.get(LETTER_PREFIX + currentLetter)((prev) => {
         return {...prev, key: letter};
       });
 
       // Update the parent array representation of the row to reflect the change
-      props.letters[currentLetter.current] = letter;
+      props.letters[currentLetter.valueOf()] = letter;
 
-      currentLetter.current++;
+      currentLetter++;
     }
   }
 
@@ -68,7 +68,7 @@ function WordRow(props) {
       }
 
       // Trigger the state event to update the style of the letter
-      stateEvent.current.get(LETTER_PREFIX + index.valueOf())((prev) => {
+      stateEvent.get(LETTER_PREFIX + index.valueOf())((prev) => {
         return {...prev, style: style}
       });
     });
@@ -78,7 +78,7 @@ function WordRow(props) {
     // Subscribe to the parent events
     props.subToKeyEvent(props.id, updateLetters);
     props.subToStyleEvent(props.id, applyLetterStyles);
-  }, []);
+  });
 
   return (
     <article className="word-row">

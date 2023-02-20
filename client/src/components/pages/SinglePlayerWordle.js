@@ -29,7 +29,7 @@ function SinglePlayerWordle() {
 
   return (
     <div className="wordle-container" onKeyUp={(e) => handleInput(e)} tabIndex={0}>
-      {word ? <Wordle 
+      <Wordle 
         id={WORDLE_PREFIX + 0}
         attempts={6}
         word={word}
@@ -37,7 +37,7 @@ function SinglePlayerWordle() {
         deleteKey={validInputs.deleteKey}
         addInputListener={addInputListener}
         defaultValue={validInputs.empty}
-      /> : <></>}
+      />
       
     </div>
   );
