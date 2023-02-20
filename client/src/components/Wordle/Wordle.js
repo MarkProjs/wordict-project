@@ -1,8 +1,11 @@
 import WordRow from "./WordRow.js";
 import * as GameLogic from "../../controllers/GameLogic.js";
 import { useEffect, useRef } from "react";
+import "./Wordle.css"
+import Popup from "./Popup.js";
 
 const ROW_PREFIX = "R-";
+const POP_PREFIX = "P-";
 
 function Wordle(props) {
 
@@ -15,6 +18,9 @@ function Wordle(props) {
   const currentRow = useRef(0);
 
   const gameDone = useRef(false);
+
+  // Contains all of the functions subscribed to the game state event
+  const gameStateEvent = useRef(new Map());
 
   // Set the default value of the letters to be an array of default values
   const letters = useRef(new Array(props.word.length).fill(props.defaultValue));
@@ -36,6 +42,15 @@ function Wordle(props) {
    */
   function subToStyleEvent(key, subFunc) {
     styleEvent.current.set(key, subFunc);
+  }
+
+  /**
+   * Subscribe a function to the game state event
+   * @param {String} key The key associated with the subscription
+   * @param {Function} subFunc The function to subscribe to the game state event
+   */
+  function subToGameStateEvent(key, subFunc) {
+    gameStateEvent.current.set(key, subFunc);
   }
 
   /**
@@ -62,10 +77,15 @@ function Wordle(props) {
         styleEvent.current.get(ROW_PREFIX + currentRow.current)(results);
 
         currentRow.current++;
-        if (results.every(result => result === GameLogic.RIGHT)) {
+        let gameWon = results.every(result => result === GameLogic.RIGHT)
+        if (gameWon) {
           gameDone.current = true;
         } else if (currentRow.current >= letters.current.length) {
           gameDone.current = true;
+        }
+
+        if (gameDone.current) {
+          gameStateEvent.current.forEach(func => func({done: gameDone.current, win: gameWon}));
         }
 
         //clear the current word that is being written
@@ -91,7 +111,12 @@ function Wordle(props) {
   
 
   return (
-    <section>
+    <section className="wordle">
+      <Popup 
+        word={props.word}
+        id={POP_PREFIX + 0}
+        subToGameStateEvent={subToGameStateEvent}
+      />
       {letters.current.map((elem, index) => {
         return <WordRow 
           key={index} 
