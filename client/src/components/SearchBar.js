@@ -9,12 +9,22 @@ function SearchBar() {
     setSearchInput(e.target.value);
   };
 
+  const words = [{word: 'hi'}, {word: 'foo'}, {word: 'bar'}, {word: 'monkey'}];
+  const dataList = <datalist id="words">
+    {words.map((item, key) =>
+      <option key={key} value={item.word} />
+    )}
+  </datalist>;
+
   return <div>
     <input
       type="search"
       placeholder="Search here"
+      list="words"
       onChange={handleChange}
-      value={searchInput} />    
+      value={searchInput}
+    />
+    {dataList}
   </div>
 
 }
