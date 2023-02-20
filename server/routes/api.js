@@ -17,8 +17,8 @@ router.get("/:word/definition", async (req, res) => {
 // at top level
 let words;
 /* try {
-  const db = new DB();
-  words = db.getDictionary();
+  const db = new DB(); // controller.js, not db
+  words = db.getAllWords();
 } catch (error) {
   console.error(error);
 }*/
