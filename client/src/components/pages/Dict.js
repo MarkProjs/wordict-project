@@ -1,4 +1,4 @@
-import SearchBar from './components/SearchBar';
+import SearchBar from '../SearchBar.js';
 
 function Dict() {
   return(
