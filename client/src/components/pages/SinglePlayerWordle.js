@@ -17,11 +17,11 @@ function SinglePlayerWordle() {
   }
 
   return (
-    <div className="App" onKeyUp={(e) => handleInput(e)} tabIndex={0}>
+    <div className="wordle-container" onKeyUp={(e) => handleInput(e)} tabIndex={0}>
       <Wordle 
         id={WORDLE_PREFIX + 0}
         attempts={6}
-        word={"WATER"}
+        word={"HUMAN"}
         submitKey={validInputs.submitKey}
         deleteKey={validInputs.deleteKey}
         addInputListener={addInputListener}
@@ -30,7 +30,7 @@ function SinglePlayerWordle() {
       <Wordle 
         id={WORDLE_PREFIX + 1}
         attempts={6}
-        word={"PAPER"}
+        word={"PEOPLE"}
         submitKey={validInputs.submitKey}
         deleteKey={validInputs.deleteKey}
         addInputListener={addInputListener}
