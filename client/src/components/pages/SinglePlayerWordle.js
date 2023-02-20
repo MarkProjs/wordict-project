@@ -1,10 +1,12 @@
-import { useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import Wordle from '../Wordle/Wordle.js';
 import validInputs from "../../controllers/ValidInput.json";
 
 const WORDLE_PREFIX = "W-"
 
 function SinglePlayerWordle() {
+
+  const [word, setWord] = useState("");
 
   const inputListener = useRef(new Map);
 
@@ -16,26 +18,27 @@ function SinglePlayerWordle() {
     inputListener.current.forEach(func => func(e));
   }
 
+  useEffect(() => {
+    (async () => {
+      const words = ["Human", "Water", "Saint", "Popes", "Eight", "People", "Caterpillar", "Pillar",
+        "Twins", "Tower", "Police"];
+      let wordNum = Math.floor(Math.random() * words.length);
+      setWord(words[wordNum.valueOf()].toLocaleUpperCase());
+    })();
+  }, []);
+
   return (
     <div className="wordle-container" onKeyUp={(e) => handleInput(e)} tabIndex={0}>
-      <Wordle 
+      {word ? <Wordle 
         id={WORDLE_PREFIX + 0}
         attempts={6}
-        word={"HUMAN"}
+        word={word}
         submitKey={validInputs.submitKey}
         deleteKey={validInputs.deleteKey}
         addInputListener={addInputListener}
         defaultValue={validInputs.empty}
-      />
-      <Wordle 
-        id={WORDLE_PREFIX + 1}
-        attempts={6}
-        word={"PEOPLE"}
-        submitKey={validInputs.submitKey}
-        deleteKey={validInputs.deleteKey}
-        addInputListener={addInputListener}
-        defaultValue={validInputs.empty}
-      />
+      /> : <></>}
+      
     </div>
   );
 }
