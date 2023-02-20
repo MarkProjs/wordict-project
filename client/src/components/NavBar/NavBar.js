@@ -10,16 +10,16 @@ function NavBar() {
           <NavLink to='/'>
             <h1>Home</h1>
           </NavLink>
-          <NavLink to="/dict" activeStyle="true">
+          <NavLink to="/dict" activestyle="true">
             Dictionary
           </NavLink>
-          <NavLink to="/wordle" activeStyle="true">
+          <NavLink to="/wordle" activestyle="true">
             Wordle
           </NavLink>
-          <NavLink to="/wordle-online" activeStyle="true">
+          <NavLink to="/wordle-online" activestyle="true">
             Wordle Online
           </NavLink>
-          <NavLink to="/about" activeStyle="true">
+          <NavLink to="/about" activestyle="true">
             About Us
           </NavLink>
         </NavMenu>
