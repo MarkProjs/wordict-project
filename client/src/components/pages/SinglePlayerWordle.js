@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import Wordle from '../Wordle/Wordle.js';
 import validInputs from "../../controllers/ValidInput.json";
 
@@ -8,18 +8,29 @@ function SinglePlayerWordle() {
 
   const [word, setWord] = useState("");
 
-  const inputListener = useRef(new Map);
+  // Contains all of the functions subscribed to the input event
+  const inputEvent = new Map();
 
-  function addInputListener(key, listener) {
-    inputListener.current.set(key, listener);
+  /**
+   * Subscribe a function to the input event
+   * @param {String} key The key associated with the subscription
+   * @param {Function} subFunc The function to subscribe to the input event
+   */
+  function subToInputEvent(key, subFunc) {
+    inputEvent.set(key, subFunc);
   }
 
+  /**
+   * Trigger the keyboard input event for all subscribers
+   * @param {Event} e The Keyboard input event
+   */
   function handleInput(e) {
-    inputListener.current.forEach(func => func(e));
+    inputEvent.forEach(func => func(e));
   }
 
   useEffect(() => {
     (async () => {
+      //TODO Add fetch
       const words = ["Human", "Water", "Saint", "Popes", "Eight", "People", "Caterpillar", "Pillar",
         "Twins", "Tower", "Police"];
       let wordNum = Math.floor(Math.random() * words.length);
@@ -35,7 +46,7 @@ function SinglePlayerWordle() {
         word={word}
         submitKey={validInputs.submitKey}
         deleteKey={validInputs.deleteKey}
-        addInputListener={addInputListener}
+        subToInputEvent={subToInputEvent}
         defaultValue={validInputs.empty}
       />
       

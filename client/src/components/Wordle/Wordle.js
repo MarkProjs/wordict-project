@@ -105,7 +105,7 @@ function Wordle(props) {
 
   useEffect(() => {
     // Get keyboard input from the parent component
-    props.addInputListener(props.id, handleInput);
+    props.subToInputEvent(props.id, handleInput);
   });
   
 
