@@ -24,8 +24,16 @@ function validateInput(input) {
  * @returns An array containing whether each letter is in the correct position or not
  */
 function checkSubmission(submission, word) {
+
+  if (!submission || !word || submission.length !== word.length) {
+    throw new Error("Invalid inputs");
+  }
+
   // Holds the correctness of each letter in the guess
   const result = [];
+
+  submission = submission.toLocaleLowerCase();
+  word = word.toLocaleLowerCase();
 
   let submissionArray = submission.split("");
   let wordArray = word.split("");

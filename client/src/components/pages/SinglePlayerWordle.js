@@ -23,7 +23,7 @@ function SinglePlayerWordle() {
       const words = ["Human", "Water", "Saint", "Popes", "Eight", "People", "Caterpillar", "Pillar",
         "Twins", "Tower", "Police"];
       let wordNum = Math.floor(Math.random() * words.length);
-      setWord(words[wordNum.valueOf()].toLocaleUpperCase());
+      setWord(words[wordNum.valueOf()]);
     })();
   }, []);
 
