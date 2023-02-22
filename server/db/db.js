@@ -6,12 +6,8 @@ mongoose.set('strictQuery', true);
 
 
 const dbUrl = process.env.ATLAS_URI;
-try{
-  await mongoose.connect(dbUrl);
-  console.log("Connected to database");
-}catch(err){
-  console.error(err);
-}
+
+
 //create schemas
 const DefinitionSchema = new mongoose.Schema({
   type: String,
@@ -60,15 +56,21 @@ wordSchema.pre('save', function (next) {
 
 const Words = mongoose.model('WordsV3', wordSchema);
 console.log("Schemas made");
-console.log("Ready to interact with DB");
+console.log("Connect to DB to interact")
 
 // if server goes down db automatically closes
 process.on("SIGINT", async () => {
-  await mongoose.disconnect();
-  console.log("Disconnected from Database.");
+  await disconnect();
   process.exit();
 });
 
+
+
+async function connect(){
+  await mongoose.connect(dbUrl);
+  console.log("Connected to database");
+  console.log("Ready to interact with DB");
+}
 /**
  * disconnect from the databse
  * @void
@@ -76,6 +78,7 @@ process.on("SIGINT", async () => {
  */
 async function disconnect(){
   await mongoose.disconnect();
+  console.log("Disconnected from Database.");
 }
 
 // TESTS 
@@ -111,5 +114,5 @@ async function test(){
 // END TEST
 
 export {
-  disconnect, Words
+  disconnect, connect, Words
 };
