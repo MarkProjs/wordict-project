@@ -1,5 +1,7 @@
 import {Words} from "../db/db.js"
 
+
+
 /**
  * @async
  * @param {Number} length the desired lenght for the random word
@@ -27,10 +29,14 @@ async function getDefinition(word){
  * @returns an object with a field count for the number of words and a field words
  * that's an array of all the words
  */
-async function getAllWords(){
+async function getAllWords(length){
+  let query = {};
+  if(length){
+    query = {length: length};
+  }
   let returnObj = {};
-  returnObj.count = await Words.count();
-  let arr = await Words.getOnlyWordFields();
+  returnObj.count = await Words.count(query);
+  let arr = await Words.getOnlyWordFields(query);
   returnObj.words = [];
   arr.forEach(i => {
     returnObj.words.push(i.word);

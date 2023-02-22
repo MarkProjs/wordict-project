@@ -49,8 +49,8 @@ wordSchema.statics.getRandomUsingVal = async function(randValue, query = {}){
  * @async
  * @returns {Array} and array with all the words represented in the form {word: word};
  */
-wordSchema.statics.getOnlyWordFields =  async function(){
-  return await Words.find().select('word -_id').exec();
+wordSchema.statics.getOnlyWordFields =  async function(query = {}){
+  return await Words.find(query).select('word -_id').exec();
 }
 
 wordSchema.pre('save', function (next) {
@@ -84,20 +84,24 @@ async function disconnect(){
 // eslint-disable-next-line no-unused-vars
 async function test(){
 //   Words.deleteMany();
+
+
   const newWord = new Words({
-    word: "tank",
+    word: "satan",
     definitions: [
       {
         type: "n.",
-        definition: "exaple def"
+        definition: "lucifer bro"
       },
       {
         type: "v.",
-        definition: "example def 2"
+        definition: "stuff"
       }
     ]
   });
   await newWord.save();
+
+
   console.log(await Words.getOnlyWordFields());
   console.log("Saved");
 
