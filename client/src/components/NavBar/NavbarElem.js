@@ -15,27 +15,6 @@ export const NavLink = styled(Link)`
     }
 `;
 
-export const NavMenu = styled.div`
-    display: flex;
-    align-items: center;
-    margin-right: -24px;
-    color: #fff;
-
-    @media screen and (max-width: 768px) {
-        display: none;
-    }
-`;
-
-export const NavBtn = styled.nav`
-    display: flex;
-    align-items: center;
-    margin-right: 24px;
-
-    @media screen and (max-width: 768px) {
-        display: none;
-    }
-`;
-
 export const NavBtnLink = styled(Link)`
     border-radius: 4px;
     background: #256ce1;

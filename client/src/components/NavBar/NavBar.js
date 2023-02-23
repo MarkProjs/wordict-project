@@ -1,13 +1,11 @@
 import '../../NavBar.css';
-import { NavLink, 
-  NavMenu, NavBtn, NavBtnLink } from './NavbarElem.js';
-import { NavLink as Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 
 function NavBar() {
   return(
     <>
       <nav className='Nav'>
-        <NavMenu>
+        <div className='NavMenu'>
           <NavLink to='/'>
             <h1>Home</h1>
           </NavLink>
@@ -23,10 +21,10 @@ function NavBar() {
           <NavLink to="/about" activestyle="true">
             About Us
           </NavLink>
-        </NavMenu>
-        <NavBtn>
-          <NavBtnLink to="">Sign up</NavBtnLink>
-        </NavBtn>
+        </div>
+        <nav className='NavBtn'>
+          <NavLink to="" className='NavBtnLink'>Sign up</NavLink>
+        </nav>
       </nav>
     </>
   );
