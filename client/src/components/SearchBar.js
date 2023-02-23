@@ -16,7 +16,7 @@ function SearchBar() {
    */
   async function findWord(e) {
     e.preventDefault()
-    let url = new URL(`/api/${e.target.word.value}/definition`, location.origin)
+    let url = new URL(`/api/${e.target.word.value.toLowerCase()}/definition`, location.origin)
     let data;
     try {
       let response = await fetch(url)
