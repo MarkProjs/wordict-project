@@ -1,4 +1,5 @@
 import express from "express";
+import controllers from "../controllers/controllers.js";
 
 const router = express.Router();
 
@@ -6,19 +7,14 @@ const router = express.Router();
  * Get API to retrieve Definition
  */
 router.get("/:word/definition", async (req, res) => {
-  // const word = req.query.word
-
-  // Mock Data
-  let data = {
-    "word": "monkey",
-    "definitions": [
-      "a small to medium-sized primate that typically has a long tail, most kinds of which live in trees in tropical countries.",
-      "a pile-driving machine consisting of a heavy hammer or ram working vertically in a groove."
-    ]
-  };
+  const word = req.params.word
   // Retrieve data from MongoDB
-
-  res.json(data);
+  let data = await controllers.getDefinition(word);
+  if (data === null) {
+    res.status(404).send("Error");
+  } else {
+    res.json(data);
+  }
 })
 
 /**

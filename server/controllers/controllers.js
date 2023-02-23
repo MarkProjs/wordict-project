@@ -22,7 +22,9 @@ async function getRandomWord(length){
  */
 async function getDefinition(word){
   let query = {word: word};
-  return await Words.findOne(query);
+  console.log(word)
+  let result = await Words.findOne(query).exec()
+  return result;
 }
 /**
  * @async

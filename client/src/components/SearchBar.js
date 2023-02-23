@@ -18,9 +18,11 @@ function SearchBar() {
     e.preventDefault()
     let url = new URL(`/api/${e.target.word.value}/definition`, location.origin)
     let data;
-    let response = await fetch(url)
-    if (response.ok) {
+    try {
+      let response = await fetch(url)
       data = await response.json()
+    } catch (e) {
+      data = { "word": "No results" }
     }
     setSearchResult(data)
   }
@@ -49,9 +51,9 @@ function SearchBar() {
       {searchResult ? <div className='definition'>
         <h2>{searchResult.word}</h2>
         <ol>
-          {searchResult.definitions.map((item, key) =>
-            <li key={key}>{item}</li>
-          )}
+          {searchResult.definitions ? searchResult.definitions.map((item, key) =>
+            <li key={key}>{item.definition}</li>
+          ) : <></>}
         </ol>
       </div> : <></>}
     </>
