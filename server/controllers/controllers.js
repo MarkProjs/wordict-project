@@ -35,12 +35,12 @@ async function getAllWords(length){
     query = {length: length};
   }
   let returnObj = {};
-  returnObj.count = await Words.count(query);
   let arr = await Words.getOnlyWordFields(query);
   returnObj.words = [];
   arr.forEach(i => {
     returnObj.words.push(i.word);
   });
+  returnObj.count = arr.length;
   return returnObj;
 }
 
