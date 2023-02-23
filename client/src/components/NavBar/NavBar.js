@@ -19,6 +19,9 @@ function NavBar() {
           <NavLink to="/wordle-online" activestyle="true">
             Wordle Online
           </NavLink>
+          <NavLink to="/profile" activestyle="true" className='mainNavLink'>
+            Profile
+          </NavLink>
           <NavLink to="/about" activestyle="true">
             About Us
           </NavLink>
