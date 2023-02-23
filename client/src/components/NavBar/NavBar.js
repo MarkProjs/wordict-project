@@ -6,19 +6,19 @@ function NavBar() {
     <>
       <nav className='Nav'>
         <div className='NavMenu'>
-          <NavLink to='/'>
+          <NavLink to='/' className='mainNavLink'>
             <h1>Home</h1>
           </NavLink>
-          <NavLink to="/dict" activestyle="true">
+          <NavLink to="/dict" activestyle="true" className='mainNavLink'>
             Dictionary
           </NavLink>
-          <NavLink to="/wordle" activestyle="true">
+          <NavLink to="/wordle" activestyle="true" className='mainNavLink'>
             Wordle
           </NavLink>
-          <NavLink to="/wordle-online" activestyle="true">
+          <NavLink to="/wordle-online" activestyle="true" className='mainNavLink'>
             Wordle Online
           </NavLink>
-          <NavLink to="/about" activestyle="true">
+          <NavLink to="/about" activestyle="true" className='mainNavLink'>
             About Us
           </NavLink>
         </div>
