@@ -49,3 +49,13 @@
     height: 100%;
     cursor: pointer;
 }
+
+.mainNavLink.active {
+    color: #15cdfc;
+}
+
+.mainNavLink:hover {
+    transition: all 0.2s ease-in-out;
+    background: #fff;
+    color: #010606;
+}
