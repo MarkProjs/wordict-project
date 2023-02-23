@@ -1,11 +1,12 @@
-import { Nav, NavLink, Bars, 
+import '../../NavBar.css';
+import { NavLink, 
   NavMenu, NavBtn, NavBtnLink } from './NavbarElem.js';
+import { NavLink as Link } from 'react-router-dom';
 
 function NavBar() {
   return(
     <>
-      <Nav>
-        <Bars />
+      <nav className='Nav'>
         <NavMenu>
           <NavLink to='/'>
             <h1>Home</h1>
@@ -26,7 +27,7 @@ function NavBar() {
         <NavBtn>
           <NavBtnLink to="">Sign up</NavBtnLink>
         </NavBtn>
-      </Nav>
+      </nav>
     </>
   );
 }
