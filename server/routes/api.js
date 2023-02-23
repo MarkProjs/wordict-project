@@ -11,7 +11,7 @@ router.get("/:word/definition", async (req, res) => {
   // Retrieve data from MongoDB
   let data = await controllers.getDefinition(word);
   if (data === null) {
-    res.status(404).send("Error");
+    res.sendStatus(404);
   } else {
     res.json(data);
   }
