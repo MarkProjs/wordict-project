@@ -1,32 +1,61 @@
-import {useState} from 'react'
+import { useState } from 'react'
 
 function SearchBar() {
 
-  const [searchInput, setSearchInput] = useState("");
+  const [searchResult, setSearchResult] = useState();
 
-  const handleChange = (e) => {
-    e.preventDefault();
-    setSearchInput(e.target.value);
-  };
+  // const [searchInput, setSearchInput] = useState("");
+  // const handleChange = (e) => {
+  //   e.preventDefault();
+  //   setSearchInput(e.target.value);
+  // };
 
-  const words = [{word: 'hi'}, {word: 'foo'}, {word: 'bar'}, {word: 'monkey'}];
+  /**
+   * Fetch word definition from api
+   * @param {form} e 
+   */
+  async function findWord(e) {
+    e.preventDefault()
+    let url = new URL(`/api/${e.target.word.value}/definition`, location.origin)
+    let data;
+    let response = await fetch(url)
+    if (response.ok) {
+      data = await response.json()
+    }
+    setSearchResult(data)
+  }
+
+  const words = [{ word: 'hi' }, { word: 'foo' }, { word: 'bar' }, { word: 'monkey' }];
   const dataList = <datalist id="words">
     {words.map((item, key) =>
       <option key={key} value={item.word} />
     )}
   </datalist>;
 
-  return <div>
-    <input
-      type="search"
-      placeholder="Search here"
-      list="words"
-      onChange={handleChange}
-      value={searchInput}
-    />
-    {dataList}
-  </div>
-
+  return (
+    <>
+      <form onSubmit={findWord}>
+        <input
+          type="search"
+          name="word"
+          placeholder="Search here"
+          list="words"
+        // onChange={handleChange}
+        // value={searchInput}
+        />
+        <input type="submit" value="Search" />
+        {dataList}
+      </form>
+      {searchResult ? <div className='definition'>
+        <h2>{searchResult.word}</h2>
+        <ol>
+          {searchResult.definitions.map((item, key) =>
+            <li key={key}>{item}</li>
+          )}
+        </ol>
+      </div> : <></>}
+    </>
+  )
 }
 
 export default SearchBar;

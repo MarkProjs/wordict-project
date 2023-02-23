@@ -8,7 +8,14 @@ const router = express.Router();
 router.get("/:word/definition", async (req, res) => {
   // const word = req.query.word
 
-  let data = {"word": "monkey"};
+  // Mock Data
+  let data = {
+    "word": "monkey",
+    "definitions": [
+      "a small to medium-sized primate that typically has a long tail, most kinds of which live in trees in tropical countries.",
+      "a pile-driving machine consisting of a heavy hammer or ram working vertically in a groove."
+    ]
+  };
   // Retrieve data from MongoDB
 
   res.json(data);
@@ -19,8 +26,8 @@ router.get("/:word/definition", async (req, res) => {
  */
 // router.get("/dictionary/:length?", async (req, res) => {
 router.get("/dictionary", async (req, res) => {
-  let words = [{"word": "monkey"}, {"word": "evolution"}, {"word": "stick"}, {"word": "rock"}];
-  
+  let words = [{ "word": "monkey" }, { "word": "evolution" }, { "word": "stick" }, { "word": "rock" }];
+
   // if (req.query.word !== undefined){
   //   words = words.filter(word => word.word.length >= req.query.word.length);
   // }
