@@ -1,4 +1,5 @@
 import SearchBar from '../SearchBar.js';
+import './Dict.css';
 
 function Dict() {
   return(
