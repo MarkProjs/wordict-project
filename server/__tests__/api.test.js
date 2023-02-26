@@ -1,17 +1,18 @@
 import app from "../app.js";
 import request from "supertest";
+import { disconnect, connect } from "../db/db.js";
 
 // tests for definition get api
-describe('GET /api/monkey/definition', () => {
+describe('GET /api/three/definition', () => {
   // success
-  test('/api/monkey/definition', async () => {
-    const response = await request(app).get('/api/monkey/definition');
-    expect(response.body.word).toEqual("monkey");
+  test('/api/three/definition', async () => {
+    const response = await request(app).get('/api/three/definition');
+    expect(response.body.word).toEqual("three");
   })
   // fail
-  test('fail /api/monkey/definition', async () => {
-    const response = await request(app).get('/api/monkey/definition');
-    expect(response.body.word).not.toEqual("gorilla");
+  test('fail /api/three/definition', async () => {
+    const response = await request(app).get('/api/three/definition');
+    expect(response.body.word).not.toEqual("four");
   })
 });
 
@@ -21,11 +22,19 @@ describe('GET /api/dictionary', () => {
   test('/api/dictionary', async () => {
     const response = await request(app).get('/api/dictionary');
     // this is using mock data and is subject to change
-    expect(response.body[2].word).toEqual("stick"); 
+    expect(response.body.includes("three")).toBe(true); 
   })
   // fail
   test('fail /api/dictionary', async () => {
     const response = await request(app).get('/api/dictionary');
-    expect(response.body[0].word).not.toEqual("gorilla");
+    expect(response.body.includes("daousbofia")).toBe(false);
   })
+});
+
+beforeAll(async () => {
+  await connect();
+});
+
+afterAll(async () => {
+  await disconnect();
 });
