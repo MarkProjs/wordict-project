@@ -80,10 +80,10 @@ async function disconnect(){
 
 // TESTS 
 
-// await test()
+//await test()
 // eslint-disable-next-line no-unused-vars
 async function test(){
-//   Words.deleteMany();
+  // await Words.deleteMany({});
   // const newWord = new Words({
   //   word: "tank",
   //   definitions: [
