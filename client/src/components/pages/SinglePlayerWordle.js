@@ -48,7 +48,6 @@ function SinglePlayerWordle() {
           "Twins", "Tower", "Police"];
         console.error(e);
       }
-      console.log(words)
       
       let wordNum = Math.floor(Math.random() * words.length);
       setWord(words[wordNum.valueOf()]);
