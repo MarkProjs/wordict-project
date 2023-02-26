@@ -32,6 +32,7 @@ This app is currently a work in progress and more features are to be implemented
 - Any String of charecters is accepted by the game as a guess (doesn't check if it's a real word)
 - Lacking a display for the definition of a guessed word
 - Currently working with mock data
+- Tests use actual db instead of mocking it
 
 ## Authors and acknowledgment
 Nolan Ganz
@@ -44,5 +45,4 @@ Grigor Lyubomirov Mihaylov
 
 Jacky Tat
 
-
-Insipired by Wordle
+Inspired by Wordle
