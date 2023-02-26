@@ -30,7 +30,7 @@ function SearchBar() {
 
   // fetch words via api
   useEffect(async () => {
-    let url = new URL(`/api/dictionary`, location.origin);
+    let url = new URL(`/api/dictionary?length=3`, location.origin);
     try {
       await fetch(url).
         then((response) => response.json()).
