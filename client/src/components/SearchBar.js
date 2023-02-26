@@ -1,8 +1,9 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 function SearchBar() {
 
   const [searchResult, setSearchResult] = useState();
+  const [words, setWords] = useState([]);
 
   // const [searchInput, setSearchInput] = useState("");
   // const handleChange = (e) => {
@@ -27,10 +28,26 @@ function SearchBar() {
     setSearchResult(data)
   }
 
-  const words = [{ word: 'hi' }, { word: 'foo' }, { word: 'bar' }, { word: 'monkey' }];
+  // fetch words via api
+  useEffect(() => {
+    async function getData() {
+      let url = new URL(`/api/dictionary`, location.origin);
+      let data;
+      try {
+        let response = await fetch(url);
+        data = await response.json();
+      } catch (e) {
+        data = [];
+        console.error(e);
+      }
+      setWords(data);
+    }
+    getData();
+  }, []);
+
   const dataList = <datalist id="words">
     {words.map((item, key) =>
-      <option key={key} value={item.word} />
+      <option key={key} value={item} />
     )}
   </datalist>;
 

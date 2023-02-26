@@ -20,15 +20,15 @@ router.get("/:word/definition", async (req, res) => {
 /**
  * Get API to retrieve Dictionary
  */
-// router.get("/dictionary/:length?", async (req, res) => {
 router.get("/dictionary", async (req, res) => {
-  let words = [{ "word": "monkey" }, { "word": "evolution" }, { "word": "stick" }, { "word": "rock" }];
-
-  // if (req.query.word !== undefined){
-  //   words = words.filter(word => word.word.length >= req.query.word.length);
-  // }
-  // Retrieve data from MongoDB
-  // let words = db.getAllWords();
+  let words;
+  try {
+    // Retrieve words from MongoDB
+    let data = await controllers.getAllWords(req.query.length);
+    words = data.words;
+  } catch (e) {
+    words = [];
+  }
   res.json(words);
 })
 
