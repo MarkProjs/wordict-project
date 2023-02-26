@@ -80,24 +80,24 @@ async function disconnect(){
 
 // TESTS 
 
-//await test()
+// await test()
 // eslint-disable-next-line no-unused-vars
 async function test(){
 //   Words.deleteMany();
-  const newWord = new Words({
-    word: "tank",
-    definitions: [
-      {
-        type: "n.",
-        definition: "exaple def"
-      },
-      {
-        type: "v.",
-        definition: "example def 2"
-      }
-    ]
-  });
-  await newWord.save();
+  // const newWord = new Words({
+  //   word: "tank",
+  //   definitions: [
+  //     {
+  //       type: "n.",
+  //       definition: "exaple def"
+  //     },
+  //     {
+  //       type: "v.",
+  //       definition: "example def 2"
+  //     }
+  //   ]
+  // });
+  // await newWord.save();
   console.log(await Words.getOnlyWordFields());
   console.log("Saved");
 
