@@ -21,9 +21,7 @@ router.get("/:word/definition", async (req, res) => {
  * Get API to retrieve Dictionary
  */
 router.get("/dictionary", async (req, res) => {
-  let words = [{ "word": "monkey" }, { "word": "evolution" }, { "word": "stick" },
-    { "word": "rock" }];
-
+  let words = [];
   if (req.query.length !== undefined) {
     // Retrieve words from MongoDB matching given length param
     let data = await controllers.getAllWords(parseInt(req.query.length));
