@@ -25,12 +25,13 @@ router.get("/dictionary", async (req, res) => {
     { "word": "rock" }];
 
   if (req.query.length !== undefined) {
-    // Retrieve data from MongoDB
-    words = await controllers.getAllWords(parseInt(req.query.length)).words;
+    // Retrieve words from MongoDB matching given length param
+    let data = await controllers.getAllWords(parseInt(req.query.length));
+    words = data.words;
   } else {
+    // Retrieve all words from MongoDB
     let data = await controllers.getAllWords();
     words = data.words;
-    console.log(words);
   }
   res.json(words);
 })
