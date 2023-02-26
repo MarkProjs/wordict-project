@@ -29,12 +29,16 @@ function SearchBar() {
   }
 
   // fetch words via api
-  useEffect(() => {
+  useEffect(async () => {
     let url = new URL(`/api/dictionary`, location.origin);
-    fetch(url).
-      then((response) => response.json()).
-      then(setWords).
-      catch(console.error);
+    try {
+      await fetch(url).
+        then((response) => response.json()).
+        then(setWords);
+    } catch (e) {
+      setWords([]);
+      console.error(e);
+    }
   }, []);
 
   const dataList = <datalist id="words">
