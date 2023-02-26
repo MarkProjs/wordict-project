@@ -38,7 +38,8 @@ function SearchBar() {
   }, []);
 
   const dataList = <datalist id="words">
-    {words.map((item, key) => <option key={key} value={item} />
+    {words.map((item, key) =>
+      <option key={key} value={item} />
     )}
   </datalist>;
 
