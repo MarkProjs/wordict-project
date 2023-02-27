@@ -5,6 +5,7 @@ function FavoriteWords() {
   // might need props to receive favorite words, or fetch from db here
   return (
     <section className="favorites">
+      <h2>Favorite Words</h2>
       <ul>
         {mockData.map((item, key) =>
           <li key={key}>
