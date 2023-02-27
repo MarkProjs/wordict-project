@@ -30,9 +30,25 @@ function SinglePlayerWordle() {
 
   useEffect(() => {
     (async () => {
-      //TODO Add fetch
-      const words = ["Human", "Water", "Saint", "Popes", "Eight", "People", "Caterpillar", "Pillar",
-        "Twins", "Tower", "Police"];
+      let words;
+      let url = new URL(`/api/dictionary`, location.origin);
+      url.searchParams.set("length", "5");
+      try {
+        let response = await fetch(url);
+        if (response.ok) {
+          words = await response.json();
+          if (words.length === 0) {
+            throw new Error("No words found");
+          }
+        } else {
+          throw new Error("Couldn't get words");
+        }
+      } catch(e) {
+        words = ["Human", "Water", "Saint", "Popes", "Eight", "People", "Caterpillar", "Pillar",
+          "Twins", "Tower", "Police"];
+        console.error(e);
+      }
+      
       let wordNum = Math.floor(Math.random() * words.length);
       setWord(words[wordNum.valueOf()]);
     })();
@@ -42,7 +58,7 @@ function SinglePlayerWordle() {
     <div className="wordle-container" onKeyUp={(e) => handleInput(e)} tabIndex={0}>
       <Wordle 
         id={WORDLE_PREFIX + 0}
-        attempts={6}
+        attempts={word.length + 1}
         word={word}
         submitKey={validInputs.submitKey}
         deleteKey={validInputs.deleteKey}

@@ -8,7 +8,7 @@ function Home() {
         <li>
           You can go to <a href="/dict">Dictionary</a> to find the word that you are looking for!
         </li>
-        <li>Play <a href="">Wordle</a>!</li>
+        <li>Play <a href="/wordle">Wordle</a>!</li>
         <li>Test your skills against another player in <a href="">Wordle Online</a>!</li>
         <li>Check your ranking in <a href="">Leaderboard</a>!</li>
         <li><a href="">Sign up</a></li>

@@ -1,7 +1,8 @@
-import NavBar from './NavBar/NavBar.js';
+import NavBar from './NavBar.js';
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Home from "./pages/Home.js";
 import Dict from "./pages/Dict.js";
+import Error from "./pages/Error.js";
 import SinglePlayerWordle from './pages/SinglePlayerWordle.js';
 import Profile from "./pages/Profile.js";
 
@@ -18,6 +19,7 @@ function Header() {
           <Route path="/dict" exact element={<Dict/>} />
           <Route path="/wordle" exact element={<SinglePlayerWordle/>} />
           <Route path="/profile" exact element={<Profile/>} />
+          <Route path="/*" exact element= {<Error/>}/>
         </Routes>
       </Router>
       

@@ -1,32 +1,80 @@
-import {useState} from 'react'
+import { useEffect, useState } from 'react'
 
 function SearchBar() {
 
-  const [searchInput, setSearchInput] = useState("");
+  const [searchResult, setSearchResult] = useState();
+  const [words, setWords] = useState([]);
 
-  const handleChange = (e) => {
-    e.preventDefault();
-    setSearchInput(e.target.value);
-  };
+  // const [searchInput, setSearchInput] = useState("");
+  // const handleChange = (e) => {
+  //   e.preventDefault();
+  //   setSearchInput(e.target.value);
+  // };
 
-  const words = [{word: 'hi'}, {word: 'foo'}, {word: 'bar'}, {word: 'monkey'}];
+  /**
+   * Fetch word definition from api
+   * @param {form} e 
+   */
+  async function findWord(e) {
+    e.preventDefault()
+    let url = new URL(`/api/${e.target.word.value.toLowerCase()}/definition`, location.origin)
+    let data;
+    try {
+      let response = await fetch(url)
+      data = await response.json()
+    } catch (e) {
+      data = { "word": "No results" }
+    }
+    setSearchResult(data)
+  }
+
+  // fetch words via api
+  useEffect(() => {
+    async function getData() {
+      let url = new URL(`/api/dictionary`, location.origin);
+      let data;
+      try {
+        let response = await fetch(url);
+        data = await response.json();
+      } catch (e) {
+        data = [];
+        console.error(e);
+      }
+      setWords(data);
+    }
+    getData();
+  }, []);
+
   const dataList = <datalist id="words">
     {words.map((item, key) =>
-      <option key={key} value={item.word} />
+      <option key={key} value={item} />
     )}
   </datalist>;
 
-  return <div>
-    <input
-      type="search"
-      placeholder="Search here"
-      list="words"
-      onChange={handleChange}
-      value={searchInput}
-    />
-    {dataList}
-  </div>
-
+  return (
+    <>
+      <form onSubmit={findWord}>
+        <input
+          type="search"
+          name="word"
+          placeholder="Search here"
+          list="words"
+        // onChange={handleChange}
+        // value={searchInput}
+        />
+        <input type="submit" value="Search" />
+        {dataList}
+      </form>
+      {searchResult ? <div className='definition'>
+        <h2>{searchResult.word}</h2>
+        <ol>
+          {searchResult.definitions ? searchResult.definitions.map((item, key) =>
+            <li key={key}>{item.definition}</li>
+          ) : <></>}
+        </ol>
+      </div> : <></>}
+    </>
+  )
 }
 
 export default SearchBar;
