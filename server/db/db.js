@@ -83,7 +83,7 @@ async function disconnect(){
 
 // TESTS 
 
-await test()
+//await test()
 // eslint-disable-next-line no-unused-vars
 async function test(){
   // await Words.deleteMany({});
