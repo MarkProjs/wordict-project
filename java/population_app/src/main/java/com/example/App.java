@@ -44,6 +44,7 @@ public class App
             //substrings to remove the included quotes
             String word = data[i][0];
             word = word.substring(1);
+            word = word.toLowerCase();
             String type = data[i][1];
             String def = data[i][2];
             def  = def .substring(0,def .length()-1);
