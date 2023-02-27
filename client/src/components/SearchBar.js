@@ -1,15 +1,21 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react';
+import { useLocation } from "react-router-dom";
+
 
 function SearchBar() {
 
   const [searchResult, setSearchResult] = useState();
   const [words, setWords] = useState([]);
+  const locationData = useLocation();
+  console.log(locationData, " useLocation Hook");
 
   // const [searchInput, setSearchInput] = useState("");
   // const handleChange = (e) => {
   //   e.preventDefault();
   //   setSearchInput(e.target.value);
   // };
+
+
 
   /**
    * Fetch word definition from api
