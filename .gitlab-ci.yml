@@ -51,8 +51,7 @@ test-frontend:
   dependencies:
     - build-frontend
   script:
-    - echo "UNCOMMENT THE TESTS"
-    # - cd client && npm run test
+    - cd client && npm run test
 
 test-backend:
   stage: test
@@ -64,8 +63,7 @@ test-backend:
   dependencies:
     - build-backend
   script:
-    - echo "UNCOMMENT THE TESTS"
-    # - cd server && npm run test
+    - cd server && npm run test
 
 # from M Frydrychowicz
 lint:
