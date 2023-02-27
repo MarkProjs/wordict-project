@@ -43,7 +43,7 @@ function SearchBar() {
   }
 
   /**
-   * Fetch word definition from api using given URL
+   * Fetch word definition from api
    * @param {URL} url 
    */
   async function findWord(url) {
