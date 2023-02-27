@@ -18,10 +18,10 @@ public class CSVinterpreter {
     private void load() throws IOException{
       List<String> rawData = Files.readAllLines(Paths.get(this.filePath), StandardCharsets.UTF_8);
       int rows = rawData.size();
-      int columns = rawData.get(0).split(",").length;
+      int columns = rawData.get(0).split("\",\"").length;
       data = new String[rows][columns];
       for(int i = 0; i < rawData.size(); i++){
-        String[] colms = rawData.get(i).split(",");
+        String[] colms = rawData.get(i).split("\",\"");
         data[i] = colms;
       }
     }
