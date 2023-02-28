@@ -7,21 +7,38 @@ function SearchBar() {
   const [words, setWords] = useState([]);
   const locationData = useLocation();
 
+  let searchInputField = <input
+    type="search"
+    name="word"
+    placeholder="Search here"
+    list="words"
+    // onChange={handleChange}
+    value={searchInput}
+  />;
+
   // Set the linked word from favorites as search input and searches definition
   if (locationData.state !== null) {
     let favoriteWord = locationData.state.word;
-    console.log(favoriteWord);
+    // Set searchInput which is used to set value in the search input field
     setSearchInput(favoriteWord);
+    // Search word and display definition
     searchGivenWord(favoriteWord);
-    // Prevent from running more than once
+    // Remove value attribute from search input field to allow user to modify input value
+    searchInputField = <input
+      type="search"
+      name="word"
+      placeholder="Search here"
+      list="words"
+    />;
+    // Prevent from running more than once (line 20)
     locationData.state = null;
   }
 
   // Allow search input to update on change
-  const handleChange = (e) => {
-    e.preventDefault();
-    setSearchInput(e.target.value);
-  };
+  // const handleChange = (e) => {
+  //   e.preventDefault();
+  //   setSearchInput(e.target.value);
+  // };
 
   /**
    * Search word definition via form submission using event
@@ -85,14 +102,7 @@ function SearchBar() {
   return (
     <>
       <form onSubmit={searchWord}>
-        <input
-          type="search"
-          name="word"
-          placeholder="Search here"
-          list="words"
-          onChange={handleChange}
-          value={searchInput}
-        />
+        {searchInputField}
         <input type="submit" value="Search" />
         {dataList}
       </form>
