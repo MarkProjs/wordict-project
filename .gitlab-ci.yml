@@ -68,7 +68,7 @@ test-backend:
     reports:
       coverage_report:
         coverage_format: cobertura
-        path: coverage/cobertura-coverage.xml
+        path: server/coverage/cobertura-coverage.xml
 
 # from M Frydrychowicz
 lint:
