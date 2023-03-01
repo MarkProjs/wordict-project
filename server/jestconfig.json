@@ -1,4 +1,8 @@
 {
   "transform": {},
-  "collectCoverage": true
+  "collectCoverage": true,
+  "coverageReporters": [
+    "text",
+    "cobertura"
+  ]
 }

@@ -67,8 +67,8 @@ test-backend:
   artifacts:
     reports:
       coverage_report:
-        coverage_format: lcov
-        path: coverage/lcov-report/index.html
+        coverage_format: cobertura
+        path: coverage/cobertura-coverage.xml
 
 # from M Frydrychowicz
 lint:
