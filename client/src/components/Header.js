@@ -4,6 +4,7 @@ import Home from "./pages/Home.js";
 import Dict from "./pages/Dict.js";
 import Error from "./pages/Error.js";
 import SinglePlayerWordle from './pages/SinglePlayerWordle.js';
+import AboutUs from './pages/AboutUs.js';
 
 function Header() {
   return(
