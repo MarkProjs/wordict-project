@@ -16,3 +16,5 @@ private_content/
 *.env
 
 .DS_Store
+
+coverage/

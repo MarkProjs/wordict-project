@@ -14,9 +14,7 @@ controllers.getDefinition = jest.fn((e) => {
       ]
     }
   } else {
-    return {
-      "word": "not found"
-    }
+    return null
   }
 })
 
@@ -25,10 +23,8 @@ controllers.getAllWords = jest.fn((e) => {
     'limit', 'elite', 'exuberant', 'destruction', 'present', 'three'
   ];
   if (e) {
-    console.log("e")
     return { "words": words.filter(word => word.length == e) }
   } else {
-    console.log("hehexd")
     return { "words": words }
   }
 })
@@ -44,7 +40,7 @@ describe('GET /api/three/definition', () => {
   // test for non existant word
   test('fail /api/asdasd/definition', async () => {
     const response = await request(app).get('/api/asdasd/definition');
-    expect(response.body.word).toEqual("not found");
+    expect(response.body.word).not.toBeDefined();
     expect(response.body.word).not.toEqual("monkey");
   })
 });
