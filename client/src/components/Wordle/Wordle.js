@@ -96,9 +96,9 @@ function Wordle(props) {
         // Trigger the key event for the current row
         keyEvent.get(ROW_PREFIX + currentRow)(key);
         
-        // If the key should be sent somewhere else send it here
-        send?.call(key);
       }
+      // If the key should be sent somewhere else send it here
+      send?.call(undefined, key);
     }
 
   }
