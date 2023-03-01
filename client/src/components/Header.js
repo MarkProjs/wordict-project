@@ -18,6 +18,7 @@ function Header() {
           <Route path="/" exact element={<Home/>} />
           <Route path="/dict" exact element={<Dict/>} />
           <Route path="/wordle" exact element={<SinglePlayerWordle/>} />
+          <Route path="/about" exact element={<AboutUs/>} />
           <Route path="/*" exact element= {<Error/>}/>
         </Routes>
       </Router>
