@@ -65,6 +65,8 @@ test-backend:
   script:
     - cd server && npm run test
   artifacts:
+    paths:
+      - server/coverage/cobertura-coverage.xml
     reports:
       coverage_report:
         coverage_format: cobertura
