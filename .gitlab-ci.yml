@@ -65,12 +65,13 @@ test-backend:
   script:
     - cd server && npm run test
   artifacts:
-    paths:
-      - server/coverage/cobertura-coverage.xml
     reports:
       coverage_report:
         coverage_format: cobertura
         path: server/coverage/cobertura-coverage.xml
+  trigger:
+    include:
+      - local: server/coverage/cobertura-coverage.xml
 
 # from M Frydrychowicz
 lint:
