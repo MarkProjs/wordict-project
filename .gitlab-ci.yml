@@ -64,6 +64,9 @@ test-backend:
     - build-backend
   script:
     - cd server && npm run test
+  artifacts:
+    reports:
+      backend_reports: coverage/lcov-report/index.html
 
 # from M Frydrychowicz
 lint:
