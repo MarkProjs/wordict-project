@@ -8,11 +8,11 @@ function Profile() {
 
   return (
     <main>
-      <section className="left">
+      <section className="left-section">
         <UserProfile />
         <UserRank />
       </section>
-      <section className="right">
+      <section className="right-section">
         <h1 id="username">{mockName}</h1>
         <FavoriteWords />
       </section>
