@@ -18,3 +18,4 @@ private_content/
 .DS_Store
 
 coverage/
+junit.xml

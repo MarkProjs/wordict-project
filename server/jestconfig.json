@@ -1,6 +1,10 @@
 {
   "transform": {},
   "collectCoverage": true,
+  "reporters": [
+    "default",
+    "jest-junit"
+  ],
   "coverageReporters": [
     "text",
     "cobertura"
