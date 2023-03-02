@@ -7,6 +7,7 @@ stages:
   - lint
   - build
   - test
+  - report
   - deploy
 
 build-frontend:
@@ -66,11 +67,23 @@ test-backend:
     - cd server && npm run test
   artifacts:
     expire_in: 1 days
+    paths:
+      - server/coverage/lcov-report
     reports:
       junit: server/junit.xml
       coverage_report:
         coverage_format: cobertura
         path: server/coverage/cobertura-coverage.xml
+
+report-backend:
+  stage: report
+  script:
+    - mkdir public
+    - mv server/coverage/lcov-report/* public
+  artifacts:
+    paths:
+      - public
+    expire_in: 1 days
 
 # from M Frydrychowicz
 lint:
