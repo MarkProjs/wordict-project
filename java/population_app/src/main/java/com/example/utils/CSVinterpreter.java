@@ -7,6 +7,10 @@ import java.nio.file.Paths;
 import java.util.Collections;
 import java.util.List;
 
+
+/**
+ * util class that saves an svg file into
+ */
 public class CSVinterpreter {
     private String[][] data;
     private String filePath;

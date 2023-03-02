@@ -32,8 +32,10 @@ public class App
     
     public static void main( String[] args ) throws IOException
     {
+        Dotenv dotenv = Dotenv.load();
+        String path = dotenv.get("SVG_PATH");
         CSVinterpreter interpreter;
-        interpreter = new CSVinterpreter("C:\\Users\\14388\\Documents\\School\\W2023\\wordict\\dictionary.csv");
+        interpreter = new CSVinterpreter(path);
         System.out.println("FILES LOADED");
 
         String[][] data = interpreter.getData();
