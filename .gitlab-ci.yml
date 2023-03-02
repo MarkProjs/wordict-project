@@ -69,6 +69,7 @@ test-backend:
     paths:
       - server/coverage/cobertura-coverage.xml
     reports:
+      jest: server/coverage/cobertura-coverage.xml
       coverage_report:
         coverage_format: cobertura
         path: server/coverage/cobertura-coverage.xml
