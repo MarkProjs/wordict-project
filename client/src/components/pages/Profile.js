@@ -4,13 +4,18 @@ import UserRank from "../Profile/UserRank";
 
 function Profile() {
   // fetch image, username, favorite words from database
+  let mockName = "username";
 
   return (
     <main>
-      <h1>My Profile</h1>
-      <UserProfile />
-      <FavoriteWords />
-      <UserRank />
+      <section className="left">
+        <UserProfile />
+        <UserRank />
+      </section>
+      <section className="right">
+        <h1 id="username">{mockName}</h1>
+        <FavoriteWords />
+      </section>
     </main>
   )
 }
