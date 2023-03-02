@@ -43,14 +43,15 @@ public class App
         
         System.out.println(data.length);
         for(int i = 0; i < data.length; i++){
-            //substrings to remove the included quotes
             String word = data[i][0];
-            word = word.substring(1);
             word = word.toLowerCase();
             String type = data[i][1];
             String def = data[i][2];
-            def  = def .substring(0,def .length()-1);
             
+            // System.out.println(word);
+            // System.out.println(def);
+            
+
             if(!dict.isWordAdded(word)){
                 Definition firstDef = new Definition(type, def);
                 List<Definition> defs = new ArrayList<Definition>();
@@ -74,7 +75,7 @@ public class App
         }
         System.out.println("Total words proccessed: "+dict.getWords().size());
         System.out.println("DATA PROCCESED");  
-        saveToDB(dict.getWords());
+        //saveToDB(dict.getWords());
         System.out.println("CLEEARED DB AND SAVED");
     }
 
