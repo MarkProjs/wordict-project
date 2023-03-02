@@ -64,8 +64,7 @@ test-backend:
     - build-backend
   script:
     - cd server && npm run test
-    - mkdir public
-    - mv server/coverage/lcov-report/* public
+    - ls
   artifacts:
     expire_in: 1 days
     paths:
