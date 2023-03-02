@@ -65,6 +65,9 @@ test-backend:
   script:
     - cd server && npm run test
   artifacts:
+    expire_in: 1 days
+    paths:
+      - server/coverage/cobertura-coverage.xml
     reports:
       coverage_report:
         coverage_format: cobertura
