@@ -1,15 +1,9 @@
 package com.example.utils;
 
-import com.example.data_structs.Definition;
-import com.example.data_structs.Word;
 import com.mongodb.*;
 import com.mongodb.client.*;
-import org.bson.*;
-import org.bson.types.*;
-import java.util.*;
 import org.bson.codecs.pojo.*;
-import org.bson.codecs.configuration.*;        
-import io.github.cdimascio.dotenv.Dotenv;
+import org.bson.codecs.configuration.*;      
 
 /**
  * Util class to connect to mongo while hiding bollerplate code

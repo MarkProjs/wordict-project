@@ -5,19 +5,11 @@ import com.example.data_structs.Word;
 import com.example.data_structs.WordsDictionary;
 import com.example.utils.CSVinterpreter;
 import com.example.utils.MongoUtil;
-import com.mongodb.*;
 import com.mongodb.client.*;
 import org.bson.*;
-import org.bson.types.*;
 
 import java.io.IOException;
-import java.util.*;
-
-import javax.swing.plaf.synth.SynthTextAreaUI;
-import javax.swing.text.WrappedPlainView;
-
-import org.bson.codecs.pojo.*;
-import org.bson.codecs.configuration.*;        
+import java.util.*; 
 import io.github.cdimascio.dotenv.Dotenv;
 
 
