@@ -66,10 +66,8 @@ test-backend:
     - cd server && npm run test
   artifacts:
     expire_in: 1 days
-    paths:
-      - server/coverage/cobertura-coverage.xml
     reports:
-      junit: server/coverage/cobertura-coverage.xml
+      junit: server/junit.xml
       coverage_report:
         coverage_format: cobertura
         path: server/coverage/cobertura-coverage.xml
