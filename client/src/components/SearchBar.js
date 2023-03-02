@@ -14,7 +14,7 @@ function SearchBar() {
     setSearchInput(favoriteWord);
     // Search word and display definition
     searchGivenWord(favoriteWord);
-    // Prevent from running more than once (line 13)
+    // Prevent from running more than once (line 11)
     locationData.state = null;
   }
 
