@@ -1,10 +1,11 @@
 import FavoriteWords from "../Profile/FavoriteWords";
 import UserProfile from "../Profile/UserProfile";
 import UserRank from "../Profile/UserRank";
+import './Profile.css';
 
 function Profile() {
   // fetch image, username, favorite words from database
-  let mockName = "username";
+  let mockName = "MonkeyMan420";
 
   return (
     <main>

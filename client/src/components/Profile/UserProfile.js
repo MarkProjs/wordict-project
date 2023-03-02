@@ -4,7 +4,7 @@ function UserProfile() {
   // might need props to receive image and username, or fetch from db here
   return (
     <article className="profile">
-      <img style={{ width: 100, height: 100 }} src={mockImage} />
+      <img src={mockImage} />
     </article>
   );
 }

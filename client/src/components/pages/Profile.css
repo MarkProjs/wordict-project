@@ -1,0 +1,40 @@
+main{
+  display: flex;
+  flex-direction: row;
+  margin: 1rem 6%;
+  padding: 2rem;
+}
+
+.left-section {
+  display: flex;
+  flex-direction: column;
+  width: 20%;
+  min-width: 15%;
+  max-width: 18rem;
+  height: 100%;
+  padding-top: 1.5rem;
+  margin-right: 1rem;
+  border: black 1px solid;
+}
+
+.left-section img {
+  width: 80%;
+  height: auto;
+}
+
+.right-section {
+  width: 80%;
+  text-align: left;
+  border: black 1px solid;
+}
+
+.favorites {
+  border: gray 1px solid;
+  margin: 2rem;
+}
+
+.favorites li {
+  margin-top: 0.5rem;
+  padding: 0.5rem;
+  border: gray 1px solid;
+}
