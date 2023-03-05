@@ -26,8 +26,15 @@ function setupServer(app) {
     // Maybe change to refuse the connection if they have a room but it is full
     let room = socket.handshake.query.room;
     if (room && server.of("/").adapter.rooms.get(room)?.size < 2 && !rooms[room].hasStarted) {
+
       socket.join(room);
+      
       socket.to(room).emit("oponnent-join");
+
+      server.to(room).emit("lobby-full");
+      console.log()
+      //Don't allow people to join once a game has started
+      rooms[room].hasStarted = true;
     } else {
       // Breaks some default functionality if you use just the socket id
       room = socket.id + "!";
@@ -53,14 +60,13 @@ function setupServer(app) {
       socket.to(room).emit("keypress", key);
     });
 
-    //Don't allow people to join once a game has started
-    socket.on("start-game", () => {
-      rooms[room].hasStarted = true;
-    });
-
     //If there is only one person in the room allow others to join before the start of the next game
     socket.on("restart-game", () => {
       rooms[room].hasStarted = false;
+    });
+
+    socket.on("send-start-data", data => {
+      socket.to(room).emit("send-start-data", data);
     });
 
     // Send the user the code of their room to allow invites
