@@ -3,10 +3,11 @@ import Wordle from '../Wordle/Wordle.js';
 import SocketForm from '../Sockets/SocketForm.js';
 import validInputs from "../../controllers/ValidInput.json";
 import io from "socket.io-client";
+import "./MultiPlayerWordle.css"
 
 const WORDLE_PREFIX = "W-"
 
-function SinglePlayerWordle() {
+function MultiPlayerWordle() {
 
   const socket = useRef();
   const word = useRef("");
@@ -138,30 +139,37 @@ function SinglePlayerWordle() {
       }
       {gameStarted ? <>
         <div className="wordle-container" onKeyUp={(e) => handleKeyInput(e)} tabIndex={0}>
-          <Wordle 
-            id={WORDLE_PREFIX + 0}
-            person="You"
-            attempts={word.current.length + 1}
-            word={word.current}
-            submitKey={validInputs.submitKey}
-            deleteKey={validInputs.deleteKey}
-            subToInputEvent={subToKeyInputEvent}
-            defaultValue={validInputs.empty}
-          />
+          <div>
+            <p>You</p>
+            <Wordle 
+              id={WORDLE_PREFIX + 0}
+              person="You"
+              attempts={word.current.length + 1}
+              word={word.current}
+              submitKey={validInputs.submitKey}
+              deleteKey={validInputs.deleteKey}
+              subToInputEvent={subToKeyInputEvent}
+              defaultValue={validInputs.empty}
+            />
+          </div>
+          <div>
+            <p>Your Opponent</p>
+            <Wordle 
+              id={WORDLE_PREFIX + 1}
+              person="Your opponent"
+              attempts={word.current.length + 1}
+              word={opponentWord}
+              submitKey={validInputs.submitKey}
+              deleteKey={validInputs.deleteKey}
+              subToInputEvent={subToServerInputEvent}
+              defaultValue={validInputs.empty}
+            />
+          </div>
         </div>
-        <Wordle 
-          id={WORDLE_PREFIX + 1}
-          person="Your opponent"
-          attempts={word.current.length + 1}
-          word={opponentWord}
-          submitKey={validInputs.submitKey}
-          deleteKey={validInputs.deleteKey}
-          subToInputEvent={subToServerInputEvent}
-          defaultValue={validInputs.empty}
-        /> </> : <></>
+      </> : <></>
       }
     </div>
   );
 }
 
-export default SinglePlayerWordle;
+export default MultiPlayerWordle;
