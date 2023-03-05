@@ -112,6 +112,7 @@ function Wordle(props) {
   return (
     <section className="wordle">
       <Popup 
+        person={props.person}
         word={props.word}
         id={POP_PREFIX + 0}
         subToGameStateEvent={subToGameStateEvent}
