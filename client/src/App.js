@@ -17,6 +17,7 @@ function App() {
   const handleError = error => {
     console.error(error);
   }
+
   return (
     <div className="App">
       <Header/>
