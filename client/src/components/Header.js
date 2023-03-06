@@ -5,6 +5,7 @@ import Dict from "./pages/Dict.js";
 import Error from "./pages/Error.js";
 import SinglePlayerWordle from "./pages/SinglePlayerWordle.js";
 import MultiPlayerWordle from "./pages/MultiPlayerWordle.js";
+import AboutUs from './pages/AboutUs.js';
 import Profile from "./pages/Profile.js";
 
 function Header() {
@@ -20,6 +21,7 @@ function Header() {
           <Route path="/dict" exact element={<Dict/>} />
           <Route path="/wordle" exact element={<SinglePlayerWordle/>} />
           <Route path="/wordle-online" exact element={<MultiPlayerWordle/>} />
+          <Route path="/about" exact element={<AboutUs/>} />
           <Route path="/profile" exact element={<Profile/>} />
           <Route path="/*" exact element= {<Error/>}/>
         </Routes>
