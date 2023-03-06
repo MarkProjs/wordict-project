@@ -6,6 +6,7 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 const client = new OAuth2Client(process.env.REACT_APP_GOOGLE_CLIENT_ID);
+const users = new Array();
 
 let app = express();
 
@@ -36,7 +37,18 @@ app.post("/auth", async (req, res)=> {
     return res.sendStatus(401);
   }
   const { name, email, picture } = ticket.getPayload();
-  //TODO: may want to update and insert the uer's name, email and picture in the db
+  //TODO: may want to update and insert the uer's name, email and picture in the db.
+  //For now I will be using an array that is on top of the app.js
+  const user = {"name": name, "email": email, "picture": picture};
+  const existsAlready = users.findIndex( elem => elem.email === email);
+
+  if (existsAlready < 0) {
+    //insert
+    users.push(user);
+  } else {
+    //update
+    users[existsAlready] = user;
+  }
   //TODO: create a session cookei send it back to the client
 });
 
