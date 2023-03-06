@@ -3,6 +3,7 @@ import api from "./routes/api.js";
 import path from "path";
 import OAuth2Client from 'google-auth-library';
 import dotenv from 'dotenv';
+import session from 'express-session';
 dotenv.config();
 
 const client = new OAuth2Client(process.env.REACT_APP_GOOGLE_CLIENT_ID);
@@ -25,6 +26,7 @@ function html(req, res, next) {
 app.get("*", html, (req, res) => {
   res.sendFile(path.resolve('client', 'build', 'index.html'));
 });
+
 
 app.post("/auth", async (req, res)=> {
   //TODO: should validate that the token was sent first
@@ -49,9 +51,22 @@ app.post("/auth", async (req, res)=> {
     //update
     users[existsAlready] = user;
   }
-  //TODO: create a session cookei send it back to the client
+  //TODO: create a session cookie send it back to the client
 });
 
+app.use(session({
+  //used to sign the session id
+  secret: process.env.SECRET, 
+  name: 'id',
+  saveUninitialized: false,
+  resave: false,
+  cookie: {
+    maxAge: 120000,
+    secure: secure,
+    httpOnly: true,
+    sameSite: 'strict'
+  }
+}));
 app.use((req, res) => {
   res.sendStatus(404);
 });
