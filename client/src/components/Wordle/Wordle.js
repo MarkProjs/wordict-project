@@ -96,9 +96,9 @@ function Wordle(props) {
         // Trigger the key event for the current row
         keyEvent.get(ROW_PREFIX + currentRow)(key);
         
-        // If the key should be sent somewhere else send it here
-        send?.call(key);
       }
+      // If the key should be sent somewhere else send it here
+      send?.call(undefined, key);
     }
 
   }
@@ -112,6 +112,7 @@ function Wordle(props) {
   return (
     <section className="wordle">
       <Popup 
+        person={props.person}
         word={props.word}
         id={POP_PREFIX + 0}
         subToGameStateEvent={subToGameStateEvent}

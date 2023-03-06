@@ -5,4 +5,20 @@
   opacity: 0.8;
   position: absolute;
   color: white;
+  overflow: hidden auto;
+}
+
+.popup::-webkit-scrollbar {
+  background-color: black;
+}
+
+.popup::-webkit-scrollbar-thumb {
+  background-color: rgb(50, 49, 49);
+}
+
+.popup ul {
+  margin: 0;
+  padding: 0.7rem;
+  padding-left: 1.4rem;
+  list-style-type: decimal;
 }
