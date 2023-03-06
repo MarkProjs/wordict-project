@@ -14,7 +14,10 @@ function Profile() {
         <UserRank />
       </section>
       <section className="right-section">
-        <h1 id="username">{mockName}</h1>
+        <div className="top-part">
+          <h1 id="username">{mockName}</h1>
+          <button>Edit profile</button>
+        </div>
         <FavoriteWords />
       </section>
     </main>

@@ -28,6 +28,17 @@ main{
   border: black 1px solid;
 }
 
+.top-part {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.top-part button {
+  width: fit-content;
+  height: fit-content;
+}
+
 .favorites {
   border: gray 1px solid;
   margin: 2rem;
