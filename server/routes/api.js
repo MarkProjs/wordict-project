@@ -22,13 +22,13 @@ router.get("/:word/definition", async (req, res) => {
  */
 router.get("/dictionary", async (req, res) => {
   let words;
-  try {
-    // Retrieve words from MongoDB
-    let data = await controllers.getAllWords(req.query.length);
-    words = data.words;
-  } catch (e) {
-    words = [];
-  }
+  // try {
+  // Retrieve words from MongoDB
+  let data = await controllers.getAllWords(req.query.length);
+  words = data.words;
+  // } catch (e) {
+  //   words = [];
+  // }
   res.json(words);
 })
 
