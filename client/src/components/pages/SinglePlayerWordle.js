@@ -58,6 +58,7 @@ function SinglePlayerWordle() {
     <div className="wordle-container" onKeyUp={(e) => handleInput(e)} tabIndex={0}>
       <Wordle 
         id={WORDLE_PREFIX + 0}
+        person="You"
         attempts={word.length + 1}
         word={word}
         submitKey={validInputs.submitKey}
