@@ -11,6 +11,8 @@ Runs on Node.js
 
 1. Create .env with url to mongoBD named `ATLAS_URI`
 
+1. Add the absolute path to the `dictionary.csv` file to the .env as `SVG_PATH`
+
 1. Run java population script to populate DB
 
 1. Run `npm run build` in the root of the project
