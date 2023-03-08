@@ -8,17 +8,6 @@ function SearchBar() {
   const [words, setWords] = useState([]);
   const locationData = useLocation();
 
-  // Set the linked word from favorites as search input and searches definition
-  if (locationData.state !== null) {
-    let favoriteWord = locationData.state.word;
-    // Set searchInput which is used to set value in the search input field
-    setSearchInput(favoriteWord);
-    // Search word and display definition
-    searchGivenWord(favoriteWord);
-    // Prevent from running more than once (line 11)
-    locationData.state = null;
-  }
-
   // Search input field with default value attribute set to searchInput (favorite word / no word)
   let searchInputField = <input
     type="search"
@@ -38,14 +27,6 @@ function SearchBar() {
   }
 
   /**
-   * Search word definition of given word
-   * @param {String} word 
-   */
-  async function searchGivenWord(word) {
-    await findWord(word);
-  }
-
-  /**
    * Fetch word definition from api
    * @param {URL} url 
    */
@@ -58,14 +39,22 @@ function SearchBar() {
   }
 
   useEffect(() => {
-    /**
-     * Fetch all words from api
-     */
-    async function getData() {
+    (async () => {
+      // Set the linked word from favorites as search input and searches definition
+      if (locationData.state !== null) {
+        let favoriteWord = locationData.state.word;
+        // Set searchInput which is used to set value in the search input field
+        setSearchInput(favoriteWord);
+        // Search word and display definition
+        await findWord(favoriteWord);
+        locationData.state.word = null;
+        window.history.replaceState({}, document.title)
+      }
+
+      // Fetch all the words for the dataset
       let data = await FetchModule.fetchAllWords();
       setWords(data);
-    }
-    getData();
+    })();
   }, []);
 
   const dataList = <datalist id="words">
