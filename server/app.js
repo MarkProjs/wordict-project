@@ -1,7 +1,7 @@
 import express from "express";
 import api from "./routes/api.js";
 import path from "path";
-import OAuth2Client from 'google-auth-library';
+import {OAuth2Client} from 'google-auth-library';
 import dotenv from 'dotenv';
 import session from 'express-session';
 dotenv.config();
@@ -71,7 +71,7 @@ app.use(session({
   resave: false,
   cookie: {
     maxAge: 120000,
-    secure: secure,
+    secure: true,
     httpOnly: true,
     sameSite: 'strict'
   }
@@ -106,6 +106,8 @@ app.get("/logout", isAuthenticated, function(req, res) {
     res.sendStatus(200);
   });
 });
+
+
 app.use((req, res) => {
   res.sendStatus(404);
 });
