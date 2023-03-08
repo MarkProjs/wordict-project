@@ -52,6 +52,15 @@ app.post("/auth", async (req, res)=> {
     users[existsAlready] = user;
   }
   //TODO: create a session cookie send it back to the client
+  req.session.regenerate(function(err) {
+    if(err) {
+      //server error, couldn't create the session
+      return res.sendStatus(500); 
+    }
+    //store the user's info in the session
+    req.session.user = user;
+    res.json({user: user});
+  });
 });
 
 app.use(session({
@@ -67,6 +76,36 @@ app.use(session({
     sameSite: 'strict'
   }
 }));
+
+//route to the server that will require authentication
+//middleware to verify the session
+function isAuthenticated(req, res, next) {
+  if(!req.session.user) {
+    //unauthorized
+    return res.sendStatus(401);
+  }
+  next();
+}
+
+//route for authenticated users only
+app.get("/protected", isAuthenticated, function(req, res){
+  //would actually be doing something
+  res.sendStatus(200);
+});
+
+//logout route
+app.get("/logout", isAuthenticated, function(req, res) {
+  //destroy the session
+  req.session.destroy(function(err) {
+    //callback invoked after destroy returns
+    if (err) {
+      //server error, couldn't destroy the session
+      return res.sendStatus(500);
+    }
+    res.clearCookie('id');
+    res.sendStatus(200);
+  });
+});
 app.use((req, res) => {
   res.sendStatus(404);
 });
