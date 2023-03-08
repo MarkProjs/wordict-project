@@ -18,10 +18,11 @@
     "express-session": "^1.17.3",
     "google-auth-library": "^8.7.0",
     "mongoose": "^6.9.1",
-    "socket.io": "^4.6.0"
+    "socket.io": "^4.6.1"
   },
   "devDependencies": {
     "jest": "^29.4.2",
+    "jest-junit": "^15.0.0",
     "supertest": "^6.3.3"
   }
 }

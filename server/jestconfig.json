@@ -1,3 +1,13 @@
 {
-  "transform": {}
+  "transform": {},
+  "collectCoverage": true,
+  "reporters": [
+    "default",
+    "jest-junit"
+  ],
+  "coverageReporters": [
+    "text",
+    "lcov",
+    "cobertura"
+  ]
 }
