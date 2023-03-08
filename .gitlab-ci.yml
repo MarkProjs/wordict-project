@@ -64,6 +64,17 @@ test-backend:
     - build-backend
   script:
     - cd server && npm run test
+    - cd .. && mkdir public
+    - mv server/coverage/lcov-report/* public
+  artifacts:
+    expire_in: 1 days
+    paths:
+      - public
+    reports:
+      junit: server/junit.xml
+      coverage_report:
+        coverage_format: cobertura
+        path: server/coverage/cobertura-coverage.xml
 
 # from M Frydrychowicz
 lint:
