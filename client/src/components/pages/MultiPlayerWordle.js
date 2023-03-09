@@ -112,6 +112,12 @@ function MultiPlayerWordle() {
       }
       allWords.current = words;
     })();
+
+    return () => {
+      if (socket.current) {
+        socket.current.disconnect();
+      }
+    };
   }, []);
 
   return (
