@@ -9,12 +9,25 @@
   height: 3rem;
 }
 
+.letter-box p {
+  margin-top: 0.15rem;
+}
+
 .right {
   background-color: green;
+  border-radius: 60%;
 }
 
 .half-right {
   background-color: yellow;
+  /* background: linear-gradient(135deg, yellow 0%, yellow 50%, rgba(255, 255, 255, 0) 51%, rgba(255, 255, 255, 0) 100%); */
+  transform: rotate(45deg) scale(0.78);
+  border: 0.24rem solid black;
+}
+
+.half-right p {
+  transform: rotate(-45deg) scale(1.22);
+  border-radius: 80%;
 }
 
 .wrong {
