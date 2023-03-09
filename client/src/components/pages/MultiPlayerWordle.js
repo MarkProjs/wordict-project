@@ -126,12 +126,11 @@ function MultiPlayerWordle() {
         socket={socket}
         initialiseSocket={initialiseSocket}
       />
-      {console.log(gameStarted)}
       {
         isConnected ? gameStarted ? <div>Game Has Started</div> :
           <div>Waiting For Players</div> : <div>Connect To Start</div> 
       }
-      {gameStarted ? <>
+      {gameStarted && <>
         <div className="wordle-container" onKeyUp={(e) => handleKeyInput(e)} tabIndex={0}>
           <div>
             <p>You</p>
@@ -160,7 +159,7 @@ function MultiPlayerWordle() {
             />
           </div>
         </div>
-      </> : <></>
+      </>
       }
     </div>
   );
