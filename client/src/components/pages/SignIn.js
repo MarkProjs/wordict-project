@@ -5,7 +5,7 @@ import { GoogleLogin } from '@react-oauth/google';
 function SignIn() {
   const [username, setUserName] = useState("");
 
-  //ahndle the login
+  //handle the login
   const handleLogin = async googleData =>{
     const res = await fetch("/auth", {
       method: "POST",
@@ -19,16 +19,39 @@ function SignIn() {
     setUserName(data.user.name);
   }
 
-  //handle the error that will print in the console
-  const handleError = error => {
-    console.error(error);
+  //handle log out, nothing to do with google, only has to do with the
+  //session on the Express server
+  const handleLogout = async () => {
+    await fetch("/logout");
+    setUserName("");
+  }
+
+  //protected route callback
+  const protectedRoute = async () => {
+    const resp = await fetch("/protected");
+    if(resp.status === 200) {
+      // eslint-disable-next-line no-alert
+      alert("You are authorized to see this");
+    } else if (resp.status === 401) {
+      // eslint-disable-next-line no-alert
+      alert("You are not authorized to see this!");
+    } else {
+      // eslint-disable-next-line no-alert
+      alert("Something went wrong!");
+    }
   }
   return(
     <div>
+      <h2>Welcome {username ? username : "Anonymous"}</h2>
+      {!username && 
       <GoogleLogin
         onSuccess={handleLogin}
-        onError={handleError} 
-      />
+        onError={() =>{
+          console.log('Loging Failed');
+        }}
+      /> }
+      {username && <button onClick={handleLogout}>Logout</button>}
+      <button onClick={protectedRoute}>Test protected</button>
     </div>
   );
 
