@@ -49,3 +49,24 @@ main{
   padding: 0.5rem;
   border: gray 1px solid;
 }
+
+.edit-form {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+  margin: auto;
+}
+
+.picture-section {
+  display: flex;
+  flex-direction: column;
+}
+
+.picture-section img {
+  width: 15rem;
+  height: auto;
+}
+
+.form-buttons {
+  width: fit-content;
+}
