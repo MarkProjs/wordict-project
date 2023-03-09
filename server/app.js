@@ -13,6 +13,9 @@ let app = express();
 
 app.use(express.static("client/build"))
 
+//for parsing the POST application/json
+app.use(express.json());
+
 app.use("/api", api);
 
 function html(req, res, next) {
@@ -39,8 +42,8 @@ app.post("/auth", async (req, res)=> {
     return res.sendStatus(401);
   }
   const { name, email, picture } = ticket.getPayload();
-  //TODO: may want to update and insert the uer's name, email and picture in the db.
-  //For now I will be using an array that is on top of the app.js
+  //TODO: may want to update and insert the user's name, email and picture in the db.
+  //For now I will be using an array, as a mock data that is on top of the app.js
   const user = {"name": name, "email": email, "picture": picture};
   const existsAlready = users.findIndex( elem => elem.email === email);
 
@@ -63,8 +66,9 @@ app.post("/auth", async (req, res)=> {
   });
 });
 
+//use the session middleware, expires after 20 minutes
 app.use(session({
-  //used to sign the session id
+  //used to sign the session id, maxAge is the time in ms
   secret: process.env.SECRET, 
   name: 'id',
   saveUninitialized: false,

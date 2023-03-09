@@ -26,7 +26,7 @@ function NavBar() {
           </NavLink>
         </div>
         <nav className='NavBtn'>
-          <NavLink to="" className='NavBtnLink'>Sign up</NavLink>
+          <NavLink to="/signIn" className='NavBtnLink'>Sign in</NavLink>
         </nav>
       </nav>
     </>

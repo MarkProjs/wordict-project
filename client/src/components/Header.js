@@ -7,6 +7,7 @@ import SinglePlayerWordle from "./pages/SinglePlayerWordle.js";
 import MultiPlayerWordle from "./pages/MultiPlayerWordle.js";
 import AboutUs from './pages/AboutUs.js';
 import Profile from "./pages/Profile.js";
+import SignIn from './pages/SignIn.js';
 
 function Header() {
   return(
@@ -23,6 +24,7 @@ function Header() {
           <Route path="/wordle-online" exact element={<MultiPlayerWordle/>} />
           <Route path="/about" exact element={<AboutUs/>} />
           <Route path="/profile" exact element={<Profile/>} />
+          <Route path="/signIn" exact element={<SignIn/>} />
           <Route path="/*" exact element= {<Error/>}/>
         </Routes>
       </Router>
