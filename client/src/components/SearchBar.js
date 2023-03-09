@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useLocation } from "react-router-dom";
+import FetchModule from '../controllers/FetchModule';
 
 function SearchBar() {
   const [searchInput, setSearchInput] = useState("");
@@ -33,8 +34,7 @@ function SearchBar() {
    */
   async function searchWord(e) {
     e.preventDefault()
-    let url = new URL(`/api/${e.target.word.value.toLowerCase()}/definition`, location.origin);
-    await findWord(url);
+    await findWord(e.target.word.value);
   }
 
   /**
@@ -42,23 +42,19 @@ function SearchBar() {
    * @param {String} word 
    */
   async function searchGivenWord(word) {
-    let url = new URL(`/api/${word.toLowerCase()}/definition`, location.origin);
-    await findWord(url);
+    await findWord(word);
   }
 
   /**
    * Fetch word definition from api
    * @param {URL} url 
    */
-  async function findWord(url) {
-    let data;
-    try {
-      let response = await fetch(url)
-      data = await response.json()
-    } catch (e) {
-      data = { "word": "No results" }
+  async function findWord(word) {
+    let data = await FetchModule.fetchDefinition(word);
+    if (data === null) {
+      data = { "word": "No results" };
     }
-    setSearchResult(data)
+    setSearchResult(data);
   }
 
   useEffect(() => {
@@ -66,15 +62,7 @@ function SearchBar() {
      * Fetch all words from api
      */
     async function getData() {
-      let url = new URL(`/api/dictionary`, location.origin);
-      let data;
-      try {
-        let response = await fetch(url);
-        data = await response.json();
-      } catch (e) {
-        data = [];
-        console.error(e);
-      }
+      let data = await FetchModule.fetchAllWords();
       setWords(data);
     }
     getData();
