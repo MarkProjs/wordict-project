@@ -16,6 +16,7 @@ function SignIn() {
     });
     // server will be replying with the info
     const data = await res.json();
+    console.log(data);
     setUserName(data.user.name);
   }
 

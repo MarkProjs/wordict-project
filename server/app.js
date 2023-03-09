@@ -16,6 +16,22 @@ app.use(express.static("client/build"))
 //for parsing the POST application/json
 app.use(express.json());
 
+
+//use the session middleware
+app.use(session({
+  //used to sign the session id, maxAge is the time in ms
+  secret: process.env.SECRET, 
+  name: 'id',
+  saveUninitialized: false,
+  resave: false,
+  cookie: {
+    maxAge: null,
+    secure: true,
+    httpOnly: true,
+    sameSite: 'strict'
+  }
+}));
+
 app.use("/api", api);
 
 function html(req, res, next) {
@@ -66,20 +82,6 @@ app.post("/auth", async (req, res)=> {
   });
 });
 
-//use the session middleware, expires after 20 minutes
-app.use(session({
-  //used to sign the session id, maxAge is the time in ms
-  secret: process.env.SECRET, 
-  name: 'id',
-  saveUninitialized: false,
-  resave: false,
-  cookie: {
-    maxAge: 120000,
-    secure: true,
-    httpOnly: true,
-    sameSite: 'strict'
-  }
-}));
 
 //route to the server that will require authentication
 //middleware to verify the session
