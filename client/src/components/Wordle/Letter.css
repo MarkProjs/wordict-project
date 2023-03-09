@@ -14,7 +14,7 @@
 }
 
 .right {
-  background-color: green;
+  background-color: #0BAEF9; /*green*/
   border-radius: 60%;
 }
 
@@ -31,5 +31,5 @@
 }
 
 .wrong {
-  background-color: red;
+  background-color: #FA8072; /*red*/
 }
