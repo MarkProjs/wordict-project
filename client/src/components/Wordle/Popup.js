@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import FetchModule from "../../controllers/FetchModule";
 import "./Popup.css";
 
 function Popup(props) {
@@ -11,13 +12,9 @@ function Popup(props) {
 
   useEffect(() => {
     (async () => {
-      let url = new URL(`/api/${props.word.toLowerCase()}/definition`, location.origin);
-      let data;
-      try {
-        let response = await fetch(url);
-        data = await response.json();
-      } catch (e) {
-        data = {definitions: []};
+      let data = await FetchModule.fetchDefinition(props.word);
+      if (data === null) {
+        data = {definitions: []}
       }
       setDefinitions(data.definitions);
     })();
