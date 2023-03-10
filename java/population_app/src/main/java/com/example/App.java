@@ -1,13 +1,9 @@
 package com.example;
 
-import com.example.data_structs.Definition;
-import com.example.data_structs.Word;
-import com.example.data_structs.WordsDictionary;
-import com.example.utils.CSVinterpreter;
-import com.example.utils.MongoUtil;
+import com.example.data_structs.*;
+import com.example.utils.*;
 import com.mongodb.client.*;
 import org.bson.*;
-
 import java.io.IOException;
 import java.util.*; 
 import io.github.cdimascio.dotenv.Dotenv;
