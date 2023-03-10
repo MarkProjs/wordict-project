@@ -38,4 +38,17 @@ public class DefinitionTest {
         assertEquals(NEW_TYPE, test.getType() );
         assertEquals(NEW_DEFINITION, test.getDefinition() );
     }
+    /**
+     * Test for equals
+     */
+    @Test
+    public void testEquals(){
+        String TYPE = "TEST";
+        String DEF = "SOME DEF";
+
+        Definition d1 = new Definition(TYPE, DEF);
+        Definition d2 = new Definition(TYPE, DEF);
+
+        assertTrue(d1.equals(d2));
+    }
 }
