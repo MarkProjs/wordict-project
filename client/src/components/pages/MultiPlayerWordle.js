@@ -50,7 +50,7 @@ function MultiPlayerWordle() {
     keyInputEvent.current.forEach(func => func(e, key => {
       // Sending the key in this object  is important because of how
       // it is expected to be when received
-      socket.current.emit("keypress", {key: key})
+      socket.current.emit("keypress", { key: key })
     }));
   }
 
@@ -65,7 +65,7 @@ function MultiPlayerWordle() {
     }
 
     // Open a new connection
-    socket.current = io("", {query: {room: room}});
+    socket.current = io("", { query: { room: room } });
 
     // Upon receiving message, change the text area
     socket.current.on("keypress", (key) => {
@@ -93,7 +93,7 @@ function MultiPlayerWordle() {
     });
 
     socket.current.on("lobby-full", () => {
-      socket.current.emit("send-start-data", {word: word.current});
+      socket.current.emit("send-start-data", { word: word.current });
     });
 
     socket.current.on("send-start-data", data => {
@@ -113,12 +113,46 @@ function MultiPlayerWordle() {
       allWords.current = words;
     })();
 
+
+    // Disconnect from the socket when they leave the page.
     return () => {
       if (socket.current) {
         socket.current.disconnect();
       }
     };
   }, []);
+
+  // The player and opponent wordle games
+  const gameBoard = <>
+    <div className="wordle-container" onKeyUp={(e) => handleKeyInput(e)} tabIndex={0}>
+      <div>
+        <p>You</p>
+        <Wordle
+          id={WORDLE_PREFIX + 0}
+          person="You"
+          attempts={word.current.length + 1}
+          word={word.current}
+          submitKey={validInputs.submitKey}
+          deleteKey={validInputs.deleteKey}
+          subToInputEvent={subToKeyInputEvent}
+          defaultValue={validInputs.empty}
+        />
+      </div>
+      <div>
+        <p>Your Opponent</p>
+        <Wordle
+          id={WORDLE_PREFIX + 1}
+          person="Your opponent"
+          attempts={word.current.length + 1}
+          word={opponentWord}
+          submitKey={validInputs.submitKey}
+          deleteKey={validInputs.deleteKey}
+          subToInputEvent={subToServerInputEvent}
+          defaultValue={validInputs.empty}
+        />
+      </div>
+    </div>
+  </>
 
   return (
     <div>
@@ -127,39 +161,12 @@ function MultiPlayerWordle() {
         initialiseSocket={initialiseSocket}
       />
       {
-        isConnected ? gameStarted ? <div>Game Has Started</div> :
-          <div>Waiting For Players</div> : <div>Connect To Start</div> 
+        gameStarted && <div>Game Has Started</div>
+        || isConnected && <div>Waiting For Players</div>
+        || <div>Connect To Start</div>
       }
-      {gameStarted && <>
-        <div className="wordle-container" onKeyUp={(e) => handleKeyInput(e)} tabIndex={0}>
-          <div>
-            <p>You</p>
-            <Wordle 
-              id={WORDLE_PREFIX + 0}
-              person="You"
-              attempts={word.current.length + 1}
-              word={word.current}
-              submitKey={validInputs.submitKey}
-              deleteKey={validInputs.deleteKey}
-              subToInputEvent={subToKeyInputEvent}
-              defaultValue={validInputs.empty}
-            />
-          </div>
-          <div>
-            <p>Your Opponent</p>
-            <Wordle 
-              id={WORDLE_PREFIX + 1}
-              person="Your opponent"
-              attempts={word.current.length + 1}
-              word={opponentWord}
-              submitKey={validInputs.submitKey}
-              deleteKey={validInputs.deleteKey}
-              subToInputEvent={subToServerInputEvent}
-              defaultValue={validInputs.empty}
-            />
-          </div>
-        </div>
-      </>
+      {
+        gameStarted && gameBoard
       }
     </div>
   );
