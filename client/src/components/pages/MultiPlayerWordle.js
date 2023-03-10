@@ -5,6 +5,7 @@ import validInputs from "../../controllers/ValidInput.json";
 import FetchModule from '../../controllers/FetchModule.js';
 import io from "socket.io-client";
 import "./MultiPlayerWordle.css"
+import GameSettings from '../Sockets/GameSettings.js';
 
 const WORDLE_PREFIX = "W-"
 
@@ -14,7 +15,8 @@ function MultiPlayerWordle() {
   const word = useRef("");
   const [opponentWord, setOpponentWord] = useState("");
   const [isConnected, setIsConnected] = useState(false);
-  const [gameStarted, setGameStarted] = useState(false);
+  const [isGameStarted, setIsGameStarted] = useState(false);
+  const [isLobbyFull, setIsLobbyFull] = useState(false);
   const allWords = useRef([]);
 
   // Contains all of the functions subscribed to the key input event
@@ -84,7 +86,7 @@ function MultiPlayerWordle() {
     socket.current.on("disconnect", () => {
       console.log("disconnect");
       setIsConnected(false);
-      setGameStarted(false);
+      setIsGameStarted(false);
     });
 
     // Log the error if there is one
@@ -93,13 +95,14 @@ function MultiPlayerWordle() {
     });
 
     socket.current.on("lobby-full", () => {
-      socket.current.emit("send-start-data", { word: word.current });
+      setIsLobbyFull(true);
+      // socket.current.emit("send-start-data", { word: word.current });
     });
 
     socket.current.on("send-start-data", data => {
       console.log("data received");
       setOpponentWord(data.word);
-      setGameStarted(true);
+      setIsGameStarted(true);
     })
   }
 
@@ -161,12 +164,16 @@ function MultiPlayerWordle() {
         initialiseSocket={initialiseSocket}
       />
       {
-        gameStarted && <div>Game Has Started</div>
+        isGameStarted && <div>Game Has Started</div>
+        || isLobbyFull && <div>Choose Your Opponent&apos;s Word</div>
         || isConnected && <div>Waiting For Players</div>
         || <div>Connect To Start</div>
       }
       {
-        gameStarted && gameBoard
+        isLobbyFull && !isGameStarted && <GameSettings allWords={allWords}/>
+      }
+      {
+        isGameStarted && gameBoard
       }
     </div>
   );
