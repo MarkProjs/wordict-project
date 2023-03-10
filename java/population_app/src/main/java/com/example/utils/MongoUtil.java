@@ -55,6 +55,9 @@ public class MongoUtil {
      * @return a client object, null if not initialized
      */
     public MongoClient getClient(){
+        if(this.client == null){
+            throw new ExceptionInInitializerError("Not connected to Mongo");
+        }
         return this.client;
     }
     /**
@@ -62,6 +65,9 @@ public class MongoUtil {
      * @return a databse object, null if not initialized
      */
     public MongoDatabase getDB(){
+        if(this.db == null){
+            throw new ExceptionInInitializerError("Not connected to db");
+        }
         return this.db;
     }
     /**
@@ -69,6 +75,9 @@ public class MongoUtil {
      * @return a collection object, null if not initialized
      */
     public MongoCollection<?> getCollection(){
+        if(this.collection == null){
+            throw new ExceptionInInitializerError("Not connected to collection");
+        }
         return this.collection;
     }
 }
