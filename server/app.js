@@ -17,7 +17,7 @@ let sessionHandler = session({
    saveUninitialized: false,
    resave: false,
    cookie: {
-     maxAge: null,
+     maxAge: 120000,
      secure: true,
      httpOnly: true,
      sameSite: 'strict'
@@ -40,7 +40,10 @@ app.use("/api", api);
 /**
  * function for the session
  */
-function sessionMiddleWare (req, res, next) {sessionHandler(req, res, next);}
+function sessionMiddleWare (req, res, next) {
+  sessionHandler(req, res, next);
+  console.log(req.session.user);
+}
 
 /**
  * Athentication post
@@ -77,7 +80,6 @@ app.post("/auth", sessionMiddleWare, async (req, res) => {
     //store the user's info in the session
     
     req.session.user = user;
-    console.log(user);
     res.json({ user: user });
   });
 });
@@ -87,7 +89,6 @@ app.post("/auth", sessionMiddleWare, async (req, res) => {
  * middleware to verify the session
  */
 function isAuthenticated(req, res, next) {
-  console.log(req.session.user);
   if (!req.session.user) {
     //unauthorized
     return res.sendStatus(401);
@@ -99,6 +100,7 @@ function isAuthenticated(req, res, next) {
  * route for authenticated users only
  */
 app.get("/protected", sessionMiddleWare, isAuthenticated, function (req, res) {
+  console.log("from the /protected " + req.session.user);
   //would actually be doing something
   res.sendStatus(200);
 });
