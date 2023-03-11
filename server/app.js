@@ -27,8 +27,6 @@ var sessionHandler = session({
 app.use(express.static("client/build"))
 
 
-
-
 /**
  * for parsing the POST application/json
  */
