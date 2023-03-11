@@ -8,7 +8,7 @@ function App() {
 
   //handle the login
   const handleLogin = async googleData =>{
-    const res = await fetch("/api/auth", {
+    const res = await fetch("/auth", {
       method: "POST",
       body: JSON.stringify({token: googleData.credential}),
       headers: {
@@ -24,13 +24,13 @@ function App() {
   //handle log out, nothing to do with google, only has to do with the
   //session on the Express server
   const handleLogout = async () => {
-    await fetch("/api/logout");
+    await fetch("/logout");
     setUserName("");
   }
 
   //protected route callback
   const protectedRoute = async () => {
-    const resp = await fetch("/api/protected");
+    const resp = await fetch("/protected");
     if(resp.status === 200) {
       // eslint-disable-next-line no-alert
       alert("You are authorized to see this");
