@@ -24,6 +24,8 @@ main {
 .left-section img {
   width: 80%;
   height: auto;
+  max-width: 16rem;
+  max-height: 16rem;
 }
 
 .right-section {
@@ -63,6 +65,25 @@ main {
 .form-section {
   display: flex;
   flex-direction: column;
+  margin-right: 10rem;
+}
+
+.form-section label {
+  margin-top: 0.5rem;
+}
+
+.form-buttons {
+  display: flex;
+  flex-direction: row;
+  margin-top: 2rem;
+}
+
+.form-buttons input, button {
+  width: fit-content;
+}
+
+.form-buttons button {
+  margin-left: 0.25rem;
 }
 
 .edit-form {
@@ -70,6 +91,7 @@ main {
   flex-direction: column;
   text-align: left;
   margin: auto;
+  margin-top: 1rem;
 }
 
 .edit-form input[type=text] {
@@ -90,10 +112,7 @@ main {
 .preview-section img {
   width: 16rem;
   height: auto;
+  max-height: 16rem;
   padding-top: 1.5rem;
   margin-right: 1rem;
-}
-
-.form-buttons {
-  width: fit-content;
 }

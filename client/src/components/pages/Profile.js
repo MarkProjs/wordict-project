@@ -35,10 +35,8 @@ function Profile() {
   const profileEdit =
     <div className="edit-container">
       <section className="form-section">
+        <h2>Edit Profile</h2>
         <form onSubmit={updateProfile} className="edit-form">
-          <h2>
-            Edit Profile
-          </h2>
           <label>Name: </label>
           <input id="username" type="text" name="username" defaultValue={profileName}
             onChange={(e) => setProfileName(e.target.value)} />
@@ -48,11 +46,13 @@ function Profile() {
             onChange={(e) => setProfilePicture(window.URL.createObjectURL(e.target.files[0]))} />
 
           <br />
-          <input type="submit" value="Save" className="form-buttons" />
-          <button className="form-buttons" onClick={() => {
-            setProfileName(previousProfileName);
-            setIsViewMode(true);
-          }}>Cancel</button>
+          <div className="form-buttons">
+            <input type="submit" value="Save" />
+            <button onClick={() => {
+              setProfileName(previousProfileName);
+              setIsViewMode(true);
+            }}>Cancel</button>
+          </div>
         </form>
       </section>
 
