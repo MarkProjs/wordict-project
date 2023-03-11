@@ -31,6 +31,13 @@ const wordSchema = new mongoose.Schema({
   }
 });
 
+const userSchema = new mongoose.Schema({
+  name: String,
+  image: String,
+  favoriteWords: [{ type: String }],
+  elo: Number
+});
+
 /**
  * @async
  * @param {Number} randValue random number of documents to skip
@@ -54,7 +61,10 @@ wordSchema.pre('save', function (next) {
   next();
 });
 
+
+
 const Words = mongoose.model('WordsV3', wordSchema);
+const Users = mongoose.model('Users', userSchema);
 console.log("Schemas made");
 console.log("Connect to DB to interact")
 
@@ -112,5 +122,5 @@ async function test(){
 // END TEST
 
 export {
-  disconnect, connect, Words
+  disconnect, connect, Words, Users
 };
