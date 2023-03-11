@@ -10,7 +10,7 @@ const client = new OAuth2Client(process.env.REACT_APP_GOOGLE_CLIENT_ID);
 const users = new Array();
 
 let app = express();
-let sessionHandler = session({
+var sessionHandler = session({
    //used to sign the session id, maxAge is the time in ms
    secret: process.env.SECRET,
    name: 'id',
@@ -39,11 +39,15 @@ app.use(express.json());
  */
 app.use("/api", api);
 
+/**
+ * function for the session
+ */
+function sessionMiddleWare (req, res, next) {sessionHandler(req, res, next);}
 
 /**
  * Athentication post
  */
-app.post("/auth", sessionHandler, async (req, res) => {
+app.post("/auth", sessionMiddleWare, async (req, res) => {
   //TODO: should validate that the token was sent first
   const { token } = req.body;
   const ticket = await client.verifyIdToken({

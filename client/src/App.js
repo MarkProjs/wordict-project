@@ -1,7 +1,7 @@
 import './App.css';
 import Header from "./components/Header.js";
 import { useState } from 'react';
-import { GoogleLogin } from '@react-oauth/google';
+import { GoogleLogin, GoogleOAuthProvider } from '@react-oauth/google';
 
 function App() {
   const [username, setUserName] = useState("");
@@ -46,15 +46,17 @@ function App() {
     <div className="App">
       <h2>Welcome {username ? username : "Anonymous"}</h2>
       <Header/>
-      {!username && 
-      <GoogleLogin
-        onSuccess={handleLogin}
-        onError={() =>{
-          console.log('Loging Failed');
-        }}
-      /> }
-      {username && <button onClick={handleLogout}>Logout</button>}
-      <button onClick={protectedRoute}>Test protected</button>
+      <GoogleOAuthProvider clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}>
+        {!username && 
+        <GoogleLogin
+          onSuccess={handleLogin}
+          onError={() =>{
+            console.log('Loging Failed');
+          }}
+        /> }
+        {username && <button onClick={handleLogout}>Logout</button>}
+        <button onClick={protectedRoute}>Test protected</button>
+      </GoogleOAuthProvider>
     </div>
   );
 }
