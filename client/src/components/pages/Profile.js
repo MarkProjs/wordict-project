@@ -1,8 +1,9 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import FavoriteWords from "../Profile/FavoriteWords";
 import UserProfile from "../Profile/UserProfile";
 import UserRank from "../Profile/UserRank";
 import './Profile.css';
+import FetchModule from '../../controllers/FetchModule';
 
 function Profile() {
   const [isViewMode, setIsViewMode] = useState(true);
@@ -10,10 +11,24 @@ function Profile() {
   let mockName = "MonkeyMan420";
   let mockImage = "https://discovery.sndimg.com/content/dam/images/discovery/fullset/2021/4/30/" +
     "GettyImages-1189192456.jpg.rend.hgtvcom.406.406.suffix/1619849704543.jpeg";
-  const [profilePicture, setProfilePicture] = useState(mockImage);
-  const [profileName, setProfileName] = useState(mockName);
+  // to add placeholder picture
+  const [profilePicture, setProfilePicture] = useState("");
+  const [profileName, setProfileName] = useState("loading...");
   const [previousProfileName, setPreviousProfileName] = useState("");
 
+  useEffect(() => {
+    /**
+     * Fetch user from api
+     */
+    async function getData() {
+      let data = await FetchModule.fetchUser();
+      setProfileName(data[0].name);
+      setProfilePicture(data[0].image);
+    }
+    getData();
+  }, []);
+
+  //TODO: add comments
   const profileView =
     <>
       <section className="left-section">
