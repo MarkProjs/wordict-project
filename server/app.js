@@ -10,7 +10,7 @@ const client = new OAuth2Client(process.env.REACT_APP_GOOGLE_CLIENT_ID);
 const users = new Array();
 
 let app = express();
-var sessionHandler = session({
+let sessionHandler = session({
    //used to sign the session id, maxAge is the time in ms
    secret: process.env.SECRET,
    name: 'id',
@@ -75,7 +75,9 @@ app.post("/auth", sessionMiddleWare, async (req, res) => {
       return res.sendStatus(500);
     }
     //store the user's info in the session
+    
     req.session.user = user;
+    console.log(user);
     res.json({ user: user });
   });
 });
@@ -85,6 +87,7 @@ app.post("/auth", sessionMiddleWare, async (req, res) => {
  * middleware to verify the session
  */
 function isAuthenticated(req, res, next) {
+  console.log(req.session.user);
   if (!req.session.user) {
     //unauthorized
     return res.sendStatus(401);
@@ -95,7 +98,7 @@ function isAuthenticated(req, res, next) {
 /**
  * route for authenticated users only
  */
-app.get("/protected", isAuthenticated, function (req, res) {
+app.get("/protected", sessionMiddleWare, isAuthenticated, function (req, res) {
   //would actually be doing something
   res.sendStatus(200);
 });
@@ -103,7 +106,7 @@ app.get("/protected", isAuthenticated, function (req, res) {
 /**
  * logout route
  */
-app.get("/logout", isAuthenticated, function (req, res) {
+app.get("/logout", sessionMiddleWare, isAuthenticated, function (req, res) {
   //destroy the session
   req.session.destroy(function (err) {
     //callback invoked after destroy returns
