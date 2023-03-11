@@ -61,7 +61,14 @@ wordSchema.pre('save', function (next) {
   next();
 });
 
-
+/**
+ * Temporary function just to test with profile page
+ * @async
+ * @returns the latest user
+ */
+userSchema.statics.getLatestUser = async function (){
+  return await Users.find().sort({_id:-1}).limit(1).exec();
+};
 
 const Words = mongoose.model('WordsV3', wordSchema);
 const Users = mongoose.model('Users', userSchema);
