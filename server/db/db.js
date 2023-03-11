@@ -86,11 +86,9 @@ async function disconnect(){
 //await test()
 // eslint-disable-next-line no-unused-vars
 async function test(){
-//   Words.deleteMany();
-
-
+  await Words.deleteMany({});
   const newWord = new Words({
-    word: "satan",
+    word: "three",
     definitions: [
       {
         type: "n.",
@@ -105,7 +103,7 @@ async function test(){
   await newWord.save();
 
 
-  console.log(await Words.getOnlyWordFields());
+  //console.log(await Words.getOnlyWordFields());
   console.log("Saved");
 
   await mongoose.disconnect();
