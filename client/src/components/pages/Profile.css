@@ -9,7 +9,7 @@ main {
   display: flex;
   flex-direction: column;
   width: 20%;
-  min-width: 15%;
+  min-width: 16rem;
   max-width: 18rem;
   height: 100%;
   padding-top: 1.5rem;
@@ -22,7 +22,7 @@ main {
 }
 
 .left-section img {
-  width: 80%;
+  width: 100%;
   height: auto;
   max-width: 16rem;
   max-height: 16rem;
