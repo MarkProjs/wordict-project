@@ -20,14 +20,27 @@ async function fetchAllWords(length = undefined) {
   try {
     let response = await fetch(url);
     words = await response.json();
-  } catch(e) {
+  } catch (e) {
     words = [];
   }
   return words;
 }
 
+async function fetchUser() {
+  let url = new URL("/api/user", location.origin);
+  let data;
+  try {
+    let response = await fetch(url);
+    data = await response.json();
+  } catch (e) {
+    data = {};
+  }
+
+  return data;
+}
+
 export default {
   fetchDefinition,
   fetchAllWords,
-  
+  fetchUser,
 }
