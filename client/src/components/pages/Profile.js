@@ -6,12 +6,13 @@ import './Profile.css';
 import FetchModule from '../../controllers/FetchModule';
 
 function Profile() {
-  const placeholderPicture = process.env.PUBLIC_URL + '/img/profile_placeholder.png';
   const placeholderName = "Loading..."
-  const [isViewMode, setIsViewMode] = useState(true);
-  const [profilePicture, setProfilePicture] = useState(placeholderPicture);
+  const placeholderPicture = process.env.PUBLIC_URL + '/img/profile_placeholder.png';
   const [profileName, setProfileName] = useState(placeholderName);
+  const [profilePicture, setProfilePicture] = useState(placeholderPicture);
   const [previousProfileName, setPreviousProfileName] = useState("");
+  const [previousProfilePicture, setPreviousProfilePicture] = useState("");
+  const [isViewMode, setIsViewMode] = useState(true);
 
   useEffect(() => {
     (async () => {
@@ -35,6 +36,8 @@ function Profile() {
           <button onClick={() => {
             // set current profile name as previous to be used on cancel
             setPreviousProfileName(profileName);
+            // set current profile picture as previous to be used on cancel
+            setPreviousProfilePicture(profilePicture);
             // set to edit mode
             setIsViewMode(false);
           }}>Edit profile</button>
@@ -74,6 +77,8 @@ function Profile() {
             <button onClick={() => {
               // reset profile name using previous
               setProfileName(previousProfileName);
+              // reset profile picture using previous
+              setProfilePicture(previousProfilePicture);
               // set to view mode
               setIsViewMode(true);
             }}>Cancel</button>
