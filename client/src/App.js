@@ -5,6 +5,8 @@ import { GoogleLogin, GoogleOAuthProvider } from '@react-oauth/google';
 
 function App() {
   const [userName, setUserName] = useState("");
+  const [userEmail, setUserEmail] = useState("");
+  const [userPic, setUserPic] = useState("/default.jpg");
   
 
   //handle the login
@@ -20,6 +22,8 @@ function App() {
     const data = await res.json();
     console.log(data);
     setUserName(data.user.name);
+    setUserEmail(data.user.email);
+    setUserPic(data.user.picture);
   }
 
   //handle log out, nothing to do with google, only has to do with the
@@ -27,6 +31,8 @@ function App() {
   const handleLogout = async () => {
     await fetch("/logout");
     setUserName("");
+    setUserEmail("");
+    setUserPic("/default.jpg");
   }
 
   //protected route callback
@@ -50,6 +56,7 @@ function App() {
       <div className="header">
         <h1 id="title">WORDICT</h1>
         <div className="logBtn">
+          <img src={userPic} style={{width: 50, height: 50}} referrerPolicy="no-referrer"/>
           <p>{userName ? `Hello ${userName}` : ""}</p>
           <GoogleOAuthProvider clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}>
             {!userName && 
