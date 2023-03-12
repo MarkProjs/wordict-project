@@ -22,7 +22,7 @@ function Popup(props) {
 
   return (
     <>
-      {gameState.done ? <article className="popup">
+      {gameState.done && <article className="popup">
         <p>{props.person} have {gameState.win ? "won!!!" : "Lost :(("}</p>
         <p>The word was {props.word}</p>
         <ul>
@@ -30,7 +30,7 @@ function Popup(props) {
             return <li key={i}>{definition.definition}</li>
           })}
         </ul>
-      </article> : <></>}
+      </article>}
     </>
   );
   
