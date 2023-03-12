@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node server/bin/www.js",
-    "build": "set \"REACT_APP_GOOGLE_CLIENT_ID=629473902521-6gv6fr7i9mk2davigo2psdb25gaocr07.apps.googleusercontent.com\"&& cd client && npm install && npm run build && cd ../server && npm install",
+    "build": "set \"REACT_APP_GOOGLE_CLIENT_ID=629473902521-6gv6fr7i9mk2davigo2psdb25gaocr07.apps.googleusercontent.com\" && cd client && npm install && npm run build && cd ../server && npm install",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
