@@ -1,4 +1,5 @@
 import {Server} from "socket.io";
+import {v4} from "uuid";
 
 /**
  * Modify the given http server to use websockets to allow for multiplayer
@@ -37,7 +38,7 @@ function setupServer(app) {
       rooms[room].hasStarted = true;
     } else {
       // Breaks some default functionality if you use just the socket id
-      room = socket.id + "!";
+      room = v4();
       socket.join(room);
       
     }
