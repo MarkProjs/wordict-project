@@ -25,7 +25,7 @@ function Profile() {
     getData();
   }, []);
 
-  //TODO: add comments
+  // view user profile
   const profileView =
     <>
       <section className="left-section">
@@ -36,7 +36,9 @@ function Profile() {
         <div className="top-part">
           <h1 className="name">{profileName}</h1>
           <button onClick={() => {
+            // set current profile name as previous to be used on cancel
             setPreviousProfileName(profileName);
+            // set to edit mode
             setIsViewMode(false);
           }}>Edit profile</button>
         </div>
@@ -44,6 +46,17 @@ function Profile() {
       </section>
     </>;
 
+  // preview edited user profile
+  const profileEditPreview =
+    <section className="preview-section">
+      <p>Quick Preview:</p>
+      <article>
+        <img alt="profile picture" src={profilePicture} />
+        <h1 className="name">{profileName}</h1>
+      </article>
+    </section>;
+
+  // edit user profile
   const profileEdit =
     <div className="edit-container">
       <section className="form-section">
@@ -51,36 +64,30 @@ function Profile() {
         <form onSubmit={updateProfile} className="edit-form">
           <label>Name: </label>
           <input id="username" type="text" name="username" defaultValue={profileName}
+            // allow real time name change preview
             onChange={(e) => setProfileName(e.target.value)} />
           <br />
           <label>Change profile picture: </label>
           <input type="file" name="file" accept="image/*"
+            // allow profile picture change preview
             onChange={(e) => setProfilePicture(window.URL.createObjectURL(e.target.files[0]))} />
-
           <br />
           <div className="form-buttons">
             <input type="submit" value="Save" />
             <button onClick={() => {
+              // reset profile name using previous
               setProfileName(previousProfileName);
+              // set to view mode
               setIsViewMode(true);
             }}>Cancel</button>
           </div>
         </form>
       </section>
-
-      <section className="preview-section">
-        <p>Quick Preview:</p>
-        <article>
-          <img alt="profile picture" src={profilePicture} />
-          <h1 className="name">{profileName}</h1>
-        </article>
-      </section>
-    </div>
-    ;
+      {profileEditPreview}
+    </div>;
 
   function updateProfile() {
-    // update user profile using api
-
+    //TODO: update user in db using api
     setIsViewMode(true);
   }
 
