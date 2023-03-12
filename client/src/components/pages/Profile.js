@@ -6,14 +6,11 @@ import './Profile.css';
 import FetchModule from '../../controllers/FetchModule';
 
 function Profile() {
+  const placeholderPicture = process.env.PUBLIC_URL + '/img/profile_placeholder.png';
+  const placeholderName = "Loading..."
   const [isViewMode, setIsViewMode] = useState(true);
-  // fetch image, username, favorite words from database
-  let mockName = "MonkeyMan420";
-  let mockImage = "https://discovery.sndimg.com/content/dam/images/discovery/fullset/2021/4/30/" +
-    "GettyImages-1189192456.jpg.rend.hgtvcom.406.406.suffix/1619849704543.jpeg";
-  // to add placeholder picture
-  const [profilePicture, setProfilePicture] = useState("");
-  const [profileName, setProfileName] = useState("loading...");
+  const [profilePicture, setProfilePicture] = useState(placeholderPicture);
+  const [profileName, setProfileName] = useState(placeholderName);
   const [previousProfileName, setPreviousProfileName] = useState("");
 
   useEffect(() => {
