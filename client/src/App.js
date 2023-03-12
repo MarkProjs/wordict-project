@@ -1,5 +1,5 @@
 import './App.css';
-import Header from "./components/Header.js";
+import Nav from "./components/Nav.js";
 import { useState } from 'react';
 import { GoogleLogin, GoogleOAuthProvider } from '@react-oauth/google';
 
@@ -47,22 +47,24 @@ function App() {
   
   return (
     <div className="App">
-      <div className="title">
-        <h1>WORDICT</h1>
-        <h2>Welcome {userName ? userName : "Anonymous"}</h2>
-        <GoogleOAuthProvider clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}>
-          {!userName && 
-          <GoogleLogin
-            onSuccess={handleLogin}
-            onError={() =>{
-              console.log('Login Failed');
-            }}
-          /> }
-          {userName && <button onClick={handleLogout}>Logout</button>}
-          <button onClick={protectedRoute}>Test protected</button>
-        </GoogleOAuthProvider>
+      <div className="header">
+        <h1 id="title">WORDICT</h1>
+        <div className="logBtn">
+          <p>{userName ? `Hello ${userName}` : ""}</p>
+          <GoogleOAuthProvider clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}>
+            {!userName && 
+            <GoogleLogin
+              onSuccess={handleLogin}
+              onError={() =>{
+                console.log('Login Failed');
+              }}
+            /> }
+            {userName && <button onClick={handleLogout}>Logout</button>}
+            {/* <button onClick={protectedRoute}>Test protected</button> */}
+          </GoogleOAuthProvider>
+        </div>
       </div>
-      <Header/>
+      <Nav/>
     </div>
   );
 }

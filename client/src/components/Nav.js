@@ -8,7 +8,7 @@ import MultiPlayerWordle from "./pages/MultiPlayerWordle.js";
 import AboutUs from './pages/AboutUs.js';
 import Profile from "./pages/Profile.js";
 
-function Header() {
+function Nav() {
   return(
     <>
       <Router>
@@ -28,4 +28,4 @@ function Header() {
   );
 }
 
-export default Header;
+export default Nav;
