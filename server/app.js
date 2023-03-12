@@ -70,7 +70,6 @@ app.post("/auth", sessionHandler, async (req, res) => {
       return res.sendStatus(500);
     }
     //store the user's info in the session
-
     req.session.user = user;
     res.json({ user: user });
   });
@@ -92,8 +91,6 @@ function isAuthenticated(req, res, next) {
  * route for authenticated users only
  */
 app.get("/protected", sessionHandler, isAuthenticated, function (req, res) {
-  console.log("from the /protected ");
-  console.log(req.session.user);
   //would actually be doing something
   res.sendStatus(200);
 });
@@ -126,8 +123,6 @@ function html(req, res, next) {
 app.get("*", html, (req, res) => {
   res.sendFile(path.resolve('client', 'build', 'index.html'));
 });
-
-
 
 
 app.use((req, res) => {
