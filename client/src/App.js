@@ -4,7 +4,8 @@ import { useState } from 'react';
 import { GoogleLogin, GoogleOAuthProvider } from '@react-oauth/google';
 
 function App() {
-  const [username, setUserName] = useState("");
+  const [userName, setUserName] = useState("");
+  
 
   //handle the login
   const handleLogin = async googleData =>{
@@ -42,21 +43,26 @@ function App() {
       alert("Something went wrong!");
     }
   }
+
+  
   return (
     <div className="App">
-      <h2>Welcome {username ? username : "Anonymous"}</h2>
+      <div className="title">
+        <h1>WORDICT</h1>
+        <h2>Welcome {userName ? userName : "Anonymous"}</h2>
+        <GoogleOAuthProvider clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}>
+          {!userName && 
+          <GoogleLogin
+            onSuccess={handleLogin}
+            onError={() =>{
+              console.log('Login Failed');
+            }}
+          /> }
+          {userName && <button onClick={handleLogout}>Logout</button>}
+          <button onClick={protectedRoute}>Test protected</button>
+        </GoogleOAuthProvider>
+      </div>
       <Header/>
-      <GoogleOAuthProvider clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}>
-        {!username && 
-        <GoogleLogin
-          onSuccess={handleLogin}
-          onError={() =>{
-            console.log('Loging Failed');
-          }}
-        /> }
-        {username && <button onClick={handleLogout}>Logout</button>}
-        <button onClick={protectedRoute}>Test protected</button>
-      </GoogleOAuthProvider>
     </div>
   );
 }

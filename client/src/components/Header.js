@@ -11,9 +11,6 @@ import Profile from "./pages/Profile.js";
 function Header() {
   return(
     <>
-      <div className="title">
-        WORDICT
-      </div>
       <Router>
         <NavBar/>
         <Routes>
