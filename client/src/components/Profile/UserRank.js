@@ -1,10 +1,10 @@
 function UserRank() {
   // might need props to receive rank, or fetch from db here
   return (
-    <section className="rank">
-      <h2>Rank</h2>
+    <article className="rank">
+      <h3>Rank</h3>
       <p>Leaderboard rank: #1</p>
-    </section>
+    </article>
   );
 }
 
