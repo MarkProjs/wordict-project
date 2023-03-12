@@ -6,7 +6,7 @@ import { GoogleLogin, GoogleOAuthProvider } from '@react-oauth/google';
 function App() {
   const [userName, setUserName] = useState("");
   const [userEmail, setUserEmail] = useState("");
-  const [userPic, setUserPic] = useState("/default.jpg");
+  const [userPic, setUserPic] = useState("/img/default.jpg");
   
 
   //handle the login
@@ -32,7 +32,7 @@ function App() {
     await fetch("/logout");
     setUserName("");
     setUserEmail("");
-    setUserPic("/default.jpg");
+    setUserPic("/img/default.jpg");
   }
 
   //protected route callback
