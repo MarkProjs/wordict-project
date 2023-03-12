@@ -14,15 +14,12 @@ function Profile() {
   const [previousProfileName, setPreviousProfileName] = useState("");
 
   useEffect(() => {
-    /**
-     * Fetch user from api
-     */
-    async function getData() {
+    (async () => {
+      // Fetch user from database
       let data = await FetchModule.fetchUser();
       setProfileName(data[0].name);
       setProfilePicture(data[0].image);
-    }
-    getData();
+    })();
   }, []);
 
   // view user profile

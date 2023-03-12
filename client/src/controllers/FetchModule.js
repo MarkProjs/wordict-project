@@ -13,7 +13,6 @@ async function fetchDefinition(word) {
   } catch (e) {
     data = null;
   }
-
   return data;
 }
 
@@ -37,6 +36,10 @@ async function fetchAllWords(length = undefined) {
   return words;
 }
 
+/**
+ * Get a user object from api
+ * @returns An object containing a user's data (name, image, etc.) or an empty object
+ */
 async function fetchUser() {
   let url = new URL("/api/user", location.origin);
   let data;
@@ -46,7 +49,6 @@ async function fetchUser() {
   } catch (e) {
     data = {};
   }
-
   return data;
 }
 
