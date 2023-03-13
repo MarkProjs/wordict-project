@@ -32,4 +32,17 @@ router.get("/dictionary", async (req, res) => {
   res.json(words);
 })
 
+/**
+ * Get API to retrieve User
+ */
+router.get("/user", async (req, res) => {
+  let user;
+  try {
+    user = await controllers.getUser();
+  } catch (error) {
+    user = {}
+  }
+  res.json(user);
+});
+
 export default router;
