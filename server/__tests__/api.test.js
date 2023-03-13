@@ -10,7 +10,8 @@ controllers.getDefinition = jest.fn((e) => {
     return {
       "word": "monkey",
       "definitions": [
-        "a small to medium-sized primate that typically has a long tail, most kinds of which live in trees in tropical countries."
+        "a small to medium-sized primate that typically has a long tail," +
+        " most kinds of which live in trees in tropical countries."
       ]
     }
   } else {
@@ -26,6 +27,16 @@ controllers.getAllWords = jest.fn((e) => {
     return { "words": words.filter(word => word.length == e) }
   } else {
     return { "words": words }
+  }
+})
+
+controllers.getUser = jest.fn(() => {
+  return {
+    "name": "MonkeyMan",
+    "image": "https://discovery.sndimg.com/content/dam/images/discovery/fullset/2021/4/30/" +
+      "GettyImages-1189192456.jpg.rend.hgtvcom.406.406.suffix/1619849704543.jpeg",
+    "favoriteWords": ["happy", "rooty", "earthworm"],
+    "elo": 100
   }
 })
 
@@ -61,3 +72,14 @@ describe('Test Dictionary GET API', () => {
   })
 });
 
+// tests for user get api
+describe('Test User GET API', () => {
+  // test for latest user
+  test('Test Retrieving latest user', async () => {
+    const response = await request(app).get('/api/user');
+    expect(response.body.name).toEqual("MonkeyMan");
+    expect(response.body.image).toContain("//");
+    expect(response.body.favoriteWords).toBeDefined();
+    expect(response.body.elo).toEqual(100);
+  })
+})

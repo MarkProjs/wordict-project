@@ -1,7 +1,7 @@
 # wordict
 
 ## Description
-Wordict is a hybrid dictonary and word game application accompanied by an API and a database
+Wordict is a hybrid dictionary and word game application accompanied by an API and a database
 
 Runs on Node.js
 
@@ -25,16 +25,21 @@ This app is currently a work in progress and more features are to be implemented
 ## Feature and Known Bugs
 
 ### Features
-- Simple game of wordle
+- Simple game of Wordle
 - Search page for word definitions
-- API to query our databse of words
+- API to query our database of words
 - Find words with specific length
+- Test coverage
+- Java population/seeding script
+- Multiplayer Wordle game using web sockets
+- Start sequence to the multiplayer Wordle game
+- Profile page view/edit with get api
+- Favorite words in profile leading to dictionary
+- Visual accessibility features for Wordle game
 
 ### Bugs/Issues
-- Any String of charecters is accepted by the game as a guess (doesn't check if it's a real word)
-- Lacking a display for the definition of a guessed word
-- Currently working with mock data
-- Tests use actual db instead of mocking it
+- Any String of characters is accepted by the game as a guess (doesn't check if it's a real word)
+- Profile editing shifts the entire screen when modifying the user name
 
 ## Authors and acknowledgment
 Nolan Ganz
