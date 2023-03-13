@@ -1,4 +1,4 @@
-main{
+main {
   display: flex;
   flex-direction: row;
   margin: 1rem 6%;
@@ -9,7 +9,7 @@ main{
   display: flex;
   flex-direction: column;
   width: 20%;
-  min-width: 15%;
+  min-width: 16rem;
   max-width: 18rem;
   height: 100%;
   padding-top: 1.5rem;
@@ -17,9 +17,15 @@ main{
   border: black 1px solid;
 }
 
+.name {
+  font-size: 1.5rem;
+}
+
 .left-section img {
-  width: 80%;
+  width: 100%;
   height: auto;
+  max-width: 16rem;
+  max-height: 16rem;
 }
 
 .right-section {
@@ -48,4 +54,65 @@ main{
   margin-top: 0.5rem;
   padding: 0.5rem;
   border: gray 1px solid;
+}
+
+.edit-container {
+  margin: auto;
+  display: flex;
+  flex-direction: row;
+}
+
+.form-section {
+  display: flex;
+  flex-direction: column;
+  margin-right: 10rem;
+}
+
+.form-section label {
+  margin-top: 0.5rem;
+}
+
+.form-buttons {
+  display: flex;
+  flex-direction: row;
+  margin-top: 2rem;
+}
+
+.form-buttons input, button {
+  width: fit-content;
+}
+
+.form-buttons button {
+  margin-left: 0.25rem;
+}
+
+.edit-form {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+  margin: auto;
+  margin-top: 1rem;
+}
+
+.edit-form input[type=text] {
+  width: 80%;
+  font-size: medium;
+}
+
+.picture-section {
+  display: flex;
+  flex-direction: column;
+}
+
+.preview-section article {
+  display: flex;
+  flex-direction: row;
+}
+
+.preview-section img {
+  width: 16rem;
+  height: auto;
+  max-height: 16rem;
+  padding-top: 1.5rem;
+  margin-right: 1rem;
 }

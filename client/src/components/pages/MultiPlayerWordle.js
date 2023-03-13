@@ -5,16 +5,19 @@ import validInputs from "../../controllers/ValidInput.json";
 import FetchModule from '../../controllers/FetchModule.js';
 import io from "socket.io-client";
 import "./MultiPlayerWordle.css"
+import GameSettings from '../Sockets/GameSettings.js';
 
 const WORDLE_PREFIX = "W-"
 
 function MultiPlayerWordle() {
 
   const socket = useRef();
-  const word = useRef("");
+  const [word, setWord] = useState("");
   const [opponentWord, setOpponentWord] = useState("");
   const [isConnected, setIsConnected] = useState(false);
-  const [gameStarted, setGameStarted] = useState(false);
+  const [isLobbyFull, setIsLobbyFull] = useState(false);
+  const [isWordSent, setIsWordSent] = useState(false);
+  const [isWordReceived, setIsWordReceived] = useState(false);
   const allWords = useRef([]);
 
   // Contains all of the functions subscribed to the key input event
@@ -50,22 +53,19 @@ function MultiPlayerWordle() {
     keyInputEvent.current.forEach(func => func(e, key => {
       // Sending the key in this object  is important because of how
       // it is expected to be when received
-      socket.current.emit("keypress", {key: key})
+      socket.current.emit("keypress", { key: key })
     }));
   }
 
   // Attempt to connect on click, also setup listeners on the socket
   function initialiseSocket(room) {
-    console.log(allWords.current);
-    let wordNum = Math.floor(Math.random() * allWords.current.length);
-    word.current = allWords.current[wordNum.valueOf()];
     // If a connection is open, close it
     if (socket.current) {
       socket.current.disconnect();
     }
 
     // Open a new connection
-    socket.current = io("", {query: {room: room}});
+    socket.current = io("", { query: { room: room } });
 
     // Upon receiving message, change the text area
     socket.current.on("keypress", (key) => {
@@ -83,8 +83,12 @@ function MultiPlayerWordle() {
     // Remove the text field if there is a disconnect
     socket.current.on("disconnect", () => {
       console.log("disconnect");
+
+      //TODO Turn this into a function for restarting game
       setIsConnected(false);
-      setGameStarted(false);
+      setIsLobbyFull(false);
+      setIsWordReceived(false);
+      setIsWordSent(false);
     });
 
     // Log the error if there is one
@@ -92,15 +96,27 @@ function MultiPlayerWordle() {
       console.log(error);
     });
 
+    // Set the lobby to full so the pregame setup can start
     socket.current.on("lobby-full", () => {
-      socket.current.emit("send-start-data", {word: word.current});
+      setIsLobbyFull(true);
     });
 
+    // Receive the player's word from the opponent
     socket.current.on("send-start-data", data => {
       console.log("data received");
-      setOpponentWord(data.word);
-      setGameStarted(true);
+      setWord(data.word);
+      setIsWordReceived(true);
     })
+  }
+
+  /**
+   * Send the opponent their word to guess
+   * @param {string} word The chosen opponent's word
+   */
+  function sendWord(word) {
+    socket.current.emit("send-start-data", {word: word});
+    setOpponentWord(word);
+    setIsWordSent(true);
   }
 
   useEffect(() => {
@@ -112,7 +128,50 @@ function MultiPlayerWordle() {
       }
       allWords.current = words;
     })();
+
+
+    // Disconnect from the socket when they leave the page.
+    return () => {
+      if (socket.current) {
+        socket.current.disconnect();
+      }
+    };
   }, []);
+
+  // The player and opponent wordle games
+  const gameBoard = <>
+    <div className="wordle-container" onKeyUp={(e) => handleKeyInput(e)} tabIndex={0}>
+      <div>
+        <p>You</p>
+        <Wordle
+          id={WORDLE_PREFIX + 0}
+          person="You"
+          attempts={word.length + 1}
+          word={word}
+          submitKey={validInputs.submitKey}
+          deleteKey={validInputs.deleteKey}
+          subToInputEvent={subToKeyInputEvent}
+          defaultValue={validInputs.empty}
+        />
+      </div>
+      <div>
+        <p>Your Opponent</p>
+        <Wordle
+          id={WORDLE_PREFIX + 1}
+          person="Your opponent"
+          attempts={opponentWord.length + 1}
+          word={opponentWord}
+          submitKey={validInputs.submitKey}
+          deleteKey={validInputs.deleteKey}
+          subToInputEvent={subToServerInputEvent}
+          defaultValue={validInputs.empty}
+        />
+      </div>
+    </div>
+  </>
+
+  // Game start condition
+  const isGameStarted = isWordSent && isWordReceived;
 
   return (
     <div>
@@ -120,41 +179,18 @@ function MultiPlayerWordle() {
         socket={socket}
         initialiseSocket={initialiseSocket}
       />
-      {console.log(gameStarted)}
       {
-        isConnected ? gameStarted ? <div>Game Has Started</div> :
-          <div>Waiting For Players</div> : <div>Connect To Start</div> 
+        isGameStarted && <div>Game Has Started</div>
+        || isWordSent && !isWordReceived && <div>Waiting For Opponent To Pick Your Word</div>
+        || isLobbyFull && <div>Choose Your Opponent&apos;s Word</div>
+        || isConnected && <div>Waiting For Players</div>
+        || <div>Connect To Start</div>
       }
-      {gameStarted ? <>
-        <div className="wordle-container" onKeyUp={(e) => handleKeyInput(e)} tabIndex={0}>
-          <div>
-            <p>You</p>
-            <Wordle 
-              id={WORDLE_PREFIX + 0}
-              person="You"
-              attempts={word.current.length + 1}
-              word={word.current}
-              submitKey={validInputs.submitKey}
-              deleteKey={validInputs.deleteKey}
-              subToInputEvent={subToKeyInputEvent}
-              defaultValue={validInputs.empty}
-            />
-          </div>
-          <div>
-            <p>Your Opponent</p>
-            <Wordle 
-              id={WORDLE_PREFIX + 1}
-              person="Your opponent"
-              attempts={word.current.length + 1}
-              word={opponentWord}
-              submitKey={validInputs.submitKey}
-              deleteKey={validInputs.deleteKey}
-              subToInputEvent={subToServerInputEvent}
-              defaultValue={validInputs.empty}
-            />
-          </div>
-        </div>
-      </> : <></>
+      {
+        isLobbyFull && !isWordSent && <GameSettings send={sendWord} allWords={allWords}/>
+      }
+      {
+        isGameStarted && gameBoard
       }
     </div>
   );
