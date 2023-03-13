@@ -33,7 +33,6 @@ This app is currently a work in progress and more features are to be implemented
 - Java population/seeding script
 - Multiplayer Wordle game using web sockets
 - Start sequence to the multiplayer Wordle game
-- About us page
 - Profile page view/edit with get api
 - Favorite words in profile leading to dictionary
 - Visual accessibility features for Wordle game
