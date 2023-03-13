@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import Wordle from '../Wordle/Wordle.js';
 import validInputs from "../../controllers/ValidInput.json";
+import FetchModule from '../../controllers/FetchModule.js';
 
 const WORDLE_PREFIX = "W-"
 
@@ -30,25 +31,11 @@ function SinglePlayerWordle() {
 
   useEffect(() => {
     (async () => {
-      let words;
-      let url = new URL(`/api/dictionary`, location.origin);
-      url.searchParams.set("length", "5");
-      try {
-        let response = await fetch(url);
-        if (response.ok) {
-          words = await response.json();
-          if (words.length === 0) {
-            throw new Error("No words found");
-          }
-        } else {
-          throw new Error("Couldn't get words");
-        }
-      } catch(e) {
+      let words = await FetchModule.fetchAllWords(5);
+      if (words.length === 0) {
         words = ["Human", "Water", "Saint", "Popes", "Eight", "People", "Caterpillar", "Pillar",
           "Twins", "Tower", "Police"];
-        console.error(e);
       }
-      
       let wordNum = Math.floor(Math.random() * words.length);
       setWord(words[wordNum.valueOf()]);
     })();
@@ -58,6 +45,7 @@ function SinglePlayerWordle() {
     <div className="wordle-container" onKeyUp={(e) => handleInput(e)} tabIndex={0}>
       <Wordle 
         id={WORDLE_PREFIX + 0}
+        person="You"
         attempts={word.length + 1}
         word={word}
         submitKey={validInputs.submitKey}

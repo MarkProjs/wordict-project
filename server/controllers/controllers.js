@@ -1,10 +1,10 @@
-import {Words} from "../db/db.js"
+import {Words, Users} from "../db/db.js"
 
 
 
 /**
  * @async
- * @param {Number} length the desired lenght for the random word
+ * @param {Number} length the desired length for the random word
  * @returns the random word
  */
 async function getRandomWord(length){
@@ -46,4 +46,13 @@ async function getAllWords(length){
   return returnObj;
 }
 
-export default {getRandomWord, getDefinition, getAllWords};
+/**
+ * @async
+ * @returns the user
+ */
+async function getUser(){
+  let result = await Users.getLatestUser();
+  return result;
+}
+
+export default {getRandomWord, getDefinition, getAllWords, getUser};

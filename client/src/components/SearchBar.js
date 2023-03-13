@@ -1,48 +1,60 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react';
+import { useLocation } from "react-router-dom";
+import FetchModule from '../controllers/FetchModule';
 
 function SearchBar() {
-
+  const [searchInput, setSearchInput] = useState("");
   const [searchResult, setSearchResult] = useState();
   const [words, setWords] = useState([]);
+  const locationData = useLocation();
 
-  // const [searchInput, setSearchInput] = useState("");
-  // const handleChange = (e) => {
-  //   e.preventDefault();
-  //   setSearchInput(e.target.value);
-  // };
+  // Search input field with default value attribute set to searchInput (favorite word / no word)
+  let searchInputField = <input
+    type="search"
+    name="word"
+    placeholder="Search here"
+    list="words"
+    defaultValue={searchInput}
+  />;
+
+  /**
+   * Search word definition via form submission using event
+   * @param {form} e 
+   */
+  async function searchWord(e) {
+    e.preventDefault()
+    await findWord(e.target.word.value);
+  }
 
   /**
    * Fetch word definition from api
-   * @param {form} e 
+   * @param {URL} url 
    */
-  async function findWord(e) {
-    e.preventDefault()
-    let url = new URL(`/api/${e.target.word.value.toLowerCase()}/definition`, location.origin)
-    let data;
-    try {
-      let response = await fetch(url)
-      data = await response.json()
-    } catch (e) {
-      data = { "word": "No results" }
+  async function findWord(word) {
+    let data = await FetchModule.fetchDefinition(word);
+    if (data === null) {
+      data = { "word": "No results" };
     }
-    setSearchResult(data)
+    setSearchResult(data);
   }
 
-  // fetch words via api
   useEffect(() => {
-    async function getData() {
-      let url = new URL(`/api/dictionary`, location.origin);
-      let data;
-      try {
-        let response = await fetch(url);
-        data = await response.json();
-      } catch (e) {
-        data = [];
-        console.error(e);
+    (async () => {
+      // Set the linked word from favorites as search input and searches definition
+      if (locationData.state !== null) {
+        let favoriteWord = locationData.state.word;
+        // Set searchInput which is used to set value in the search input field
+        setSearchInput(favoriteWord);
+        // Search word and display definition
+        await findWord(favoriteWord);
+        locationData.state.word = null;
+        window.history.replaceState({}, document.title)
       }
+
+      // Fetch all the words for the dataset
+      let data = await FetchModule.fetchAllWords();
       setWords(data);
-    }
-    getData();
+    })();
   }, []);
 
   const dataList = <datalist id="words">
@@ -53,15 +65,8 @@ function SearchBar() {
 
   return (
     <>
-      <form onSubmit={findWord}>
-        <input
-          type="search"
-          name="word"
-          placeholder="Search here"
-          list="words"
-        // onChange={handleChange}
-        // value={searchInput}
-        />
+      <form onSubmit={searchWord}>
+        {searchInputField}
         <input type="submit" value="Search" />
         {dataList}
       </form>

@@ -1,40 +1,85 @@
 import app from "../app.js";
 import request from "supertest";
-import { disconnect, connect } from "../db/db.js";
+import controllers from "../controllers/controllers.js";
+import { jest } from '@jest/globals';
+jest.mock('../controllers/controllers.js');
+
+// Mock Controllers
+controllers.getDefinition = jest.fn((e) => {
+  if (e === 'monkey') {
+    return {
+      "word": "monkey",
+      "definitions": [
+        "a small to medium-sized primate that typically has a long tail," +
+        " most kinds of which live in trees in tropical countries."
+      ]
+    }
+  } else {
+    return null
+  }
+})
+
+controllers.getAllWords = jest.fn((e) => {
+  const words = [
+    'limit', 'elite', 'exuberant', 'destruction', 'present', 'three'
+  ];
+  if (e) {
+    return { "words": words.filter(word => word.length == e) }
+  } else {
+    return { "words": words }
+  }
+})
+
+controllers.getUser = jest.fn(() => {
+  return {
+    "name": "MonkeyMan",
+    "image": "https://discovery.sndimg.com/content/dam/images/discovery/fullset/2021/4/30/" +
+      "GettyImages-1189192456.jpg.rend.hgtvcom.406.406.suffix/1619849704543.jpeg",
+    "favoriteWords": ["happy", "rooty", "earthworm"],
+    "elo": 100
+  }
+})
 
 // tests for definition get api
-describe('GET /api/three/definition', () => {
-  // success
-  test('/api/three/definition', async () => {
-    const response = await request(app).get('/api/three/definition');
-    expect(response.body.word).toEqual("three");
+describe('Test Definition GET API', () => {
+  // test for existing word
+  test('Test for existing word', async () => {
+    const response = await request(app).get('/api/monkey/definition');
+    expect(response.body.word).toEqual("monkey");
+    expect(response.body.definitions).toBeDefined()
   })
-  // fail
-  test('fail /api/three/definition', async () => {
-    const response = await request(app).get('/api/three/definition');
-    expect(response.body.word).not.toEqual("four");
+  // test for non existant word
+  test('Test for non existant word', async () => {
+    const response = await request(app).get('/api/asdasd/definition');
+    expect(response.body.word).not.toBeDefined();
+    expect(response.body.word).not.toEqual("monkey");
   })
 });
 
 // tests for dictionary get api
-describe('GET /api/dictionary', () => {
-  // success
-  test('/api/dictionary', async () => {
+describe('Test Dictionary GET API', () => {
+  // test for all words
+  test('Test Retrieving all words', async () => {
     const response = await request(app).get('/api/dictionary');
-    // this is using mock data and is subject to change
-    expect(response.body.includes("three")).toBe(true); 
+    expect(response.body).toContain("elite");
+    expect(response.body).not.toContain("daousbofia");
   })
-  // fail
-  test('fail /api/dictionary', async () => {
-    const response = await request(app).get('/api/dictionary');
-    expect(response.body.includes("daousbofia")).toBe(false);
+  // test for specific length
+  test('Test for retrieving all words of Specific length', async () => {
+    const response = await request(app).get('/api/dictionary?length=5');
+    expect(response.body).toContain("three");
+    expect(response.body).not.toContain("present");
   })
 });
 
-beforeAll(async () => {
-  await connect();
-});
-
-afterAll(async () => {
-  await disconnect();
-});
+// tests for user get api
+describe('Test User GET API', () => {
+  // test for latest user
+  test('Test Retrieving latest user', async () => {
+    const response = await request(app).get('/api/user');
+    expect(response.body.name).toEqual("MonkeyMan");
+    expect(response.body.image).toContain("//");
+    expect(response.body.favoriteWords).toBeDefined();
+    expect(response.body.elo).toEqual(100);
+  })
+})

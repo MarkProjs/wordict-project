@@ -1,7 +1,7 @@
 # wordict
 
 ## Description
-Wordict is a hybrid dictonary and word game application accompanied by an API and a database
+Wordict is a hybrid dictionary and word game application accompanied by an API and a database
 
 Runs on Node.js
 
@@ -9,7 +9,9 @@ Runs on Node.js
 
 1. Clone the repo from https://gitlab.com/dawson2223/620-w23/s01/TeamF/wordict.git
 
-1. Create .env with url to mongoBD named `ATLAS_URI`
+1. Create two .env files, one in the root directory and one in the `java/population_app` directory. Add url to mongoBD named `ATLAS_URI` to both.
+
+1. Add the absolute path to the `dictionary.csv` file to the root .env file as `SVG_PATH` (for java test you also need to add the absolute path to the `test.csv` file to the .env file in the `java/population_app` directory as `TEST_PATH`)
 
 1. Run java population script to populate DB
 
@@ -23,16 +25,21 @@ This app is currently a work in progress and more features are to be implemented
 ## Feature and Known Bugs
 
 ### Features
-- Simple game of wordle
+- Simple game of Wordle
 - Search page for word definitions
-- API to query our databse of words
+- API to query our database of words
 - Find words with specific length
+- Test coverage
+- Java population/seeding script
+- Multiplayer Wordle game using web sockets
+- Start sequence to the multiplayer Wordle game
+- Profile page view/edit with get api
+- Favorite words in profile leading to dictionary
+- Visual accessibility features for Wordle game
 
 ### Bugs/Issues
-- Any String of charecters is accepted by the game as a guess (doesn't check if it's a real word)
-- Lacking a display for the definition of a guessed word
-- Currently working with mock data
-- Tests use actual db instead of mocking it
+- Any String of characters is accepted by the game as a guess (doesn't check if it's a real word)
+- Profile editing shifts the entire screen when modifying the user name
 
 ## Authors and acknowledgment
 Nolan Ganz
