@@ -91,7 +91,7 @@ function Profile() {
   function updateProfile(e) {
     e.preventDefault();
     if (!(profileName === previousProfileName && profilePicture === previousProfilePicture)) {
-      console.log("changed");
+      console.log("changed"); 
       //TODO: update user in db using api
     }
     setIsViewMode(true);
