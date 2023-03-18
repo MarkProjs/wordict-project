@@ -55,4 +55,23 @@ async function getUser(){
   return result;
 }
 
-export default {getRandomWord, getDefinition, getAllWords, getUser};
+/**
+ * to be tested
+ * @async
+ * @param {String} email 
+ * @param {String} name 
+ * @param {String} picture 
+ */
+async function updateUser(email, name, picture){
+  const doc = await CharacterModel.findOneAndUpdate(
+    { email: email },
+    { name: name },
+    { picture: picture},
+    // If `new` isn't true, `findOneAndUpdate()` will return the
+    // document as it was _before_ it was updated.
+    { new: false }
+  );
+  console.log(doc.name);
+}
+
+export default {getRandomWord, getDefinition, getAllWords, getUser, updateUser};

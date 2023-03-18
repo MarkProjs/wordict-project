@@ -16,13 +16,17 @@ function logger(req, res, next) {
     const row = `${method}, ${originalUrl}, ${duration} \n`;
     const title = `Method, URL, Duration(ms) \n`;
     fs.appendFile('log.csv', row, (err) => {
-      if (err) console.error(err);
+      if (err) {
+        console.error(err);
+      }
     });
 
     //check if the file exists and add title if not
     if (!fs.existsSync('log.csv')) {
       fs.writeFile('log.csv', title, (err) => {
-        if (err) console.error(err);
+        if (err) {
+          console.error(err);
+        }
       });
     }
   });

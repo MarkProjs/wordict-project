@@ -61,7 +61,7 @@ function Profile() {
     <div className="edit-container">
       <section className="form-section">
         <h2>Edit Profile</h2>
-        <form onSubmit={updateProfile} className="edit-form">
+        <form onSubmit={(e) => updateProfile(e)} className="edit-form">
           <label>Name: </label>
           <input id="username" type="text" name="username" defaultValue={profileName}
             // allow real time name change preview
@@ -73,8 +73,8 @@ function Profile() {
             onChange={(e) => setProfilePicture(window.URL.createObjectURL(e.target.files[0]))} />
           <br />
           <div className="form-buttons">
-            <input type="submit" value="Save" />
-            <button onClick={() => {
+            <button type="submit">Save</button>
+            <button type="button" onClick={() => {
               // reset profile name using previous
               setProfileName(previousProfileName);
               // reset profile picture using previous
@@ -88,8 +88,12 @@ function Profile() {
       {profileEditPreview}
     </div>;
 
-  function updateProfile() {
-    //TODO: update user in db using api
+  function updateProfile(e) {
+    e.preventDefault();
+    if (!(profileName === previousProfileName && profilePicture === previousProfilePicture)) {
+      console.log("changed");
+      //TODO: update user in db using api
+    }
     setIsViewMode(true);
   }
 
