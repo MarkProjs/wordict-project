@@ -1,4 +1,4 @@
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import SocketContext from "./SocketContext";
 import io from "socket.io-client";
@@ -10,12 +10,19 @@ function SocketForm() {
   const socketContext = useContext(SocketContext);
   const navigate = useNavigate();
 
-  // Attempt to connect on click, also setup listeners on the socket
-  function initialiseSocket(room) {
-    // If a connection is open, close it
+  /**
+   * If the socket is connected, disconnect it
+   */
+  function tryDisconnect() {
     if (socketContext.socket.current) {
       socketContext.socket.current.disconnect();
     }
+  }
+
+  // Attempt to connect on click, also setup listeners on the socket
+  function initialiseSocket(room) {
+    // If a connection is open, close it
+    tryDisconnect();
 
     // Open a new connection
     socketContext.socket.current = io("", { query: { room: room } });
@@ -57,6 +64,10 @@ function SocketForm() {
     e.preventDefault();
     initialiseSocket(e.target.room.value);
   }
+
+  useEffect(() => {
+    tryDisconnect();
+  }, []);
 
   return (
     <>
