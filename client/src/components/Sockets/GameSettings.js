@@ -58,14 +58,20 @@ function GameSettings(props) {
   }
 
   useEffect(() => {
-    //Don't want to double up on the listeners
-    socketContext.socket.current.off("send-start-data");
-    // Receive the player's word from the opponent
-    socketContext.socket.current.on("send-start-data", data => {
-      console.log("data received");
-      ownWord.current = data.word;
-      setIsWordReceived(true);
-    })
+
+    props.sendToStart(socketContext.socket);
+
+    if (socketContext.socket.current && socketContext.socket.current.connected) {
+      //Don't want to double up on the listeners
+      socketContext.socket.current.off("send-start-data");
+      // Receive the player's word from the opponent
+      socketContext.socket.current.on("send-start-data", data => {
+        console.log("data received");
+        ownWord.current = data.word;
+        setIsWordReceived(true);
+      })
+    }
+    
   }, []);
 
   useEffect(() => {
@@ -74,7 +80,7 @@ function GameSettings(props) {
         replace: true, 
         state: {
           ownWord: ownWord.current, 
-          opponentWord: opponentWord
+          opponentWord: opponentWord,
         }
       })
     }

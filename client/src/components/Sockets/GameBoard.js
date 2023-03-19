@@ -6,7 +6,7 @@ import SocketContext from './SocketContext.js';
 
 const WORDLE_PREFIX = "W-"
 
-function GameBoard() {
+function GameBoard(props) {
 
   const location = useLocation();
   const word = location.state.ownWord;
@@ -51,14 +51,19 @@ function GameBoard() {
   }
 
   useEffect(() => {
-    //Don't want to double up on the listeners
-    socketContext.socket.current.off("keypress");
-    // Upon receiving message, change the text area
-    socketContext.socket.current.on("keypress", (key) => {
-      console.log("Got Keypress");
-      console.log(key);
-      serverInputEvent.current.forEach(func => func(key));
-    });
+
+    props.sendToStart(socketContext.socket);
+
+    if (socketContext.socket.current && socketContext.socket.current.connected) {
+      //Don't want to double up on the listeners
+      socketContext.socket.current.off("keypress");
+      // Upon receiving message, change the text area
+      socketContext.socket.current.on("keypress", (key) => {
+        console.log("Got Keypress");
+        console.log(key);
+        serverInputEvent.current.forEach(func => func(key));
+      });
+    }
   }, []);
 
   return (
