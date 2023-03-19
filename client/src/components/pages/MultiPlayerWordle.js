@@ -16,12 +16,12 @@ function MultiPlayerWordle() {
   const location = useLocation();
 
   /**
-   * if the stay condition is not met, redirect back to the wordle online page
-   * @param {boolean} shouldStay Whether or not the page should redirect back to the start
+   * If they are not connected, send them back to the start
+   * @param {Ref} socket the socket of the game
    */
-  function sendToStart(shouldStay) {
-    if (!shouldStay) {
-      navigate("/wordle-online");
+  function sendToStart(socket) {
+    if (!socket.current || !socket.current.connected) {
+      navigate("/wordle-online", {replace: true});
     }
   }
 
