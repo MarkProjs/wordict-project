@@ -53,13 +53,13 @@ function checkSubmission(submission, word) {
       let nextOccurence = wordArray.indexOf(letter);
 
       if (nextOccurence === -1) {
-        
+
         result.push(WRONG);
 
       } else if (submissionArray[nextOccurence.valueOf()] !== letter) {
-        
+
         result.push(HALF_RIGHT);
-        
+
         // Consume the letter in the correct word array so you get
         // the correct amount of half right letters
         wordArray[nextOccurence.valueOf()] = "";
@@ -74,4 +74,19 @@ function checkSubmission(submission, word) {
   return result;
 }
 
-export {validateInput, checkSubmission, RIGHT, HALF_RIGHT, WRONG};
+/**
+ * Calculates the elo received after the game
+ * @param {String} word Represents the word that the user is trying to guess
+ * @param {int} attempts Represents the number of attempts it took for the user to guess the word
+ * @param {Boolean} gameWon Represents if the game is won or not
+ */
+function calculateElo(word, attempts, gameWon) {
+  if (gameWon) {
+    let defaultScore = 100
+    return defaultScore * (word.length / 5) ** 1.5 / attempts
+  } else {
+    return -20
+  }
+}
+
+export { validateInput, checkSubmission, RIGHT, HALF_RIGHT, WRONG, calculateElo };
