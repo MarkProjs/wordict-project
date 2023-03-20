@@ -5,3 +5,9 @@ GET, /api/abashing/definition, 73
 GET, /api/dictionary, 2819 
 GET, /api/dictionary, 2837 
 GET, /api/abbey/definition, 74 
+GET, /api/dictionary?length=5, 468 
+GET, /api//definition, 5 
+GET, /api/dictionary?length=5, 375 
+GET, /api/kerse/definition, 81 
+GET, /api/dictionary, 4701 
+GET, /api/dictionary?length=5, 467 
