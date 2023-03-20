@@ -31,6 +31,13 @@ const wordSchema = new mongoose.Schema({
   }
 });
 
+const userSchema = new mongoose.Schema({
+  name: String,
+  image: String,
+  favoriteWords: [{ type: String }],
+  elo: Number
+});
+
 /**
  * @async
  * @param {Number} randValue random number of documents to skip
@@ -54,7 +61,17 @@ wordSchema.pre('save', function (next) {
   next();
 });
 
+/**
+ * Temporary function just to test with profile page
+ * @async
+ * @returns the latest user
+ */
+userSchema.statics.getLatestUser = async function (){
+  return await Users.find().sort({_id:-1}).limit(1).exec();
+};
+
 const Words = mongoose.model('WordsV3', wordSchema);
+const Users = mongoose.model('Users', userSchema);
 console.log("Schemas made");
 console.log("Connect to DB to interact")
 
@@ -86,11 +103,9 @@ async function disconnect(){
 //await test()
 // eslint-disable-next-line no-unused-vars
 async function test(){
-//   Words.deleteMany();
-
-
+  await Words.deleteMany({});
   const newWord = new Words({
-    word: "satan",
+    word: "three",
     definitions: [
       {
         type: "n.",
@@ -105,7 +120,7 @@ async function test(){
   await newWord.save();
 
 
-  console.log(await Words.getOnlyWordFields());
+  //console.log(await Words.getOnlyWordFields());
   console.log("Saved");
 
   await mongoose.disconnect();
@@ -114,5 +129,5 @@ async function test(){
 // END TEST
 
 export {
-  disconnect, connect, Words
+  disconnect, connect, Words, Users
 };

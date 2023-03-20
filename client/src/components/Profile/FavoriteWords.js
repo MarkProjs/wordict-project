@@ -4,7 +4,7 @@ function FavoriteWords() {
   const mockData = [{ word: 'happy' }, { word: 'rooty' }, { word: 'earthworm' }];
   // might need props to receive favorite words, or fetch from db here
   return (
-    <section className="favorites">
+    <article className="favorites">
       <h2>Favorite Words</h2>
       <ul>
         {mockData.map((item, key) =>
@@ -12,7 +12,7 @@ function FavoriteWords() {
             <Link to="/dict" state={{ word: item.word }}>{item.word}</Link>
           </li>)}
       </ul>
-    </section>
+    </article>
   );
 }
 
