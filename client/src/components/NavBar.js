@@ -25,9 +25,6 @@ function NavBar() {
             About Us
           </NavLink>
         </div>
-        <nav className='NavBtn'>
-          <NavLink to="/signIn" className='NavBtnLink'>Sign in</NavLink>
-        </nav>
       </nav>
     </>
   );
