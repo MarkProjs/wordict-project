@@ -1,18 +1,14 @@
 import { useEffect, useState } from 'react';
 import './Leaderboard.css';
+import FetchModule from '../../controllers/FetchModule';
+
 
 function Leaderboard() {
   const [playerList, setPlayerList] = useState([])
 
-  async function fetchPlayers() {
-    // Mock data
-    let data = [{ name: "Jacky", elo: 420 }, { name: "Jeremy", elo: 69 }]
-    return data
-  }
-
   useEffect(() => {
     (async () => {
-      let data = await fetchPlayers();
+      let data = await FetchModule.fetchAllUsers();
 
       setPlayerList(data);
     })();

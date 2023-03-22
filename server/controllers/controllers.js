@@ -65,4 +65,4 @@ async function getAllUsers(){
   return result;
 }
 
-export default {getRandomWord, getDefinition, getAllWords, getUser};
+export default {getRandomWord, getDefinition, getAllWords, getUser, getAllUsers};

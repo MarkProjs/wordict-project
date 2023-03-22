@@ -52,8 +52,21 @@ async function fetchUser() {
   return data;
 }
 
+async function fetchAllUsers() {
+  let url = new URL("/api/all-users", location.origin);
+  let data;
+  try {
+    let response = await fetch(url);
+    data = await response.json();
+  } catch (e) {
+    data = [];
+  }
+  return data;
+}
+
 export default {
   fetchDefinition,
   fetchAllWords,
   fetchUser,
+  fetchAllUsers,
 }

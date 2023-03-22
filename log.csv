@@ -29,3 +29,6 @@ GET, /api/dictionary?length=5, 1243
 GET, /api/user, 109 
 GET, /api/dictionary, 3021 
 GET, /api/satan/definition, 192 
+GET, /api/all-users, 82 
+GET, /api/all-users, 78 
+GET, /api/all-users, 78 

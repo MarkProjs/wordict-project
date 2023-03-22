@@ -83,9 +83,9 @@ router.get("/user", async (req, res) => {
 router.get("/all-users", async (req, res) => {
   let users;
   try {
-
+    users = await controllers.getAllUsers();
   } catch (error) {
-    users = {}
+    users = []
   }
   res.json(users);
 })
