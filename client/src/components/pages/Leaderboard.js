@@ -1,6 +1,23 @@
+import { useEffect, useState } from 'react';
 import './Leaderboard.css';
 
 function Leaderboard() {
+  const [playerList, setPlayerList] = useState([])
+
+  async function fetchPlayers() {
+    // Mock data
+    let data = [{ name: "Jacky", elo: 420 }, { name: "Jeremy", elo: 69 }]
+    return data
+  }
+
+  useEffect(() => {
+    (async () => {
+      let data = await fetchPlayers();
+
+      setPlayerList(data);
+    })();
+  }, []);
+
   return <>
     <h1>Leaderboard</h1>
     <table>
@@ -9,11 +26,13 @@ function Leaderboard() {
         <th>Player</th>
         <th>Points</th>
       </tr>
-      <tr>
-        <td>1</td>
-        <td>Your mom</td>
-        <td>420</td>
-      </tr>
+      {playerList.map((player, index) =>
+        <tr key={index}>
+          <td>{index + 1}</td>
+          <td>{player.name}</td>
+          <td>{player.elo}</td>
+        </tr>
+      )}
     </table>
   </>
 }
