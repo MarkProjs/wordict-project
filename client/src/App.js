@@ -67,7 +67,7 @@ function App() {
               }}
             /> }
             {userName && <button onClick={handleLogout}>Logout</button>}
-            {/* <button onClick={protectedRoute}>Test protected</button> */}
+            <button onClick={protectedRoute}>Test protected</button>
           </GoogleOAuthProvider>
         </div>
       </div>
