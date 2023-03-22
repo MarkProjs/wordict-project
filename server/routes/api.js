@@ -83,7 +83,7 @@ router.get("/user", async (req, res) => {
 
 router.post("/profileUpdate", async (req, res) => {
   // const file = req.files.file;
-  console.log(req);
+  console.log(req.body);
   const email = req.body.email;
   const name = req.body.username;
   if(!email || !name){
