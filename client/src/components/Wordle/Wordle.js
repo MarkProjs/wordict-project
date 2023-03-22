@@ -1,6 +1,6 @@
 import WordRow from "./WordRow.js";
 import * as GameLogic from "../../controllers/GameLogic.js";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import "./Wordle.css"
 import Popup from "./Popup.js";
 
@@ -14,6 +14,8 @@ function Wordle(props) {
 
   // Contains all of the functions subscribed to the style event
   const styleEvent = new Map();
+
+  const [attempts, setAttempts] = useState()
 
   let currentRow = 0;
 
@@ -62,11 +64,11 @@ function Wordle(props) {
     let key = e.key.toLocaleUpperCase();
     //validate key
     if (GameLogic.validateInput(key) && !gameDone) {
-      
+
       // Only submit if their entire word is filled 
       // TODO add check if it is a valid word
       if (
-        key === props.submitKey 
+        key === props.submitKey
         && letters.every(letter => letter !== props.defaultValue)
       ) {
         // Get the result array to determine which letters are correct
@@ -84,7 +86,8 @@ function Wordle(props) {
         }
 
         if (gameDone) {
-          gameStateEvent.forEach(func => func({done: gameDone, win: gameWon}));
+          gameStateEvent.forEach(func => func({ done: gameDone, win: gameWon }));
+          setAttempts(currentRow);
         }
 
         //clear the current word that is being written
@@ -95,7 +98,7 @@ function Wordle(props) {
 
         // Trigger the key event for the current row
         keyEvent.get(ROW_PREFIX + currentRow)(key);
-        
+
       }
       // If the key should be sent somewhere else send it here
       send?.call(undefined, key);
@@ -107,21 +110,22 @@ function Wordle(props) {
     // Get keyboard input from the parent component
     props.subToInputEvent(props.id, handleInput);
   });
-  
+
 
   return (
     <section className="wordle">
-      <Popup 
+      <Popup
         person={props.person}
         word={props.word}
         id={POP_PREFIX + 0}
+        attempts={attempts}
         subToGameStateEvent={subToGameStateEvent}
       />
       {letters.map((elem, index) => {
-        return <WordRow 
-          key={index} 
+        return <WordRow
+          key={index}
           id={ROW_PREFIX + index}
-          wordLength={props.word.length} 
+          wordLength={props.word.length}
           subToKeyEvent={subToKeyEvent}
           subToStyleEvent={subToStyleEvent}
           letters={letters}
