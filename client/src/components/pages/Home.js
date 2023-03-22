@@ -11,8 +11,7 @@ function Home() {
         <li>Play <a href="/wordle">Wordle</a>!</li>
         <li>Test your skills against another player in <a href="">Wordle Online</a>!</li>
         <li>Check your ranking in <a href="">Leaderboard</a>!</li>
-        <li><a href="">Sign up</a></li>
-        <li><a href="">About Us</a></li>
+        <li><a href="/about">About Us</a></li>
       </ul>
     </>
   );
