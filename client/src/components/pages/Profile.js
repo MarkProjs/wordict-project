@@ -98,7 +98,8 @@ function Profile() {
       formData.append('name', profileName);
       // let data = new URLSearchParams(formData);
       
-      await FetchModule.updateUser(formData);
+      let data = {email: 'monkey@gmail.com', name: profileName}
+      await FetchModule.updateUser(JSON.stringify(data));
       
     }
     setIsViewMode(true);

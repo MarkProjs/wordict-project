@@ -57,14 +57,15 @@ async function fetchUser() {
  * @param {*} data 
  */
 async function updateUser(data) {
-  for (let obj of data) {
-    console.log(obj);
-  }
+  // for (let obj of data) {
+  //   console.log(obj);
+  // }
   let url = new URL("/api/profileUpdate", location.origin);
   await fetch(url, {
     method: 'POST',
-    // body: data,
-    body: {email: 'monkey@gmail.com', name: 'monkey'},
+    headers: {'Content-Type': 'application/json'},
+    body: data,
+    // body: {email: 'monkey@gmail.com', name: 'monkey'},
   });
 }
 
