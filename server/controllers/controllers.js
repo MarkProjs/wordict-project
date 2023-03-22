@@ -55,4 +55,14 @@ async function getUser(){
   return result;
 }
 
+/**
+ * Get all users
+ * @async
+ * @returns all users sorted by Elo
+ */
+async function getAllUsers(){
+  let result = await Users.getAllUsers();
+  return result;
+}
+
 export default {getRandomWord, getDefinition, getAllWords, getUser};

@@ -77,4 +77,17 @@ router.get("/user", async (req, res) => {
   res.json(user);
 });
 
+/**
+ * Get API to retrieve all Users
+ */
+router.get("/all-users", async (req, res) => {
+  let users;
+  try {
+
+  } catch (error) {
+    users = {}
+  }
+  res.json(users);
+})
+
 export default router;
