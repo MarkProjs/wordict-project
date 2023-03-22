@@ -7,8 +7,9 @@ import SinglePlayerWordle from "./pages/SinglePlayerWordle.js";
 import MultiPlayerWordle from "./pages/MultiPlayerWordle.js";
 import AboutUs from './pages/AboutUs.js';
 import Profile from "./pages/Profile.js";
+import LogIn from './pages/LogIn.js';
 
-function Nav() {
+function Nav(props) {
   return(
     <>
       <Router>

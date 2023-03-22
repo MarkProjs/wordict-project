@@ -69,7 +69,9 @@ function App() {
           <button onClick={protectedRoute}>Test protected</button>
         </div>
       </div>
-      <Nav/>
+      <Nav 
+        userName = {userName}
+      />
     </div>
   );
 }
