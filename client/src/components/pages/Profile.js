@@ -61,7 +61,7 @@ function Profile() {
     <div className="edit-container">
       <section className="form-section">
         <h2>Edit Profile</h2>
-        <form onSubmit={(e) => updateProfile(e)} className="edit-form">
+        <form onSubmit={async (e) => await updateProfile(e)} className="edit-form">
           <label>Name: </label>
           <input id="username" type="text" name="username" defaultValue={profileName}
             // allow real time name change preview
@@ -88,11 +88,18 @@ function Profile() {
       {profileEditPreview}
     </div>;
 
-  function updateProfile(e) {
+  async function updateProfile(e) {
     e.preventDefault();
-    if (!(profileName === previousProfileName && profilePicture === previousProfilePicture)) {
-      console.log("changed"); 
+    if (profileName !== previousProfileName || profilePicture !== previousProfilePicture) {
+      console.log("changed");
       //TODO: update user in db using api
+      let formData = new FormData();
+      formData.append('email', "monkey@gmail.com");
+      formData.append('name', profileName);
+      // let data = new URLSearchParams(formData);
+      
+      await FetchModule.updateUser(formData);
+      
     }
     setIsViewMode(true);
   }

@@ -81,4 +81,23 @@ router.get("/user", async (req, res) => {
   res.json(user);
 });
 
+router.post("/profileUpdate", async (req, res) => {
+  // const file = req.files.file;
+  console.log(req);
+  const email = req.body.email;
+  const name = req.body.username;
+  if(!email || !name){
+    res.sendStatus(400).end();
+  }else {
+    try{
+      await controllers.updateUser(email, name);
+      res.sendStatus(200).end();
+    }catch(e){
+      console.error(e);
+      res.sendStatus(500).end();
+    }
+  }
+  // return res.json({success: true});
+})
+
 export default router;

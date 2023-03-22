@@ -32,6 +32,7 @@ const wordSchema = new mongoose.Schema({
 });
 
 const userSchema = new mongoose.Schema({
+  email: String,
   name: String,
   image: String,
   favoriteWords: [{ type: String }],

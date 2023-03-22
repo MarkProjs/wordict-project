@@ -62,11 +62,11 @@ async function getUser(){
  * @param {String} name 
  * @param {String} picture 
  */
-async function updateUser(email, name, picture){
-  const doc = await CharacterModel.findOneAndUpdate(
+async function updateUser(email, name){
+  const doc = await Users.findOneAndUpdate(
     { email: email },
     { name: name },
-    { picture: picture},
+    // { picture: picture},
     // If `new` isn't true, `findOneAndUpdate()` will return the
     // document as it was _before_ it was updated.
     { new: false }

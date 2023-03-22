@@ -52,8 +52,22 @@ async function fetchUser() {
   return data;
 }
 
+async function updateUser(data) {
+  for (let obj of data) {
+    console.log(obj);
+  }
+  let url = new URL("/api/profileUpdate", location.origin);
+  await fetch(url, {
+    method: 'POST',
+    body: {email: 'monkey@gmail.com', name: 'monkey'},
+  });
+  // let res = await fetch(url);
+  // console.log(await res.json());
+}
+
 export default {
   fetchDefinition,
   fetchAllWords,
   fetchUser,
+  updateUser,
 }
