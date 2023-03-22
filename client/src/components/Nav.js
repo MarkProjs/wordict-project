@@ -17,7 +17,7 @@ function Nav() {
           <Route path="/" exact element={<Home/>} />
           <Route path="/dict" exact element={<Dict/>} />
           <Route path="/wordle" exact element={<SinglePlayerWordle/>} />
-          <Route path="/wordle-online" exact element={<MultiPlayerWordle/>} />
+          <Route path="/wordle-online/*" exact element={<MultiPlayerWordle/>}/>
           <Route path="/about" exact element={<AboutUs/>} />
           <Route path="/profile" exact element={<Profile/>} />
           <Route path="/*" exact element= {<Error/>}/>

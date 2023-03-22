@@ -6,6 +6,7 @@
   position: absolute;
   color: white;
   overflow: hidden auto;
+  z-index: 1;
 }
 
 .popup::-webkit-scrollbar {
