@@ -52,6 +52,10 @@ async function fetchUser() {
   return data;
 }
 
+/**
+ * Get all users from api
+ * @returns Array containing all users
+ */
 async function fetchAllUsers() {
   let url = new URL("/api/all-users", location.origin);
   let data;
