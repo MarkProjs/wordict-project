@@ -1,6 +1,6 @@
 function AboutUs() {
   return(
-    <div>
+    <main>
       <h1>Team Missing One</h1>
       <p>Welcome to WorDict! Missing One is a team of Dawson College students 
          who tries to make a dictionary website more engaging and more fun.
@@ -13,7 +13,7 @@ function AboutUs() {
          personal growth. We understand that learning a language or expanding 
          vocabulary can be challenging hence we strive to make the process as
          easy and enjoyable as possible.</p>
-    </div>
+    </main>
   );
 }
 
