@@ -81,6 +81,9 @@ router.get("/user", async (req, res) => {
   res.json(user);
 });
 
+/**
+ * Post API to update User
+ */
 router.post("/profileUpdate", async (req, res) => {
   // const file = req.files.file;
   console.log(req.body);
@@ -97,7 +100,6 @@ router.post("/profileUpdate", async (req, res) => {
       res.sendStatus(500).end();
     }
   }
-  // return res.json({success: true});
-})
+});
 
 export default router;

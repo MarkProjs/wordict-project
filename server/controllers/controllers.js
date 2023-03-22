@@ -63,6 +63,7 @@ async function getUser(){
  * @param {String} picture 
  */
 async function updateUser(email, name){
+  console.log("in controller updateUser method!!");
   const doc = await Users.findOneAndUpdate(
     { email: email },
     { name: name },

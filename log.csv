@@ -92,3 +92,6 @@ GET, /api/flapdragon/definition, 82
 GET, /api/dictionary, 88 
 GET, /api/user, 87 
 GET, /api/dictionary, 76 
+GET, /api/dictionary, 3394 
+GET, /api/dictionary, 3196 
+GET, /api/user, 89 

@@ -52,6 +52,10 @@ async function fetchUser() {
   return data;
 }
 
+/**
+ * Update a user using api
+ * @param {*} data 
+ */
 async function updateUser(data) {
   for (let obj of data) {
     console.log(obj);
@@ -59,10 +63,9 @@ async function updateUser(data) {
   let url = new URL("/api/profileUpdate", location.origin);
   await fetch(url, {
     method: 'POST',
+    // body: data,
     body: {email: 'monkey@gmail.com', name: 'monkey'},
   });
-  // let res = await fetch(url);
-  // console.log(await res.json());
 }
 
 export default {
