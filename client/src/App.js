@@ -5,7 +5,7 @@ import { useState } from 'react';
 
 function App() {
   const [userName, setUserName] = useState("");
-  // const [userEmail, setUserEmail] = useState("");
+  const [userEmail, setUserEmail] = useState("");
   const [userPic, setUserPic] = useState("/img/default.jpg");
   
 
