@@ -61,7 +61,7 @@ async function updateUser(data) {
   await fetch(url, {
     method: 'POST',
     headers: {'Content-Type': 'application/json'},
-    body: data,
+    body: JSON.stringify(data),
   });
 }
 
