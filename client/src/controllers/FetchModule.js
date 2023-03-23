@@ -68,6 +68,15 @@ async function fetchAllUsers() {
   return data;
 }
 
+async function fetchPostElo(data){
+  let url = new URL("/api/user-elo", location.origin);
+  await fetch(url, {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: data,
+  });
+}
+
 export default {
   fetchDefinition,
   fetchAllWords,

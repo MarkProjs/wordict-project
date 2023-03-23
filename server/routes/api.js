@@ -94,7 +94,15 @@ router.get("/all-users", async (req, res) => {
  * POST API to update user elo
  */
 router.post("/user-elo", async (req, res) => {
-
+  const name = req.body.name
+  const elo = req.body.elo
+  try {
+    await controllers.postUserElo(name, elo);
+    res.sendStatus(200).end();
+  } catch (e) {
+    console.error(e);
+    res.sendStatus(500).end();
+  }
 })
 
 export default router;

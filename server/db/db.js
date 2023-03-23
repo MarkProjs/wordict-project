@@ -2,7 +2,7 @@ import dotenv from "dotenv";
 import mongoose from "mongoose";
 dotenv.config();
 //supresses warning
-mongoose.set('strictQuery', true); 
+mongoose.set('strictQuery', true);
 
 
 const dbUrl = process.env.ATLAS_URI;
@@ -44,7 +44,7 @@ const userSchema = new mongoose.Schema({
  * @param {Object} query query object of the form {field: value}
  * @returns a word that matches the query, selected based on the randomValue
  */
-wordSchema.statics.getRandomUsingVal = async function(randValue, query = {}){
+wordSchema.statics.getRandomUsingVal = async function (randValue, query = {}) {
   return await Words.findOne(query).skip(randValue).exec();
 }
 
@@ -52,7 +52,7 @@ wordSchema.statics.getRandomUsingVal = async function(randValue, query = {}){
  * @async
  * @returns {Array} and array with all the words represented in the form {word: word};
  */
-wordSchema.statics.getOnlyWordFields =  async function(query = {}){
+wordSchema.statics.getOnlyWordFields = async function (query = {}) {
   return await Words.find(query).select('word -_id').exec();
 }
 
@@ -66,8 +66,8 @@ wordSchema.pre('save', function (next) {
  * @async
  * @returns the latest user
  */
-userSchema.statics.getLatestUser = async function (){
-  return await Users.find().sort({_id:-1}).limit(1).exec();
+userSchema.statics.getLatestUser = async function () {
+  return await Users.find().sort({ _id: -1 }).limit(1).exec();
 };
 
 /**
@@ -82,8 +82,11 @@ userSchema.statics.getAllUsers = async function () {
  * @param {String} name 
  * @param {Int} elo 
  */
-userSchema.statics.updateUserElo = async function(name, elo) {
-  const res = await Users.updateOne({name: name},{elo: elo})
+userSchema.statics.updateUserElo = async function (name, elo) {
+  const res = await Users.updateOne(
+    { name: name },
+    { $inc: { elo: elo } }
+  )
   console.log(res.acknowledged)
 }
 
@@ -100,7 +103,7 @@ process.on("SIGINT", async () => {
 
 
 
-async function connect(){
+async function connect() {
   await mongoose.connect(dbUrl);
   console.log("Connected to database");
   console.log("Ready to interact with DB");
@@ -110,7 +113,7 @@ async function connect(){
  * @void
  * @async
  */
-async function disconnect(){
+async function disconnect() {
   await mongoose.disconnect();
   console.log("Disconnected from Database.");
 }
@@ -119,7 +122,7 @@ async function disconnect(){
 
 //await test()
 // eslint-disable-next-line no-unused-vars
-async function test(){
+async function test() {
   await Words.deleteMany({});
   const newWord = new Words({
     word: "three",
