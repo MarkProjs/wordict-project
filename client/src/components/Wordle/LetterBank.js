@@ -2,23 +2,33 @@ import { useEffect, useState } from "react";
 import ValidInput from "../../controllers/ValidInput.json";
 
 function LetterBank(props) {
-  
-  const [letters, setLetters] = useState( 
-    ValidInput.validInput.filter(l => l !== ValidInput.deleteKey && l !== ValidInput.submitKey)
-  );
+
+  const [letters, setLetters] = useState([]);
 
   /**
-   * 
-   * @param {Array} guessedLetters 
+   * Remove the displayed words from the filtered words.
+   * @param {Array} guessedLetters letters that have been guessed by the user
    */
   function filterGuessedLetters(guessedLetters) {
-    
-    setLetters(letters.filter(letter => !guessedLetters.includes(letter)));
+    setLetters(letters => letters.filter(letter => !guessedLetters.includes(letter)));
+  }
+
+  /**
+   * Take valid input and remove action keys from it
+   * @returns an array of letters that can be guessed
+   */
+  function getDefaultLetters() {
+    return ValidInput.validInput.filter(l => {
+      return l !== ValidInput.deleteKey && l !== ValidInput.submitKey
+    });
   }
 
   useEffect(() => {
+    // Set the letters to the default upon rerender from parent (reset)
+    setLetters(getDefaultLetters);
+    // Sub to the guess event
     props.subToGuessEvent(props.id, filterGuessedLetters);
-  });
+  }, [props]);
 
   return (
     <p>
