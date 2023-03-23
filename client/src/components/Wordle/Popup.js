@@ -7,9 +7,9 @@ function Popup(props) {
   const [elo, setElo] = useState();
   const [gameState, setGameState] = useState({});
   const [definitions, setDefinitions] = useState([]);
-  
+
   useEffect(() => {
-    setGameState({done: false, win: false, attempts: 1});
+    setGameState({ done: false, win: false, attempts: 1 });
     // Subscribe to the parent events
     props.subToGameStateEvent(props.id, setGameState);
   }, [props]);
@@ -25,9 +25,21 @@ function Popup(props) {
   }, [props.word]);
 
   useEffect(() => {
-    // Calculate Elo
-    setElo(calculateElo(props.word, gameState.attempts, gameState.win))
-  })
+    if (gameState.done) {
+      // Calculate Elo
+      setElo(calculateElo(props.word, gameState.attempts, gameState.win));
+    }
+  });
+
+  useEffect(() => {
+    if (gameState.done) {
+      (async () => {
+        // Update Elo
+        // Using mock data
+        // await FetchModule.fetchPostElo({ name: "jacky", elo: elo })
+      })();
+    }
+  }, [elo]);
 
   return (
     <>

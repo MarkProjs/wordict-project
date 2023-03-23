@@ -87,7 +87,6 @@ userSchema.statics.updateUserElo = async function (name, elo) {
     { name: name },
     { $inc: { elo: elo } }
   )
-  console.log(res.acknowledged)
 }
 
 const Words = mongoose.model('WordsV3', wordSchema);

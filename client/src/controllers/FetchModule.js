@@ -68,12 +68,12 @@ async function fetchAllUsers() {
   return data;
 }
 
-async function fetchPostElo(data){
+async function fetchPostElo(data) {
   let url = new URL("/api/user-elo", location.origin);
   await fetch(url, {
     method: 'POST',
-    headers: {'Content-Type': 'application/json'},
-    body: data,
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(data),
   });
 }
 
@@ -82,4 +82,5 @@ export default {
   fetchAllWords,
   fetchUser,
   fetchAllUsers,
+  fetchPostElo,
 }

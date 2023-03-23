@@ -3,6 +3,7 @@ import fs from 'fs';
 import controllers from "../controllers/controllers.js";
 
 const router = express.Router();
+router.use(express.json());
 
 /**
  * middleware function to log the duration of each API call
