@@ -29,6 +29,9 @@ function Wordle(props) {
   // Set the default value of the letters to be an array of default values
   const letters = new Array(props.word.length).fill(props.defaultValue);
 
+  // Attempts as an array to use the map function
+  const attempts = new Array(props.attempts).fill();
+
   /**
    * Subscribe a function to the key event
    * @param {String} key The key associated with the subscription
@@ -95,7 +98,7 @@ function Wordle(props) {
         let gameWon = results.every(result => result === GameLogic.RIGHT);
         if (gameWon) {
           gameDone = true;
-        } else if (currentRow >= letters.length) {
+        } else if (currentRow >= props.attempts) {
           gameDone = true;
         }
 
@@ -132,7 +135,7 @@ function Wordle(props) {
         id={POP_PREFIX + 0}
         subToGameStateEvent={subToGameStateEvent}
       />
-      {letters.map((elem, index) => {
+      {attempts.map((elem, index) => {
         return <WordRow 
           key={index} 
           id={ROW_PREFIX + index}
