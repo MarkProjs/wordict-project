@@ -63,7 +63,6 @@ async function getUser(){
  * @param {String} picture 
  */
 async function updateUser(email, name){
-  console.log("in controller updateUser method!!");
   const doc = await Users.findOneAndUpdate(
     { email: email },
     { name: name },
@@ -72,7 +71,7 @@ async function updateUser(email, name){
     // document as it was _before_ it was updated.
     { new: false }
   );
-  console.log(doc.name);
+  console.log(`user ${doc.email} has been updated`);
 }
 
 export default {getRandomWord, getDefinition, getAllWords, getUser, updateUser};

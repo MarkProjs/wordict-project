@@ -85,15 +85,15 @@ router.get("/user", async (req, res) => {
 /**
  * Post API to update User
  */
-router.post("/profileUpdate", async (req, res) => {
+router.post("/profile-update", async (req, res) => {
   // const file = req.files.file;
-  console.log(req.body);
   const email = req.body.email;
-  const name = req.body.username;
+  const name = req.body.name;
   if(!email || !name){
     res.sendStatus(400).end();
   }else {
     try{
+      // Update user in database
       await controllers.updateUser(email, name);
       res.sendStatus(200).end();
     }catch(e){

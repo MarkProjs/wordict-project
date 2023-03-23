@@ -8,6 +8,7 @@ import FetchModule from '../../controllers/FetchModule';
 function Profile() {
   const placeholderName = "Loading..."
   const placeholderPicture = process.env.PUBLIC_URL + '/img/profile_placeholder.png';
+  const [email, setEmail] = useState("");
   const [profileName, setProfileName] = useState(placeholderName);
   const [profilePicture, setProfilePicture] = useState(placeholderPicture);
   const [previousProfileName, setPreviousProfileName] = useState("");
@@ -20,6 +21,7 @@ function Profile() {
       let data = await FetchModule.fetchUser();
       setProfileName(data[0].name);
       setProfilePicture(data[0].image);
+      setEmail(data[0].email);
     })();
   }, []);
 
@@ -90,17 +92,11 @@ function Profile() {
 
   async function updateProfile(e) {
     e.preventDefault();
-    if (profileName !== previousProfileName || profilePicture !== previousProfilePicture) {
-      console.log("changed");
-      //TODO: update user in db using api
-      let formData = new FormData();
-      formData.append('email', "monkey@gmail.com");
-      formData.append('name', profileName);
-      // let data = new URLSearchParams(formData);
-      
-      let data = {email: 'monkey@gmail.com', name: profileName}
-      await FetchModule.updateUser(JSON.stringify(data));
-      
+    // check if any changes were made to prevent unnecessary api calls
+    if (profileName !== previousProfileName || profilePicture !== previousProfilePicture) {   
+      // form data in json
+      let formData = JSON.stringify({email: email, name: profileName, picture: profilePicture});
+      await FetchModule.updateUser(formData);
     }
     setIsViewMode(true);
   }
