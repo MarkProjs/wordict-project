@@ -4,15 +4,15 @@ import { calculateElo } from "../../controllers/GameLogic";
 import "./Popup.css";
 
 function Popup(props) {
-  const [gameState, setGameState] = useState({ done: false, win: false, attempts: 1 });
-  const [definitions, setDefinitions] = useState([]);
   const [elo, setElo] = useState();
+  const [gameState, setGameState] = useState({});
+  const [definitions, setDefinitions] = useState([]);
+  
   useEffect(() => {
+    setGameState({done: false, win: false, attempts: 1});
     // Subscribe to the parent events
     props.subToGameStateEvent(props.id, setGameState);
-    // Calculate Elo
-    setElo(calculateElo(props.word, gameState.attempts, gameState.win))
-  });
+  }, [props]);
 
   useEffect(() => {
     (async () => {
@@ -23,6 +23,11 @@ function Popup(props) {
       setDefinitions(data.definitions);
     })();
   }, [props.word]);
+
+  useEffect(() => {
+    // Calculate Elo
+    setElo(calculateElo(props.word, gameState.attempts, gameState.win))
+  })
 
   return (
     <>
