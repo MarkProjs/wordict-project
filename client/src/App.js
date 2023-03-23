@@ -58,21 +58,20 @@ function App() {
         <div className="logBtn">
           <img src={userPic} style={{width: 50, height: 50}} referrerPolicy="no-referrer"/>
           <p>{userName ? `Hello ${userName}` : ""}</p>
-          <GoogleOAuthProvider clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}>
-            {!userName && 
+          {/* {!userName && 
             <GoogleLogin
               onSuccess={handleLogin}
               onError={() =>{
                 console.log('Login Failed');
               }}
-            /> }
-            {userName && <button onClick={handleLogout}>Logout</button>}
-          </GoogleOAuthProvider>
+            /> } */}
+          {userName && <button onClick={handleLogout}>Logout</button>}
           <button onClick={protectedRoute}>Test protected</button>
         </div>
       </div>
       <Nav 
         userName = {userName}
+        handleLogin = {handleLogin}
       />
     </div>
   );
