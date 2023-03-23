@@ -9,8 +9,8 @@ const WORDLE_PREFIX = "W-"
 function GameBoard(props) {
 
   const location = useLocation();
-  const word = location.state.ownWord;
-  const opponentWord = location.state.opponentWord;
+  const word = location.state?.ownWord || "";
+  const opponentWord = location.state?.opponentWord || "";
   const socketContext = useContext(SocketContext);
 
   // Contains all of the functions subscribed to the key input event
