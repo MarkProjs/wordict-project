@@ -73,7 +73,6 @@ function GameBoard(props) {
         <Wordle
           id={WORDLE_PREFIX + 0}
           person="You"
-          attempts={word.length + 1}
           word={word}
           submitKey={validInputs.submitKey}
           deleteKey={validInputs.deleteKey}
@@ -86,7 +85,6 @@ function GameBoard(props) {
         <Wordle
           id={WORDLE_PREFIX + 1}
           person="Your opponent"
-          attempts={opponentWord.length + 1}
           word={opponentWord}
           submitKey={validInputs.submitKey}
           deleteKey={validInputs.deleteKey}
