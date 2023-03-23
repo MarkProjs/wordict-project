@@ -1,11 +1,11 @@
 import './App.css';
 import Nav from "./components/Nav.js";
 import { useState } from 'react';
-import { GoogleLogin, GoogleOAuthProvider } from '@react-oauth/google';
+// import { GoogleLogin, GoogleOAuthProvider } from '@react-oauth/google';
 
 function App() {
   const [userName, setUserName] = useState("");
-  const [userEmail, setUserEmail] = useState("");
+  // const [userEmail, setUserEmail] = useState("");
   const [userPic, setUserPic] = useState("/img/default.jpg");
   
 
@@ -57,7 +57,7 @@ function App() {
         <h1 id="title">WORDICT</h1>
         <div className="logBtn">
           <img src={userPic} style={{width: 50, height: 50}} referrerPolicy="no-referrer"/>
-          <p>{userName ? `Hello ${userName}` : ""}</p>
+          {/* <p>{userName ? `Hello ${userName}` : ""}</p> */}
           {/* {!userName && 
             <GoogleLogin
               onSuccess={handleLogin}
