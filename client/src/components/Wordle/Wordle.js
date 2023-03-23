@@ -1,6 +1,6 @@
 import WordRow from "./WordRow.js";
 import * as GameLogic from "../../controllers/GameLogic.js";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import "./Wordle.css"
 import Popup from "./Popup.js";
 
@@ -14,8 +14,6 @@ function Wordle(props) {
 
   // Contains all of the functions subscribed to the style event
   const styleEvent = new Map();
-
-  const [attempts, setAttempts] = useState()
 
   let currentRow = 0;
 
@@ -86,8 +84,9 @@ function Wordle(props) {
         }
 
         if (gameDone) {
-          gameStateEvent.forEach(func => func({ done: gameDone, win: gameWon }));
-          setAttempts(currentRow);
+          gameStateEvent.forEach(func => func({
+            done: gameDone, win: gameWon, attemps: currentRow
+          }));
         }
 
         //clear the current word that is being written
@@ -118,7 +117,6 @@ function Wordle(props) {
         person={props.person}
         word={props.word}
         id={POP_PREFIX + 0}
-        attempts={attempts}
         subToGameStateEvent={subToGameStateEvent}
       />
       {letters.map((elem, index) => {

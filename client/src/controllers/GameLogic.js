@@ -84,7 +84,7 @@ function calculateElo(word, attempts, gameWon) {
   if (gameWon) {
     console.log(`${word}, ${attempts}, ${gameWon}`)
     let defaultScore = 100
-    return defaultScore * (word.length / 5) ** 1.5 / attempts
+    return Math.floor(defaultScore * (word.length / 5) ** 1.5 / attempts)
   } else {
     return -20
   }

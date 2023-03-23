@@ -77,6 +77,16 @@ userSchema.statics.getAllUsers = async function () {
   return await Users.find().sort('-elo')
 }
 
+/**
+ * Update User Elo
+ * @param {String} name 
+ * @param {Int} elo 
+ */
+userSchema.statics.updateUserElo = async function(name, elo) {
+  const res = await Users.updateOne({name: name},{elo: elo})
+  console.log(res.acknowledged)
+}
+
 const Words = mongoose.model('WordsV3', wordSchema);
 const Users = mongoose.model('Users', userSchema);
 console.log("Schemas made");

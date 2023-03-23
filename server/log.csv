@@ -1,7 +1,0 @@
-Method, URL, Duration(ms) 
-GET, /api/monkey/definition, 5 
-GET, /api/asdasd/definition, 1 
-GET, /api/dictionary, 0 
-GET, /api/dictionary?length=5, 1 
-GET, /api/user, 2 
-GET, /api/all-users, 1 

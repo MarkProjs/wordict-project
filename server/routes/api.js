@@ -90,4 +90,11 @@ router.get("/all-users", async (req, res) => {
   res.json(users);
 })
 
+/**
+ * POST API to update user elo
+ */
+router.post("/user-elo", async (req, res) => {
+
+})
+
 export default router;
