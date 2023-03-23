@@ -46,7 +46,6 @@ function SinglePlayerWordle() {
       <Wordle 
         id={WORDLE_PREFIX + 0}
         person="You"
-        attempts={word.length + 1}
         word={word}
         submitKey={validInputs.submitKey}
         deleteKey={validInputs.deleteKey}

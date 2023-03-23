@@ -29,8 +29,10 @@ function Wordle(props) {
   // Set the default value of the letters to be an array of default values
   const letters = new Array(props.word.length).fill(props.defaultValue);
 
+  const numAttempts = props.word.length < 5 ? 6 : props.word.length + 1;
+
   // Attempts as an array to use the map function
-  const attempts = new Array(props.attempts).fill();
+  const attempts = new Array(numAttempts).fill();
 
   /**
    * Subscribe a function to the key event
@@ -98,7 +100,7 @@ function Wordle(props) {
         let gameWon = results.every(result => result === GameLogic.RIGHT);
         if (gameWon) {
           gameDone = true;
-        } else if (currentRow >= props.attempts) {
+        } else if (currentRow >= numAttempts) {
           gameDone = true;
         }
 
