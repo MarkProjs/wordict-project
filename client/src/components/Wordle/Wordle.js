@@ -3,11 +3,16 @@ import * as GameLogic from "../../controllers/GameLogic.js";
 import { useEffect } from "react";
 import "./Wordle.css"
 import Popup from "./Popup.js";
+import LetterBank from "./LetterBank.js";
 
 const ROW_PREFIX = "R-";
 const POP_PREFIX = "P-";
 
 function Wordle(props) {
+
+  let currentRow = 0;
+
+  let gameDone = false;
 
   // Contains all of the functions subscribed to the key event
   const keyEvent = new Map();
@@ -15,12 +20,11 @@ function Wordle(props) {
   // Contains all of the functions subscribed to the style event
   const styleEvent = new Map();
 
-  let currentRow = 0;
-
-  let gameDone = false;
-
   // Contains all of the functions subscribed to the game state event
   const gameStateEvent = new Map();
+
+  // Contains all of the functions subscribed to the guess event
+  const guessEvent = new Map();
 
   // Set the default value of the letters to be an array of default values
   const letters = new Array(props.word.length).fill(props.defaultValue);
@@ -33,7 +37,6 @@ function Wordle(props) {
   function subToKeyEvent(key, subFunc) {
     keyEvent.set(key, subFunc);
   }
-
 
   /**
    * Subscribe a function to the style event
@@ -54,6 +57,15 @@ function Wordle(props) {
   }
 
   /**
+   * Subscribe a function to the guess event
+   * @param {String} key The key associated with the subscription
+   * @param {Function} subFunc The function to subscribe to the guess event
+   */
+  function subToGuessEvent(key, subFunc) {
+    guessEvent.set(key, subFunc);
+  }
+
+  /**
    * Process keyboard input and trigger game events accordingly
    * @param {Event} e The key event
    * @param {Function} send An optional function to send the key event result somewhere else
@@ -69,6 +81,10 @@ function Wordle(props) {
         key === props.submitKey 
         && letters.every(letter => letter !== props.defaultValue)
       ) {
+        
+        // FIre the guess event before doing everything else
+        guessEvent.forEach(func => func(letters));
+
         // Get the result array to determine which letters are correct
         let results = GameLogic.checkSubmission(letters.join(""), props.word);
 
@@ -76,7 +92,7 @@ function Wordle(props) {
         styleEvent.get(ROW_PREFIX + currentRow)(results);
 
         currentRow++;
-        let gameWon = results.every(result => result === GameLogic.RIGHT)
+        let gameWon = results.every(result => result === GameLogic.RIGHT);
         if (gameWon) {
           gameDone = true;
         } else if (currentRow >= letters.length) {
@@ -96,7 +112,7 @@ function Wordle(props) {
         // Trigger the key event for the current row
         keyEvent.get(ROW_PREFIX + currentRow)(key);
         
-      }
+      } 
       // If the key should be sent somewhere else send it here
       send?.call(undefined, key);
     }
@@ -108,7 +124,6 @@ function Wordle(props) {
     props.subToInputEvent(props.id, handleInput);
   });
   
-
   return (
     <section className="wordle">
       <Popup 
@@ -129,6 +144,10 @@ function Wordle(props) {
           defaultValue={props.defaultValue}
         />
       })}
+      <LetterBank
+        id={"bank"}
+        subToGuessEvent={subToGuessEvent}
+      />
     </section>
   );
 }
