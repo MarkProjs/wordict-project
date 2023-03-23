@@ -41,6 +41,11 @@ function SearchBar() {
     }
     setSearchResult(data);
     //TODO: here
+    let user = await FetchModule.fetchUser();
+    let favoriteWords = user[0].favoriteWords;
+    if (favoriteWords.find(elem => elem === word)) {
+      setIsFavorite(true);
+    }
   }
 
   useEffect(() => {
