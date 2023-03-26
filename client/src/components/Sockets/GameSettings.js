@@ -1,8 +1,25 @@
-import { useState } from "react";
+import { useState, useRef, useEffect, useContext } from "react";
+import { useNavigate } from "react-router-dom";
+import SocketContext from "./SocketContext";
 
 function GameSettings(props) {
+  
+  const [isWordSent, setIsWordSent] = useState(false);
+  const [isWordReceived, setIsWordReceived] = useState(false);
+  const ownWord = useRef("");
+  const [opponentWord, setOpponentWord] = useState("");
+  const socketContext = useContext(SocketContext);
+  const navigate = useNavigate();
 
-  const [word, setWord] = useState("");
+  /**
+   * Set the state of the word input field to whatever it is changed to
+   * and remove its invalidity
+   * @param {Event} e The input event for the word input field
+   */
+  function handleWordInput(e) {
+    setOpponentWord(e.target.value)
+    e.target.setCustomValidity("");
+  }
 
   /**
    * Randomise the word in the input field
@@ -11,7 +28,7 @@ function GameSettings(props) {
   function randomiseWord(e) {
     e.preventDefault();
     let wordNum = Math.floor(Math.random() * props.allWords.current.length);
-    setWord(props.allWords.current[wordNum.valueOf()]);
+    setOpponentWord(props.allWords.current[wordNum.valueOf()]);
     e.target.parentNode.word.setCustomValidity("");
   }
 
@@ -22,9 +39,9 @@ function GameSettings(props) {
    */
   function handleSend(e) {
     e.preventDefault();
-    if (props.allWords.current.includes(word)) {
-      console.log(word);
-      props.send(word);
+    if (props.allWords.current.includes(opponentWord)) {
+      console.log(opponentWord);
+      sendWord(opponentWord);
     } else {
       e.target.word.setCustomValidity("That word is not in our dictionary");
       e.target.word.reportValidity();
@@ -32,19 +49,47 @@ function GameSettings(props) {
   }
 
   /**
-   * Set the state of the word input field to whatever it is changed to
-   * and remove its invalidity
-   * @param {Event} e The input event for the word input field
+   * Send the opponent their word to guess
+   * @param {string} word The chosen opponent's word
    */
-  function handleWordInput(e) {
-    setWord(e.target.value)
-    e.target.setCustomValidity("");
+  function sendWord(word) {
+    socketContext.socket.current.emit("send-start-data", {word: word});
+    setIsWordSent(true);
   }
+
+  useEffect(() => {
+
+    props.sendToStart(socketContext.socket);
+
+    if (socketContext.socket.current && socketContext.socket.current.connected) {
+      //Don't want to double up on the listeners
+      socketContext.socket.current.off("send-start-data");
+      // Receive the player's word from the opponent
+      socketContext.socket.current.on("send-start-data", data => {
+        console.log("data received");
+        ownWord.current = data.word;
+        setIsWordReceived(true);
+      })
+    }
+    
+  }, []);
+
+  useEffect(() => {
+    if (isWordSent && isWordReceived) {
+      navigate("/wordle-online/game", {
+        replace: true, 
+        state: {
+          ownWord: ownWord.current, 
+          opponentWord: opponentWord,
+        }
+      })
+    }
+  }, [isWordSent, isWordReceived]);
 
   return (
     <form onSubmit={e => handleSend(e)}>
       <label htmlFor="word">Opponent&apos;s Word: </label>
-      <input required value={word} onInput={e => handleWordInput(e)} name="word"/>
+      <input required value={opponentWord} onInput={e => handleWordInput(e)} name="word"/>
       <button>Send</button>
       <br/>
       <button onClick={e => randomiseWord(e)}>Randomise</button>

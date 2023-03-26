@@ -78,7 +78,7 @@ function WordRow(props) {
     // Subscribe to the parent events
     props.subToKeyEvent(props.id, updateLetters);
     props.subToStyleEvent(props.id, applyLetterStyles);
-  });
+  }, [props]);
 
   return (
     <article className="word-row">

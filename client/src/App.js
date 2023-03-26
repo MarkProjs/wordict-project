@@ -1,7 +1,7 @@
 import './App.css';
 import Nav from "./components/Nav.js";
 import { useState } from 'react';
-import { GoogleLogin, GoogleOAuthProvider } from '@react-oauth/google';
+// import { GoogleLogin, GoogleOAuthProvider } from '@react-oauth/google';
 
 function App() {
   const [userName, setUserName] = useState("");
@@ -57,21 +57,22 @@ function App() {
         <h1 id="title">WORDICT</h1>
         <div className="logBtn">
           <img src={userPic} style={{width: 50, height: 50}} referrerPolicy="no-referrer"/>
-          <p>{userName ? `Hello ${userName}` : ""}</p>
-          <GoogleOAuthProvider clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}>
-            {!userName && 
+          {/* <p>{userName ? `Hello ${userName}` : ""}</p> */}
+          {/* {!userName && 
             <GoogleLogin
               onSuccess={handleLogin}
               onError={() =>{
                 console.log('Login Failed');
               }}
-            /> }
-            {userName && <button onClick={handleLogout}>Logout</button>}
-            {/* <button onClick={protectedRoute}>Test protected</button> */}
-          </GoogleOAuthProvider>
+            /> } */}
+          {userName && <button onClick={handleLogout}>Logout</button>}
+          <button onClick={protectedRoute}>Test protected</button>
         </div>
       </div>
-      <Nav/>
+      <Nav 
+        userName = {userName}
+        handleLogin = {handleLogin}
+      />
     </div>
   );
 }
