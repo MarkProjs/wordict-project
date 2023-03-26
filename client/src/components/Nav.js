@@ -22,9 +22,10 @@ function Nav(props) {
           <Route path="/about" exact element={<AboutUs/>} />
           <Route path="/profile" 
             exact element={props.userName ? <Profile/> : <Navigate to="/login"/>} />
-          <Route path="/login" exact element={props.userName ? <Profile/> : <LogIn 
-            userName={props.userName}
-            handleLogin={props.handleLogin}/>} />
+          <Route path="/login" exact element={props.userName ? <Profile/> : 
+            <LogIn 
+              userName={props.userName}
+              handleLogin={props.handleLogin}/>} />
           <Route path="/*" exact element= {<Error/>}/>
         </Routes>
       </Router>
