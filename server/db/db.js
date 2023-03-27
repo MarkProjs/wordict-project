@@ -76,10 +76,22 @@ userSchema.statics.getLatestUser = async function () {
  * @param {String} email 
  * @param {String} newWord 
  */
-userSchema.statics.updateUserFavoriteWords = async function (email, newWord) {
+userSchema.statics.addUserFavoriteWord = async function (email, word) {
   await Users.updateOne(
     { email: email },
-    { $push: { favoriteWords: newWord } }
+    { $push: { favoriteWords: word } }
+  );
+}
+
+/**
+ * Remove a word from the user's favorite words array
+ * @param {String} email 
+ * @param {String} word 
+ */
+userSchema.statics.removeUserFavoriteWord = async function (email, word) {
+  await Users.updateOne(
+    { email: email },
+    { $pull: { favoriteWords: word } }
   );
 }
 

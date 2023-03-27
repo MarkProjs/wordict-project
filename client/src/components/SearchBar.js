@@ -35,6 +35,7 @@ function SearchBar() {
    * @param {URL} url 
    */
   async function findWord(word) {
+    setSearchInput(word);
     let data = await FetchModule.fetchDefinition(word);
     if (data === null) {
       data = { "word": "No results" };
@@ -75,6 +76,14 @@ function SearchBar() {
     )}
   </datalist>;
 
+  async function favoriteHandler() {
+    setIsFavorite(!isFavorite);
+    const email = "monkey@gmail.com";
+    let formData = JSON.stringify({ email: email, word: searchInput, favorite: isFavorite });
+    console.log(formData);
+    await FetchModule.updateUserFavoriteWords(formData);
+  }
+
   return (
     <>
       <form onSubmit={searchWord}>
@@ -85,7 +94,7 @@ function SearchBar() {
       {searchResult ? <div className='definition'>
         <h2>{searchResult.word} {searchResult.definitions ?
           <img className='favorite' src={isFavorite ? favoritedIcon : unfavoritedIcon}
-            alt='favorite button' onClick={() => setIsFavorite(!isFavorite)} />
+            alt='favorite button' onClick={favoriteHandler} />
           : <></>}</h2>
         <ol>
           {searchResult.definitions ? searchResult.definitions.map((item, key) =>

@@ -65,9 +65,23 @@ async function updateUser(data) {
   });
 }
 
+/**
+ * Update a user's favorite words using api
+ * @param {JSON} data 
+ */
+async function updateUserFavoriteWords(data) {
+  let url = new URL("/api/update-favorites", location.origin);
+  await fetch(url, {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: data,
+  });
+}
+
 export default {
   fetchDefinition,
   fetchAllWords,
   fetchUser,
   updateUser,
+  updateUserFavoriteWords,
 }

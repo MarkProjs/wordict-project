@@ -106,15 +106,16 @@ router.post("/profile-update", async (req, res) => {
 /**
  * Post API to update User favorite words
  */
-router.post("/update-favorite-words", async (req, res) => {
+router.post("/update-favorites", async (req, res) => {
   const email = req.body.email;
   const word = req.body.word;
+  const isFavorite = req.body.favorite;
   if(!email || !word){
     res.sendStatus(400).end();
   }else {
     try{
       // Update user favorite words in database
-      await controllers.postUserFavoriteWord(email, word);
+      await controllers.postUserFavoriteWord(email, word, isFavorite);
       res.sendStatus(200).end();
     }catch(e){
       console.error(e);

@@ -74,8 +74,20 @@ async function updateUser(email, name) {
   console.log(`user ${doc.email} has been updated`);
 }
 
-async function postUserFavoriteWord(email, word) {
-  await Users.updateUserFavoriteWords(email, word);
+/**
+ * update the user's favorite words
+ * @param {String} email 
+ * @param {String} word 
+ * @param {boolean} isFavorite true: remove from favorites, false: add to favorites
+ */
+async function postUserFavoriteWord(email, word, isFavorite) {
+  if (!isFavorite) {
+    console.log(`add ${word} to favorites`);
+    await Users.addUserFavoriteWord(email, word);
+  } else {
+    console.log(`remove ${word} to favorites`);
+    await Users.removeUserFavoriteWord(email, word);
+  }
 }
 
 export default {
