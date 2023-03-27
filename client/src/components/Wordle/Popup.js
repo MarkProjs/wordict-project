@@ -3,12 +3,14 @@ import FetchModule from "../../controllers/FetchModule";
 import "./Popup.css";
 
 function Popup(props) {
-  const [gameState, setGameState] = useState({done: false, win: false});
+  const [gameState, setGameState] = useState({});
   const [definitions, setDefinitions] = useState([]);
+  
   useEffect(() => {
+    setGameState({done: false, win: false});
     // Subscribe to the parent events
     props.subToGameStateEvent(props.id, setGameState);
-  });
+  }, [props]);
 
   useEffect(() => {
     (async () => {
