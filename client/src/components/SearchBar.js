@@ -45,6 +45,8 @@ function SearchBar() {
     let favoriteWords = user[0].favoriteWords;
     if (favoriteWords.find(elem => elem === word)) {
       setIsFavorite(true);
+    } else {
+      setIsFavorite(false);
     }
   }
 
