@@ -57,7 +57,7 @@ function App() {
         <div className="logBtn">
           <img src={userPic} style={{width: 50, height: 50}} referrerPolicy="no-referrer"/>
           {userName && <button onClick={handleLogout}>Logout</button>}
-          <button onClick={protectedRoute}>Test protected</button>
+          {/* <button onClick={protectedRoute}>Test protected</button> */}
         </div>
       </div>
       <Nav 
