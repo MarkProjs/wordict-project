@@ -87,13 +87,21 @@ function GameSettings(props) {
   }, [isWordSent, isWordReceived]);
 
   return (
-    <form onSubmit={e => handleSend(e)}>
-      <label htmlFor="word">Opponent&apos;s Word: </label>
-      <input required value={opponentWord} onInput={e => handleWordInput(e)} name="word"/>
-      <button>Send</button>
-      <br/>
-      <button onClick={e => randomiseWord(e)}>Randomise</button>
-    </form>
+    <>
+      {
+        isWordSent && <p>Word Sent to Opponent</p>
+        || <form onSubmit={e => handleSend(e)}>
+          <label htmlFor="word">Opponent&apos;s Word: </label>
+          <input required value={opponentWord} onInput={e => handleWordInput(e)} name="word"/>
+          <button>Send</button>
+          <br/>
+          <button onClick={e => randomiseWord(e)}>Randomise</button>
+        </form>
+      }
+      {
+        isWordReceived && <p>Word Received From Opponent</p>
+      }
+    </>
   );
 }
 

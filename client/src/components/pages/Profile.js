@@ -97,7 +97,7 @@ function Profile() {
     // check if any changes were made to prevent unnecessary api calls
     if (profileName !== previousProfileName || profilePicture !== previousProfilePicture) {   
       // form data in json
-      let formData = JSON.stringify({email: email, name: profileName, picture: profilePicture});
+      let formData = {email: email, name: profileName, picture: profilePicture};
       await FetchModule.updateUser(formData);
     }
     setIsViewMode(true);
