@@ -74,10 +74,12 @@ function setupServer(app) {
       socket.to(room).emit("keypress", key);
     });
 
+    // Relay the start data to the others in the room
     socket.on("send-start-data", data => {
       socket.to(room).emit("send-start-data", data);
     });
 
+    // Set that this person has finished their game
     socket.on("user-done", () => {
       rooms[room].users.map(user => {
         if (user.sid === socket.id) {
@@ -86,6 +88,11 @@ function setupServer(app) {
         return user
       });
       checkGameDone(room);
+    });
+
+    // Relay the rematch request to other users
+    socket.on("request-rematch", () => {
+      socket.to(room).emit("request-rematch");
     });
 
     // Send the user the code of their room to allow invites
@@ -114,7 +121,7 @@ function setupServer(app) {
  */
 function checkGameDone(room) {
   if (rooms[room].users.every(user => user.gameDone)) {
-    server.to(room).emit("gameDone");
+    server.to(room).emit("game-done");
   }
 }
 
