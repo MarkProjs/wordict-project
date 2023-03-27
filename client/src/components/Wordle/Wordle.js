@@ -79,11 +79,11 @@ function Wordle(props) {
     let key = e.key.toLocaleUpperCase();
     //validate key
     if (GameLogic.validateInput(key) && !gameDone) {
-      
+
       // Only submit if their entire word is filled 
       // TODO add check if it is a valid word
       if (
-        key === props.submitKey 
+        key === props.submitKey
         && letters.every(letter => letter !== props.defaultValue)
       ) {
         
@@ -105,7 +105,9 @@ function Wordle(props) {
         }
 
         if (gameDone) {
-          gameStateEvent.forEach(func => func({done: gameDone, win: gameWon}));
+          gameStateEvent.forEach(func => func({
+            done: gameDone, win: gameWon, attempts: currentRow
+          }));
         }
 
         //clear the current word that is being written
@@ -131,7 +133,7 @@ function Wordle(props) {
   
   return (
     <section className="wordle">
-      <Popup 
+      <Popup
         person={props.person}
         word={props.word}
         id={POP_PREFIX + 0}
@@ -141,7 +143,7 @@ function Wordle(props) {
         return <WordRow 
           key={index} 
           id={ROW_PREFIX + index}
-          wordLength={props.word.length} 
+          wordLength={props.word.length}
           subToKeyEvent={subToKeyEvent}
           subToStyleEvent={subToStyleEvent}
           letters={letters}
