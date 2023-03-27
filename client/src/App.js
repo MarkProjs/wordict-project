@@ -53,7 +53,7 @@ function App() {
   return (
     <div className="App">
       <div className="header">
-        <h1 id="title">WORDICT</h1>
+        <h1 id="title"><a href="/">WORDICT</a></h1>
         <div className="logBtn">
           <img src={userPic} style={{width: 50, height: 50}} referrerPolicy="no-referrer"/>
           {userName && <button onClick={handleLogout}>Logout</button>}
