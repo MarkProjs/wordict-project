@@ -13,6 +13,7 @@ function Profile() {
   const [profilePicture, setProfilePicture] = useState(placeholderPicture);
   const [previousProfileName, setPreviousProfileName] = useState("");
   const [previousProfilePicture, setPreviousProfilePicture] = useState("");
+  const [favoriteWords, setFavoriteWords] = useState([]);
   const [isViewMode, setIsViewMode] = useState(true);
 
   useEffect(() => {
@@ -22,6 +23,7 @@ function Profile() {
       setProfileName(data[0].name);
       setProfilePicture(data[0].image);
       setEmail(data[0].email);
+      setFavoriteWords(data[0].favoriteWords);
     })();
   }, []);
 
@@ -44,7 +46,7 @@ function Profile() {
             setIsViewMode(false);
           }}>Edit profile</button>
         </div>
-        <FavoriteWords />
+        <FavoriteWords favoriteWords={favoriteWords} setFavoriteWords={setFavoriteWords}/>
       </section>
     </>;
 
