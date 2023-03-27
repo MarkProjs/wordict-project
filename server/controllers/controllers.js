@@ -1,4 +1,4 @@
-import {Words, Users} from "../db/db.js"
+import { Words, Users } from "../db/db.js"
 
 
 
@@ -7,8 +7,8 @@ import {Words, Users} from "../db/db.js"
  * @param {Number} length the desired length for the random word
  * @returns the random word
  */
-async function getRandomWord(length){
-  let query = {length: length};
+async function getRandomWord(length) {
+  let query = { length: length };
   let count = await Words.count(query);
   console.log(count);
   let randVal = Math.floor(Math.random() * count);
@@ -20,8 +20,8 @@ async function getRandomWord(length){
  * @param {String} word the word we want the definition for
  * @returns the object of the word with the definition
  */
-async function getDefinition(word){
-  let query = {word: word};
+async function getDefinition(word) {
+  let query = { word: word };
   console.log(word)
   let result = await Words.findOne(query).exec()
   return result;
@@ -31,10 +31,10 @@ async function getDefinition(word){
  * @returns an object with a field count for the number of words and a field words
  * that's an array of all the words
  */
-async function getAllWords(length){
+async function getAllWords(length) {
   let query = {};
-  if(length){
-    query = {length: length};
+  if (length) {
+    query = { length: length };
   }
   let returnObj = {};
   let arr = await Words.getOnlyWordFields(query);
@@ -50,7 +50,7 @@ async function getAllWords(length){
  * @async
  * @returns the user
  */
-async function getUser(){
+async function getUser() {
   let result = await Users.getLatestUser();
   return result;
 }
@@ -62,7 +62,7 @@ async function getUser(){
  * @param {String} name 
  * @param {String} picture 
  */
-async function updateUser(email, name){
+async function updateUser(email, name) {
   const doc = await Users.findOneAndUpdate(
     { email: email },
     { name: name },
@@ -74,4 +74,26 @@ async function updateUser(email, name){
   console.log(`user ${doc.email} has been updated`);
 }
 
-export default {getRandomWord, getDefinition, getAllWords, getUser, updateUser};
+/**
+* Get all users
+ * @async
+ * @returns all users sorted by Elo
+ */
+async function getAllUsers() {
+  let result = await Users.getAllUsers();
+  return result;
+}
+
+/**
+ * Post user elo
+ * @param {String} name Name of the user
+ * @param {Int} elo New calculated elo of the user
+ */
+async function postUserElo(name, elo) {
+  await Users.updateUserElo(name, elo);
+}
+
+export default {
+  getRandomWord, getDefinition, getAllWords, getUser,
+  updateUser, getAllUsers, postUserElo
+};

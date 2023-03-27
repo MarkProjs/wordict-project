@@ -89,18 +89,46 @@ router.post("/profile-update", async (req, res) => {
   // const file = req.files.file;
   const email = req.body.email;
   const name = req.body.name;
-  if(!email || !name){
+  if (!email || !name) {
     res.sendStatus(400).end();
-  }else {
-    try{
+  } else {
+    try {
       // Update user in database
       await controllers.updateUser(email, name);
       res.sendStatus(200).end();
-    }catch(e){
+    } catch (e) {
       console.error(e);
       res.sendStatus(500).end();
     }
   }
 });
+
+/**
+ * Get API to retrieve all Users
+ */
+router.get("/all-users", async (req, res) => {
+  let users;
+  try {
+    users = await controllers.getAllUsers();
+  } catch (error) {
+    users = []
+  }
+  res.json(users);
+})
+
+/**
+ * POST API to update user elo
+ */
+router.post("/user-elo", async (req, res) => {
+  const email = req.body.email
+  const elo = req.body.elo
+  try {
+    await controllers.postUserElo(email, elo);
+    res.sendStatus(200).end();
+  } catch (e) {
+    console.error(e);
+    res.sendStatus(500).end();
+  }
+})
 
 export default router;

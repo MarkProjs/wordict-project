@@ -20,4 +20,8 @@ private_content/
 
 coverage/
 junit.xml
+<<<<<<< HEAD
 log.csv
+=======
+**/log.csv
+>>>>>>> 6426d9580937fd9d52390a2c8526da47665809ce
