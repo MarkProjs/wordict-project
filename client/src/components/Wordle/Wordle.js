@@ -105,9 +105,9 @@ function Wordle(props) {
         }
 
         if (gameDone) {
-          gameStateEvent.forEach(func => func({
-            done: gameDone, win: gameWon, attempts: currentRow
-          }));
+          const gameState = {done: gameDone, win: gameWon, attempts: currentRow}
+          props?.gameDoneFunc?.call(undefined, gameState);
+          gameStateEvent.forEach(func => func(gameState));
         }
 
         //clear the current word that is being written

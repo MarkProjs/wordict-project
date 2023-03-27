@@ -37,6 +37,9 @@ function SocketForm() {
     socketContext.socket.current.on("disconnect", (reason) => {
       console.log("disconnect");
       console.log(reason);
+      if (reason !== "io client disconnect") {
+        navigate("/wordle-online", {replace: true});
+      }
     });
 
     // Log the error if there is one
@@ -45,7 +48,8 @@ function SocketForm() {
     });
 
     // Set the lobby to full so the pregame setup can start
-    socketContext.socket.current.on("lobby-full", () => {
+    socketContext.socket.current.once("lobby-full", () => {
+      socketContext.socket.current.off("return-code");
       navigate("/wordle-online/startup", {replace: true});
     });
 

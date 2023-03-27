@@ -22,6 +22,9 @@ function MultiPlayerWordle() {
   function sendToStart(socket) {
     if (!socket.current || !socket.current.connected) {
       navigate("/wordle-online", {replace: true});
+      console.log("here")
+    } else {
+      console.log("CONNECTED")
     }
   }
 
