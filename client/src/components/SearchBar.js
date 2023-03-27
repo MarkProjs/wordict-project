@@ -96,7 +96,5 @@ function SearchBar() {
     </>
   )
 }
-//<img className='favorite' src={unfavoritedIcon} alt='favorite button'
-// onClick={favorite} />
 
 export default SearchBar;

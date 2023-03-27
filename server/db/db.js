@@ -71,6 +71,18 @@ userSchema.statics.getLatestUser = async function (){
   return await Users.find().sort({_id:-1}).limit(1).exec();
 };
 
+/**
+ * Add a new word to the user's favorite words array
+ * @param {String} email 
+ * @param {String} newWord 
+ */
+userSchema.statics.updateUserFavoriteWords = async function (email, newWord) {
+  await Users.updateOne(
+    { email: email },
+    { $push: { favoriteWords: newWord } }
+  );
+}
+
 const Words = mongoose.model('WordsV3', wordSchema);
 const Users = mongoose.model('Users', userSchema);
 console.log("Schemas made");
