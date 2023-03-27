@@ -79,12 +79,12 @@ userSchema.statics.getAllUsers = async function () {
 
 /**
  * Update User Elo
- * @param {String} name 
+ * @param {String} email 
  * @param {Int} elo 
  */
-userSchema.statics.updateUserElo = async function (name, elo) {
+userSchema.statics.updateUserElo = async function (email, elo) {
   const res = await Users.updateOne(
-    { name: name },
+    { email: email },
     { $inc: { elo: elo } }
   )
 }

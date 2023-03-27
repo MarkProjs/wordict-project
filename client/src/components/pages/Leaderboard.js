@@ -16,20 +16,20 @@ function Leaderboard() {
 
   return <>
     <h1>Leaderboard</h1>
-    <table>
-      <tr>
-        <th>Rank</th>
-        <th>Player</th>
-        <th>Points</th>
-      </tr>
+    <div className='leaderboard'>
+      <div className='row'>
+        <div>Rank</div>
+        <div>Player</div>
+        <div>Points</div>
+      </div>
       {playerList.map((player, index) =>
-        <tr key={index}>
-          <td>{index + 1}</td>
-          <td>{player.name}</td>
-          <td>{player.elo}</td>
-        </tr>
+        <div key={index} className='row'>
+          <div>{index + 1}</div>
+          <div>{player.name}</div>
+          <div>{player.elo}</div>
+        </div>
       )}
-    </table>
+    </div>
   </>
 }
 

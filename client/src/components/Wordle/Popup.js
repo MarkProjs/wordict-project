@@ -29,14 +29,14 @@ function Popup(props) {
       // Calculate Elo
       setElo(calculateElo(props.word, gameState.attempts, gameState.win));
     }
-  });
+  }, [gameState]);
 
   useEffect(() => {
     if (gameState.done) {
       (async () => {
         // Update Elo
         // Using mock data
-        // await FetchModule.fetchPostElo({ name: "jacky", elo: elo })
+        // await FetchModule.fetchPostElo({ email: "monkey@monkemail.com", elo: elo })
       })();
     }
   }, [elo]);

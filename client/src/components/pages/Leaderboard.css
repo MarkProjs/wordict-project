@@ -1,15 +1,24 @@
-td, th {
-  border: 1px solid #464646;
-  text-align: left;
-  padding: 8px;
+.row {
+  display: flex;
+  justify-content: space-between;
 }
 
-tr:nth-child(even){
+.row>div {
+  text-align: center;
+  padding: 1.25rem;
+  width: 33%;
+}
+
+.row:first-child>div{
+  font-weight: bold;
+}
+
+.row:nth-child(even){
   background-color: #dddfff;
 }
 
-table {
+.leaderboard {
+  border: 1px solid #464646;
   margin: 0 auto;
   width: 75%;
-  border-collapse: collapse;
 }

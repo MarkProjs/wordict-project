@@ -95,10 +95,10 @@ router.get("/all-users", async (req, res) => {
  * POST API to update user elo
  */
 router.post("/user-elo", async (req, res) => {
-  const name = req.body.name
+  const email = req.body.email
   const elo = req.body.elo
   try {
-    await controllers.postUserElo(name, elo);
+    await controllers.postUserElo(email, elo);
     res.sendStatus(200).end();
   } catch (e) {
     console.error(e);
