@@ -30,6 +30,13 @@ controllers.getAllWords = jest.fn((e) => {
   }
 })
 
+controllers.getAllUsers = jest.fn((e) => {
+  return [
+    { name: "jacky", elo: 100 },
+    { name: "jeremy", elo: 90 }
+  ]
+})
+
 controllers.getUser = jest.fn(() => {
   return {
     "name": "MonkeyMan",
@@ -81,5 +88,13 @@ describe('Test User GET API', () => {
     expect(response.body.image).toContain("//");
     expect(response.body.favoriteWords).toBeDefined();
     expect(response.body.elo).toEqual(100);
+  })
+})
+
+describe('Test all users GET API', () => {
+  test('Retrieving all users', async () => {
+    const response = await request(app).get('/api/all-users');
+    expect(response.body[0].name).toEqual("jacky")
+    expect(response.body[0].elo).toEqual(100)
   })
 })

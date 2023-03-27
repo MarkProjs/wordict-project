@@ -5,6 +5,7 @@ import Dict from "./pages/Dict.js";
 import Error from "./pages/Error.js";
 import SinglePlayerWordle from "./pages/SinglePlayerWordle.js";
 import MultiPlayerWordle from "./pages/MultiPlayerWordle.js";
+import LeaderBoard from "./pages/Leaderboard.js"
 import AboutUs from './pages/AboutUs.js';
 import Profile from "./pages/Profile.js";
 import LogIn from './pages/LogIn.js';
@@ -19,6 +20,7 @@ function Nav(props) {
           <Route path="/dict" exact element={<Dict/>} />
           <Route path="/wordle" exact element={<SinglePlayerWordle/>} />
           <Route path="/wordle-online/*" exact element={<MultiPlayerWordle/>}/>
+          <Route path="/leaderboard" exact element={<LeaderBoard/>}/>
           <Route path="/about" exact element={<AboutUs/>} />
           <Route path="/profile" 
             exact element={props.userName ? <Profile/> : <Navigate to="/login"/>} />
