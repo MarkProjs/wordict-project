@@ -57,7 +57,7 @@ async function fetchUser() {
  * @param {JSON} data 
  */
 async function updateUser(data) {
-  let url = new URL("/api/profile-update", location.origin);
+  let url = new URL("/api/user-profile", location.origin);
   await fetch(url, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -70,7 +70,7 @@ async function updateUser(data) {
  * @param {JSON} data 
  */
 async function updateUserFavoriteWords(data) {
-  let url = new URL("/api/update-favorites", location.origin);
+  let url = new URL("/api/user-favorites", location.origin);
   await fetch(url, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },

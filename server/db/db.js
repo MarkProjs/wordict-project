@@ -1,7 +1,7 @@
 import dotenv from "dotenv";
 import mongoose from "mongoose";
 dotenv.config();
-//supresses warning
+//suppresses warning
 mongoose.set('strictQuery', true); 
 
 
@@ -74,7 +74,7 @@ userSchema.statics.getLatestUser = async function (){
 /**
  * Add a new word to the user's favorite words array
  * @param {String} email 
- * @param {String} newWord 
+ * @param {String} word 
  */
 userSchema.statics.addUserFavoriteWord = async function (email, word) {
   await Users.updateOne(
@@ -125,15 +125,13 @@ process.on("SIGINT", async () => {
   process.exit();
 });
 
-
-
 async function connect(){
   await mongoose.connect(dbUrl);
   console.log("Connected to database");
   console.log("Ready to interact with DB");
 }
 /**
- * disconnect from the databse
+ * disconnect from the database
  * @void
  * @async
  */

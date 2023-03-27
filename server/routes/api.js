@@ -85,7 +85,7 @@ router.get("/user", async (req, res) => {
 /**
  * Post API to update User
  */
-router.post("/profile-update", async (req, res) => {
+router.post("/user-profile", async (req, res) => {
   // const file = req.files.file;
   const email = req.body.email;
   const name = req.body.name;
@@ -106,7 +106,7 @@ router.post("/profile-update", async (req, res) => {
 /**
  * Post API to update User favorite words
  */
-router.post("/update-favorites", async (req, res) => {
+router.post("/user-favorites", async (req, res) => {
   const email = req.body.email;
   const word = req.body.word;
   const isFavorite = req.body.favorite;
