@@ -90,6 +90,26 @@ async function postUserFavoriteWord(email, word, isFavorite) {
   }
 }
 
+/**
+ * Get all users
+ * @async
+ * @returns all users sorted by Elo
+ */
+async function getAllUsers() {
+  let result = await Users.getAllUsers();
+  return result;
+}
+
+/**
+ * Post user elo
+ * @param {String} name Name of the user
+ * @param {Int} elo New calculated elo of the user
+ */
+async function postUserElo(name, elo) {
+  await Users.updateUserElo(name, elo);
+}
+
 export default {
-  getRandomWord, getDefinition, getAllWords, getUser, updateUser, postUserFavoriteWord
+  getRandomWord, getDefinition, getAllWords, getUser, getAllUsers,
+  postUserElo, updateUser, postUserFavoriteWord
 };

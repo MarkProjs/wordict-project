@@ -95,6 +95,25 @@ userSchema.statics.removeUserFavoriteWord = async function (email, word) {
   );
 }
 
+/**
+ * Get all users
+ */
+userSchema.statics.getAllUsers = async function () {
+  return await Users.find().sort('-elo')
+}
+
+/**
+ * Update User Elo
+ * @param {String} email 
+ * @param {Int} elo 
+ */
+userSchema.statics.updateUserElo = async function (email, elo) {
+  await Users.updateOne(
+    { email: email },
+    { $inc: { elo: elo } }
+  )
+}
+
 const Words = mongoose.model('WordsV3', wordSchema);
 const Users = mongoose.model('Users', userSchema);
 console.log("Schemas made");
