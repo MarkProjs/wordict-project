@@ -3,6 +3,7 @@ import { useLocation } from "react-router-dom";
 import Wordle from '../Wordle/Wordle.js';
 import validInputs from "../../controllers/ValidInput.json";
 import SocketContext from './SocketContext.js';
+import RematchButton from "./RematchButton.js";
 
 const WORDLE_PREFIX = "W-"
 
@@ -67,32 +68,36 @@ function GameBoard(props) {
   }, []);
 
   return (
-    <div className="wordle-container" onKeyUp={(e) => handleKeyInput(e)} tabIndex={0}>
-      <div>
-        <p>You</p>
-        <Wordle
-          id={WORDLE_PREFIX + 0}
-          person="You"
-          word={word}
-          submitKey={validInputs.submitKey}
-          deleteKey={validInputs.deleteKey}
-          subToInputEvent={subToKeyInputEvent}
-          defaultValue={validInputs.empty}
-        />
+    <>
+      <div className="wordle-container" onKeyUp={(e) => handleKeyInput(e)} tabIndex={0}>
+        <div>
+          <p>You</p>
+          <Wordle
+            id={WORDLE_PREFIX + 0}
+            person="You"
+            word={word}
+            submitKey={validInputs.submitKey}
+            deleteKey={validInputs.deleteKey}
+            subToInputEvent={subToKeyInputEvent}
+            defaultValue={validInputs.empty}
+            gameDoneFunc={() => socketContext.socket.current.emit("user-done")}
+          />
+        </div>
+        <div>
+          <p>Your Opponent</p>
+          <Wordle
+            id={WORDLE_PREFIX + 1}
+            person="Your opponent"
+            word={opponentWord}
+            submitKey={validInputs.submitKey}
+            deleteKey={validInputs.deleteKey}
+            subToInputEvent={subToServerInputEvent}
+            defaultValue={validInputs.empty}
+          />
+        </div>
       </div>
-      <div>
-        <p>Your Opponent</p>
-        <Wordle
-          id={WORDLE_PREFIX + 1}
-          person="Your opponent"
-          word={opponentWord}
-          submitKey={validInputs.submitKey}
-          deleteKey={validInputs.deleteKey}
-          subToInputEvent={subToServerInputEvent}
-          defaultValue={validInputs.empty}
-        />
-      </div>
-    </div>
+      <RematchButton sendTo="/wordle-online/startup"/>
+    </>
   );
 }
 
