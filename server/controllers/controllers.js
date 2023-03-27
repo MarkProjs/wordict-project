@@ -74,6 +74,10 @@ async function updateUser(email, name) {
   console.log(`user ${doc.email} has been updated`);
 }
 
+async function postUserFavoriteWord(email, word) {
+  await Users.updateUserFavoriteWords(email, word);
+}
+
 export default {
-  getRandomWord, getDefinition, getAllWords, getUser, updateUser,
+  getRandomWord, getDefinition, getAllWords, getUser, updateUser, postUserFavoriteWord
 };

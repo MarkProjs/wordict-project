@@ -103,4 +103,24 @@ router.post("/profile-update", async (req, res) => {
   }
 });
 
+/**
+ * Post API to update User favorite words
+ */
+router.post("/update-favorite-words", async (req, res) => {
+  const email = req.body.email;
+  const word = req.body.word;
+  if(!email || !word){
+    res.sendStatus(400).end();
+  }else {
+    try{
+      // Update user favorite words in database
+      await controllers.postUserFavoriteWord(email, word);
+      res.sendStatus(200).end();
+    }catch(e){
+      console.error(e);
+      res.sendStatus(500).end();
+    }
+  }
+});
+
 export default router;
