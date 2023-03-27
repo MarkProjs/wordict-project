@@ -54,7 +54,7 @@ function App() {
     <div className="App">
       <div className="header">
         <h1 id="title"><a href="/">WORDICT</a></h1>
-        <div className="logBtn">
+        <div className="profile">
           <img src={userPic} style={{width: 50, height: 50}} referrerPolicy="no-referrer"/>
           {userName && <button onClick={handleLogout}>Logout</button>}
           {/* <button onClick={protectedRoute}>Test protected</button> */}
