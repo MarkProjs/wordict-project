@@ -2,18 +2,20 @@ import './App.css';
 import Nav from "./components/Nav.js";
 import { useState } from 'react';
 import { GoogleLogin, GoogleOAuthProvider } from "@react-oauth/google";
+import UserContext from './userContext';
 
 function App() {
   const [userName, setUserName] = useState("");
   const [userEmail, setUserEmail] = useState("");
   const [userPic, setUserPic] = useState("/img/default.jpg");
-  
+
+
 
   //handle the login
-  const handleLogin = async googleData =>{
+  const handleLogin = async googleData => {
     const res = await fetch("/auth", {
       method: "POST",
-      body: JSON.stringify({token: googleData.credential}),
+      body: JSON.stringify({ token: googleData.credential }),
       headers: {
         "Content-Type": "application/json"
       }
@@ -38,7 +40,7 @@ function App() {
   //protected route callback
   const protectedRoute = async () => {
     const resp = await fetch("/protected");
-    if(resp.status === 200) {
+    if (resp.status === 200) {
       // eslint-disable-next-line no-alert
       alert("You are authorized to see this");
     } else if (resp.status === 401) {
@@ -50,33 +52,34 @@ function App() {
     }
   }
 
-  
+
   return (
-    <div className="App">
-      <div className="header">
-        <h1 id="title"><a href="/">WORDICT</a></h1>
-        <div className="profile">
-          <img src={userPic} style={{width: 50, height: 50}} referrerPolicy="no-referrer"/>
-          <GoogleOAuthProvider clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}>
-            {!userName && 
-              <GoogleLogin 
-                onSuccess={handleLogin}
-                onError={()=>{
-                  console.log('Login Failed');
-                }}
-                cookiePolicy={"single_host_origin"}
-              />
-            }
-          </GoogleOAuthProvider>
-          {userName && <button onClick={handleLogout}>Logout</button>}
-          {/* <button onClick={protectedRoute}>Test protected</button> */}
+    <UserContext.Provider value={{ username: userName, email: userEmail, picture: userPic }}>
+      <div className="App">
+        <div className="header">
+          <h1 id="title"><a href="/">WORDICT</a></h1>
+          <div className="profile login">
+            <img src={userPic} style={{ width: 50, height: 50 }} referrerPolicy="no-referrer" />
+            <GoogleOAuthProvider clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}>
+              {!userName &&
+                <GoogleLogin
+                  onSuccess={handleLogin}
+                  onError={() => {
+                    console.log('Login Failed');
+                  }}
+                  cookiePolicy={"single_host_origin"}
+                />
+              }
+            </GoogleOAuthProvider>
+            {userName && <button onClick={handleLogout}>Logout</button>}
+            {/* <button onClick={protectedRoute}>Test protected</button> */}
+          </div>
         </div>
+        <Nav
+          handleLogin={handleLogin}
+        />
       </div>
-      <Nav 
-        userName = {userName}
-        handleLogin = {handleLogin}
-      />
-    </div>
+    </UserContext.Provider>
   );
 }
 

@@ -9,8 +9,11 @@ import LeaderBoard from "./pages/Leaderboard.js"
 import AboutUs from './pages/AboutUs.js';
 import Profile from "./pages/Profile.js";
 import LogIn from './pages/LogIn.js';
+import userContext from '../userContext.js';
+import { useContext } from 'react';
 
 function Nav(props) {
+  const user = useContext(userContext);
   return(
     <>
       <Router>
@@ -23,10 +26,10 @@ function Nav(props) {
           <Route path="/leaderboard" exact element={<LeaderBoard/>}/>
           <Route path="/about" exact element={<AboutUs/>} />
           <Route path="/profile" 
-            exact element={props.userName ? <Profile/> : <Navigate to="/login"/>} />
-          <Route path="/login" exact element={props.userName ? <Profile/> : 
+            exact element={user.email ? <Profile/> : <Navigate to="/login"/>} />
+          <Route path="/login" exact element={user.email ? <Profile/> : 
             <LogIn 
-              userName={props.userName}
+              userName={user.username}
               handleLogin={props.handleLogin}/>} />
           <Route path="/*" exact element= {<Error/>}/>
         </Routes>
