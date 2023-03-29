@@ -7,6 +7,7 @@ const WORDLE_PREFIX = "W-"
 
 function SinglePlayerWordle() {
 
+  const [isLoaded, setIsLoaded] = useState(false);
   const [word, setWord] = useState("");
   const allWords = useRef([]);
 
@@ -47,10 +48,13 @@ function SinglePlayerWordle() {
       }
       allWords.current = words;
       randomiseWord();
+      setIsLoaded(true);
     })();
   }, []);
 
   return (
+    isLoaded
+    &&
     <>
       <button onClick={randomiseWord}>New Game</button>
       <div className="wordle-container" onKeyUp={(e) => handleInput(e)} tabIndex={0}>
@@ -65,6 +69,8 @@ function SinglePlayerWordle() {
         />
       </div>
     </>
+    || 
+    <p>Page Is Loading...</p>  
   );
 }
 
