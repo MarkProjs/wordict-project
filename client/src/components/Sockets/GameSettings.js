@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
+import PreviousPageContext from "../NavigationExtra/PreviousPageContext";
 import SocketContext from "./SocketContext";
 
 function GameSettings(props) {
@@ -9,6 +10,7 @@ function GameSettings(props) {
   const ownWord = useRef("");
   const [opponentWord, setOpponentWord] = useState("");
   const socketContext = useContext(SocketContext);
+  const previousPageContext = useContext(PreviousPageContext);
   const navigate = useNavigate();
 
   /**
@@ -59,7 +61,10 @@ function GameSettings(props) {
 
   useEffect(() => {
 
-    props.sendToStart(socketContext.socket);
+    if (previousPageContext.previousPage !== "/wordle-online/connect" 
+    && previousPageContext.previousPage !== "/wordle-online/game") {
+      navigate("/wordle-online", {replace: true});
+    }
 
     if (socketContext.socket.current && socketContext.socket.current.connected) {
       //Don't want to double up on the listeners
