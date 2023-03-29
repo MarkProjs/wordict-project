@@ -40,7 +40,7 @@ function RematchButton(props) {
 
   useEffect(() => {
     if (isRematchReceived && isRematchSent) {
-      navigate(props.sendTo);
+      navigate(props.sendTo, {replace: true});
     }
   }, [isRematchReceived, isRematchSent]);
 
