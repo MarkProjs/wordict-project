@@ -15,15 +15,27 @@ import java.util.List;
 public class CSVinterpreter {
     private String[][] data;
     private String filePath;
-
+    private String regex;
     /**
      * gets the data from the file and loads it
+     * user provides custom split string
+     * @param filePath the path to the file
+     * @param regex a custom regex
+     * @throws IOException
+     */
+    public CSVinterpreter(String filePath, String regex) throws IOException{
+        this.filePath = filePath;
+        this.regex = regex;
+        load();
+    }
+    /**
+     * gets the data from the file and loads it
+     * unsing defaul split string -> "."
      * @param filePath the path to the file
      * @throws IOException
      */
     public CSVinterpreter(String filePath) throws IOException{
-        this.filePath = filePath;
-        load();
+        this(filePath, "\",\"");
     }
     //loads data
     private void load() throws IOException{
@@ -31,11 +43,11 @@ public class CSVinterpreter {
       List<String> rawData = Files.readAllLines(Paths.get(this.filePath), StandardCharsets.UTF_8);
       //init row and column count
       int rows = rawData.size();
-      int columns = rawData.get(0).split("\",\"").length;
+      int columns = rawData.get(0).split(regex).length;
       //init 2d array and save data into it
       data = new String[rows][columns];
       for(int i = 0; i < rawData.size(); i++){
-        String[] colms = rawData.get(i).split("\",\"");
+        String[] colms = rawData.get(i).split(regex);
 
         //remove the first and last quotes of each line
         colms[0] = colms[0].substring(1);
