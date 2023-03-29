@@ -37,13 +37,12 @@ function MultiPlayerWordle() {
 
   // If they navigate to the wordle-online page, send them to the connect page.
   useEffect(() => {
-    if (location.pathname.match(/\/wordle-online\/?/)) {
+    if (location.pathname.match(/^\/wordle-online\/?$/)) {
       navigate("/wordle-online/connect", {replace: true});
     }
   }, [location.pathname]);
   
 
-  // DISABLE SOME BUTTON TO AVOID SPAM
   return (
     <div>
       <SocketContext.Provider value={{socket: socket}}>
