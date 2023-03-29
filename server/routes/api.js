@@ -3,6 +3,8 @@ import fs from 'fs';
 import controllers from "../controllers/controllers.js";
 
 const router = express.Router();
+router.use(express.json());
+
 /**
  * middleware function to log the duration of each API call
  */
@@ -75,5 +77,33 @@ router.get("/user", async (req, res) => {
   }
   res.json(user);
 });
+
+/**
+ * Get API to retrieve all Users
+ */
+router.get("/all-users", async (req, res) => {
+  let users;
+  try {
+    users = await controllers.getAllUsers();
+  } catch (error) {
+    users = []
+  }
+  res.json(users);
+})
+
+/**
+ * POST API to update user elo
+ */
+router.post("/user-elo", async (req, res) => {
+  const email = req.body.email
+  const elo = req.body.elo
+  try {
+    await controllers.postUserElo(email, elo);
+    res.sendStatus(200).end();
+  } catch (e) {
+    console.error(e);
+    res.sendStatus(500).end();
+  }
+})
 
 export default router;
