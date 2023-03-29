@@ -37,8 +37,7 @@ function MultiPlayerWordle() {
 
   // If they navigate to the wordle-online page, send them to the connect page.
   useEffect(() => {
-    // Fix to use regex
-    if (location.pathname === "/wordle-online") {
+    if (location.pathname.match(/\/wordle-online\/?/)) {
       navigate("/wordle-online/connect", {replace: true});
     }
   }, [location.pathname]);
