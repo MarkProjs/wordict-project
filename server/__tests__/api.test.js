@@ -1,11 +1,13 @@
 import app from "../app.js";
 import request from "supertest";
-import controllers from "../controllers/wordControllers";
+import wordControllers from "../controllers/wordControllers";
+import userControllers from "../controllers/userControllers.js";
 import { jest } from '@jest/globals';
 jest.mock('../controllers/wordControllers');
+jest.mock('../controllers/userControllers.js');
 
 // Mock Controllers
-controllers.getDefinition = jest.fn((e) => {
+wordControllers.getDefinition = jest.fn((e) => {
   if (e === 'monkey') {
     return {
       "word": "monkey",
@@ -19,7 +21,7 @@ controllers.getDefinition = jest.fn((e) => {
   }
 })
 
-controllers.getAllWords = jest.fn((e) => {
+wordControllers.getAllWords = jest.fn((e) => {
   const words = [
     'limit', 'elite', 'exuberant', 'destruction', 'present', 'three'
   ];
@@ -30,14 +32,14 @@ controllers.getAllWords = jest.fn((e) => {
   }
 })
 
-controllers.getAllUsers = jest.fn((e) => {
+userControllers.getAllUsers = jest.fn(() => {
   return [
     { name: "jacky", elo: 100 },
     { name: "jeremy", elo: 90 }
   ]
 })
 
-controllers.getUser = jest.fn(() => {
+userControllers.getUser = jest.fn(() => {
   return {
     "name": "MonkeyMan",
     "image": "https://discovery.sndimg.com/content/dam/images/discovery/fullset/2021/4/30/" +
