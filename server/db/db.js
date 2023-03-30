@@ -96,7 +96,7 @@ userSchema.statics.updateUserElo = async function (email, elo) {
  * @param {String} email email to id user
  * @param {String} picture new picture
  */
-userSchema.statics.updateUserPicture = async function (email, picture) {
+userSchema.statics.updatePicture = async function (email, picture) {
   await Users.updateOne(
     { email: email },
     { $inc: { picture: picture } }
@@ -107,7 +107,7 @@ userSchema.statics.updateUserPicture = async function (email, picture) {
  * @param {String} email email to id user
  * @param {Array} favoriteWords
  */
-userSchema.statics.updateUserPicture = async function (email, favoriteWords) {
+userSchema.statics.updateFavorites = async function (email, favoriteWords) {
   await Users.updateOne(
     { email: email },
     { $inc: { favoriteWords: favoriteWords } }
