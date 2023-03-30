@@ -21,6 +21,7 @@ function App() {
     setUserPic(data.user.picture);
   }
 
+  //handle the logout for google authentcation
   async function handleLogout() {
     await FetchModule.handleLogout();
     setUserName("");
