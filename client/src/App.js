@@ -3,6 +3,7 @@ import Nav from "./components/Nav.js";
 import { useState } from 'react';
 import { GoogleLogin, GoogleOAuthProvider } from "@react-oauth/google";
 import UserContext from './userContext';
+import FetchModule from './controllers/FetchModule';
 
 function App() {
   const [userName, setUserName] = useState("");
@@ -12,46 +13,22 @@ function App() {
 
 
   //handle the login
-  const handleLogin = async googleData => {
-    const res = await fetch("/auth", {
-      method: "POST",
-      body: JSON.stringify({ token: googleData.credential }),
-      headers: {
-        "Content-Type": "application/json"
-      }
-    });
-    // server will be replying with the info
-    const data = await res.json();
+  async function handleLogin(googleData) {
+    let data = await FetchModule.handleLogin(googleData);
     console.log(data);
     setUserName(data.user.name);
     setUserEmail(data.user.email);
     setUserPic(data.user.picture);
   }
 
-  //handle log out, nothing to do with google, only has to do with the
-  //session on the Express server
-  const handleLogout = async () => {
-    await fetch("/logout");
-    setUserName("");
-    setUserEmail("");
-    setUserPic("/img/default.jpg");
-  }
-
-  //protected route callback
-  const protectedRoute = async () => {
-    const resp = await fetch("/protected");
-    if (resp.status === 200) {
-      // eslint-disable-next-line no-alert
-      alert("You are authorized to see this");
-    } else if (resp.status === 401) {
-      // eslint-disable-next-line no-alert
-      alert("You are not authorized to see this!");
-    } else {
-      // eslint-disable-next-line no-alert
-      alert("Something went wrong!");
-    }
-  }
-
+  // //handle log out, nothing to do with google, only has to do with the
+  // //session on the Express server
+  // const handleLogout = async () => {
+  //   await fetch("/logout");
+  //   setUserName("");
+  //   setUserEmail("");
+  //   setUserPic("/img/default.jpg");
+  // }
 
   return (
     <UserContext.Provider value={{ username: userName, email: userEmail, picture: userPic }}>
@@ -72,7 +49,6 @@ function App() {
               }
             </GoogleOAuthProvider>
             {userName && <button onClick={handleLogout}>Logout</button>}
-            {/* <button onClick={protectedRoute}>Test protected</button> */}
           </div>
         </div>
         <Nav

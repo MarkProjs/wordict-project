@@ -1,5 +1,6 @@
 import { GoogleLogin, GoogleOAuthProvider } from "@react-oauth/google";
-import "./Login.css"
+import "./Login.css";
+
 function Login(props) {
   return(
     <div className="login">

@@ -77,10 +77,42 @@ async function fetchPostElo(data) {
   });
 }
 
+/**
+ * login of the google authentication
+ */
+async function handleLogin(googleData) {
+  let url = new URL("/auth", location.origin);
+  let data;
+  try {
+    const res = await fetch(url, {
+      method: "POST",
+      body: JSON.stringify({ token: googleData.credential }),
+      headers: {
+        "Content-Type": "application/json"
+      }
+    });
+    data = await res.json();
+  } catch(e) {
+    data = {};
+  }
+
+  return data;
+}
+
+/**
+ * logging out of the authentication
+ */
+async function handleLogout() {
+  let url = new URL("/logout", location.origin);
+  await fetch(url);
+}
+
 export default {
   fetchDefinition,
   fetchAllWords,
   fetchUser,
   fetchAllUsers,
   fetchPostElo,
+  handleLogin,
+  handleLogout
 }
