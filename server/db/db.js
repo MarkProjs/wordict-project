@@ -8,6 +8,8 @@ mongoose.set('strictQuery', true);
 const dbUrl = process.env.ATLAS_URI;
 
 
+// WORD STRUCTURE
+
 //create schemas
 const DefinitionSchema = new mongoose.Schema({
   type: String,
@@ -31,13 +33,6 @@ const wordSchema = new mongoose.Schema({
   }
 });
 
-const userSchema = new mongoose.Schema({
-  name: String,
-  image: String,
-  favoriteWords: [{ type: String }],
-  elo: Number
-});
-
 /**
  * @async
  * @param {Number} randValue random number of documents to skip
@@ -50,7 +45,7 @@ wordSchema.statics.getRandomUsingVal = async function (randValue, query = {}) {
 
 /**
  * @async
- * @returns {Array} and array with all the words represented in the form {word: word};
+ * @returns {Array} an array with all the words represented in the form {word: word};
  */
 wordSchema.statics.getOnlyWordFields = async function (query = {}) {
   return await Words.find(query).select('word -_id').exec();
@@ -61,36 +56,69 @@ wordSchema.pre('save', function (next) {
   next();
 });
 
-/**
- * Temporary function just to test with profile page
- * @async
- * @returns the latest user
- */
-userSchema.statics.getLatestUser = async function () {
-  return await Users.find().sort({ _id: -1 }).limit(1).exec();
-};
+
+//USER STRUCTURE
+
+const userSchema = new mongoose.Schema({
+  email: {
+    type: String,
+    unique: true
+  },
+  name: String,
+  picture: String,
+  favoriteWords: [String],
+  elo: Number
+});
+
 
 /**
- * Get all users
+ * Get all users sorted by elo
+ * @async
  */
-userSchema.statics.getAllUsers = async function () {
-  return await Users.find().sort('-elo')
+userSchema.statics.getAllUsersForLeaderboard = async function () {
+  return await Users.find().select('name elo -_id').sort('-elo')
 }
 
 /**
  * Update User Elo
- * @param {String} email 
- * @param {Int} elo 
+ * @param {String} email email to id user
+ * @param {Int} elo new elo
  */
 userSchema.statics.updateUserElo = async function (email, elo) {
-  const res = await Users.updateOne(
+  await Users.updateOne(
     { email: email },
     { $inc: { elo: elo } }
   )
 }
 
+/**
+ * Update User Pciture
+ * @param {String} email email to id user
+ * @param {String} picture new picture
+ */
+userSchema.statics.updateUserPicture = async function (email, picture) {
+  await Users.updateOne(
+    { email: email },
+    { $inc: { picture: picture } }
+  )
+}
+/**
+ * Update User Favorites
+ * @param {String} email email to id user
+ * @param {Array} favoriteWords
+ */
+userSchema.statics.updateUserPicture = async function (email, favoriteWords) {
+  await Users.updateOne(
+    { email: email },
+    { $inc: { favoriteWords: favoriteWords } }
+  )
+}
+
+
+//init mmodels
+
 const Words = mongoose.model('WordsV3', wordSchema);
-const Users = mongoose.model('Users', userSchema);
+const Users = mongoose.model('UsersV2', userSchema);
 console.log("Schemas made");
 console.log("Connect to DB to interact")
 
@@ -101,7 +129,11 @@ process.on("SIGINT", async () => {
 });
 
 
-
+/**
+ * connect to the databse
+ * @void
+ * @async
+ */
 async function connect() {
   await mongoose.connect(dbUrl);
   console.log("Connected to database");

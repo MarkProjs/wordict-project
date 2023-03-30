@@ -1,5 +1,5 @@
 import express from "express";
-import controllers from "../controllers/controllers.js";
+import userControllers from "../controllers/userControllers.js";
 import session from 'express-session';
 import { OAuth2Client } from 'google-auth-library';
 import dotenv from 'dotenv';
@@ -7,8 +7,6 @@ dotenv.config();
 
 const client = new OAuth2Client(process.env.REACT_APP_GOOGLE_CLIENT_ID);
 
-//TEMP
-const users = [];
 
 
 const router = express.Router();
@@ -45,15 +43,8 @@ router.post("/login", sessionHandler, async (req, res) => {
   //TODO: may want to update and insert the user's name, email and picture in the db.
   //For now I will be using an array, as a mock data that is on top of the app.js
   const user = { "name": name, "email": email, "picture": picture };
-  const existsAlready = users.findIndex(elem => elem.email === email);
-  
-  if (existsAlready < 0) {
-    //insert
-    users.push(user);
-  } else {
-    //update
-    users[existsAlready] = user;
-  }
+  userControllers.addUserIfNew(user);
+
   //TODO: create a session cookie send it back to the client
   req.session.regenerate(function (err) {
     if (err) {
@@ -66,6 +57,7 @@ router.post("/login", sessionHandler, async (req, res) => {
   });
 });
   
+
 /**
    * route to the server that will require authentication
    * middleware to verify the session
@@ -78,15 +70,63 @@ function isAuthenticated(req, res, next) {
   next();
 }
 
+/**
+   * route for authenticated users only (Template)
+   */
+router.get("/protected", sessionHandler, isAuthenticated, function (req, res) {
+  //would actually be doing something
+  res.sendStatus(200);
+});
+
 
 /**
  * POST API to update user elo
  */
-router.post("/user-elo", async (req, res) => {
-  const email = req.body.email
-  const elo = req.body.elo
+router.post("/updateElo", sessionHandler, isAuthenticated, async (req, res) => {
+  const user = req.session.user;
+  const elo = req.body.elo;
+  if(!elo){
+    return res.sendStatus(400).end()
+  }
   try {
-    await controllers.postUserElo(email, elo);
+    await userControllers.uptadeElo(user, elo);
+    res.sendStatus(200).end();
+  } catch (e) {
+    console.error(e);
+    res.sendStatus(500).end();
+  }
+});
+
+/**
+ * POST API to update user favorites
+ */
+router.post("/updateElo", sessionHandler, isAuthenticated, async (req, res) => {
+  const user = req.session.user;
+  const favs = req.body.favoriteWords;
+  if(!favs){
+    return res.sendStatus(400).end()
+  }
+  try {
+    await userControllers.updateFavorites(user, favs);
+    res.sendStatus(200).end();
+  } catch (e) {
+    console.error(e);
+    res.sendStatus(500).end();
+  }
+});
+
+/**
+ * POST API to update user pciture
+ */
+router.post("/updatePicture", sessionHandler, isAuthenticated, async (req, res) => {
+  const user = req.session.user;
+  const picture = req.body.picture;
+  if(!elo){
+    return res.sendStatus(400).end()
+  }
+  //TODO: get file and save to blob and save url
+  try {
+    await userControllers.updatePicture(user, picture);
     res.sendStatus(200).end();
   } catch (e) {
     console.error(e);
@@ -98,24 +138,17 @@ router.post("/user-elo", async (req, res) => {
  * Get API to retrieve User
  */
 router.get("/getUserInfo", sessionHandler, isAuthenticated, async (req, res) => {
-  let user = ;
+  let user = req.session.user;
   try {
-    user = await controllers.getUser(user);
-  } catch (error) {
-    user = {}
+    user = await userControllers.getUserInfo(user);
+    res.json(user).end();
+  } catch (e) {
+    console.error(e);
+    res.sendStatus(500).end();
   }
-  res.json(user);
 });
 
 
-/**
-   * route for authenticated users only (Template)
-   */
-router.get("/getUserStatsAndPrefs", sessionHandler, isAuthenticated, function (req, res) {
-  //would actually be doing something
-  res.sendStatus(200);
-});
-  
 /**
    * logout route
    */
