@@ -3,6 +3,8 @@ import userControllers from "../controllers/userControllers.js";
 import session from 'express-session';
 import { OAuth2Client } from 'google-auth-library';
 import dotenv from 'dotenv';
+import fileUpload from "express-fileupload";
+import imageUpload from "../controllers/blobController.js";
 dotenv.config();
 
 const client = new OAuth2Client(process.env.REACT_APP_GOOGLE_CLIENT_ID);
@@ -23,6 +25,13 @@ let sessionHandler = session({
     sameSite: 'strict'
   }
 });
+
+
+//middleware for the upload file
+router.use(fileUpload({
+  createParentPath: true,
+}));
+  
 
 router.use(express.json());
 
@@ -100,7 +109,7 @@ router.post("/updateElo", sessionHandler, isAuthenticated, async (req, res) => {
 /**
  * POST API to update user favorites
  */
-router.post("/updateElo", sessionHandler, isAuthenticated, async (req, res) => {
+router.post("/updateFavorites", sessionHandler, isAuthenticated, async (req, res) => {
   const user = req.session.user;
   const favs = req.body.favoriteWords;
   if(!favs){
@@ -120,13 +129,13 @@ router.post("/updateElo", sessionHandler, isAuthenticated, async (req, res) => {
  */
 router.post("/updatePicture", sessionHandler, isAuthenticated, async (req, res) => {
   const user = req.session.user;
-  const picture = req.body.picture;
-  if(!elo){
+  const file = req.files.file;
+  if(!file){
     return res.sendStatus(400).end()
   }
-  //TODO: get file and save to blob and save url
   try {
-    await userControllers.updatePicture(user, picture);
+    const pictureUrl = await imageUpload(file);
+    await userControllers.updatePicture(user, pictureUrl);
     res.sendStatus(200).end();
   } catch (e) {
     console.error(e);
