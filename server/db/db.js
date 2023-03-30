@@ -87,7 +87,7 @@ userSchema.statics.getAllUsersForLeaderboard = async function () {
 userSchema.statics.updateUserElo = async function (email, elo) {
   await Users.updateOne(
     { email: email },
-    { $inc: { elo: elo } }
+    { $set: { elo: elo } }
   )
 }
 
@@ -99,7 +99,7 @@ userSchema.statics.updateUserElo = async function (email, elo) {
 userSchema.statics.updatePicture = async function (email, picture) {
   await Users.updateOne(
     { email: email },
-    { $inc: { picture: picture } }
+    { $set: { picture: picture } }
   )
 }
 /**
@@ -110,7 +110,7 @@ userSchema.statics.updatePicture = async function (email, picture) {
 userSchema.statics.updateFavorites = async function (email, favoriteWords) {
   await Users.updateOne(
     { email: email },
-    { $inc: { favoriteWords: favoriteWords } }
+    { $set: { favoriteWords: favoriteWords } }
   )
 }
 
