@@ -1,8 +1,8 @@
 import app from "../app.js";
 import request from "supertest";
-import controllers from "../controllers/controllers.js";
+import controllers from "../controllers/wordControllers";
 import { jest } from '@jest/globals';
-jest.mock('../controllers/controllers.js');
+jest.mock('../controllers/wordControllers');
 
 // Mock Controllers
 controllers.getDefinition = jest.fn((e) => {
