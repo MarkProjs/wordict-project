@@ -21,14 +21,12 @@ function App() {
     setUserPic(data.user.picture);
   }
 
-  // //handle log out, nothing to do with google, only has to do with the
-  // //session on the Express server
-  // const handleLogout = async () => {
-  //   await fetch("/logout");
-  //   setUserName("");
-  //   setUserEmail("");
-  //   setUserPic("/img/default.jpg");
-  // }
+  async function handleLogout() {
+    await FetchModule.handleLogout();
+    setUserName("");
+    setUserEmail("");
+    setUserPic("/img/default.jpg");
+  }
 
   return (
     <UserContext.Provider value={{ username: userName, email: userEmail, picture: userPic }}>

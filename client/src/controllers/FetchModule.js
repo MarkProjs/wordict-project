@@ -70,11 +70,16 @@ async function fetchAllUsers() {
 
 async function fetchPostElo(data) {
   let url = new URL("/api/user-elo", location.origin);
-  await fetch(url, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(data),
-  });
+  try {
+    await fetch(url, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data),
+    });
+  }
+  catch (e) {
+    console.log(e);
+  }
 }
 
 /**
@@ -104,7 +109,13 @@ async function handleLogin(googleData) {
  */
 async function handleLogout() {
   let url = new URL("/logout", location.origin);
-  await fetch(url);
+  try {
+    await fetch(url);
+  }
+  catch (e) {
+    console.log(e);
+  }
+  
 }
 
 export default {
