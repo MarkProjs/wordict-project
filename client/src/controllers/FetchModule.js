@@ -52,8 +52,35 @@ async function fetchUser() {
   return data;
 }
 
+/**
+ * Get all users from api
+ * @returns Array containing all users
+ */
+async function fetchAllUsers() {
+  let url = new URL("/api/all-users", location.origin);
+  let data;
+  try {
+    let response = await fetch(url);
+    data = await response.json();
+  } catch (e) {
+    data = [];
+  }
+  return data;
+}
+
+async function fetchPostElo(data) {
+  let url = new URL("/api/user-elo", location.origin);
+  await fetch(url, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(data),
+  });
+}
+
 export default {
   fetchDefinition,
   fetchAllWords,
   fetchUser,
+  fetchAllUsers,
+  fetchPostElo,
 }
