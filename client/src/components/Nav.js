@@ -12,7 +12,7 @@ import LogIn from './pages/LogIn.js';
 import userContext from '../userContext.js';
 import { useContext } from 'react';
 
-function Nav(props) {
+function Nav() {
   const user = useContext(userContext);
   return(
     <>
@@ -26,11 +26,9 @@ function Nav(props) {
           <Route path="/leaderboard" exact element={<LeaderBoard/>}/>
           <Route path="/about" exact element={<AboutUs/>} />
           <Route path="/profile" 
-            exact element={user.email ? <Profile/> : <Navigate to="/login"/>} />
-          <Route path="/login" exact element={user.email ? <Profile/> : 
-            <LogIn 
-              userName={user.username}
-              handleLogin={props.handleLogin}/>} />
+            exact element={user.isLoggedIn ? <Profile/> : <Navigate to="/login"/>} />
+          <Route path="/login" exact element={user.isLoggedIn ? <Profile/> : 
+            <LogIn />} />
           <Route path="/*" exact element= {<Error/>}/>
         </Routes>
       </Router>

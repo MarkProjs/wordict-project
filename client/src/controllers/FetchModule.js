@@ -47,7 +47,7 @@ async function fetchUser() {
     let response = await fetch(url);
     data = await response.json();
   } catch (e) {
-    data = {};
+    data = {user: {}};
   }
   return data;
 }
@@ -98,7 +98,7 @@ async function handleLogin(googleData) {
     });
     data = await res.json();
   } catch(e) {
-    data = {};
+    data = {user: {}};
   }
 
   return data;

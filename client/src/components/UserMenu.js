@@ -1,0 +1,25 @@
+import { useContext } from 'react';
+import LogBtn from './LogBtn';
+import UserContext from '../userContext';
+import FetchModule from '../controllers/FetchModule';
+
+
+function UserMenu() {
+  const user = useContext(UserContext);
+
+  //handle the logout for google authentcation
+  async function handleLogout() {
+    await FetchModule.handleLogout();
+    user.setIsLoggedIn(false);
+  }
+
+  return (
+    <div className="profile login">
+      <img src={user.picture} style={{ width: 50, height: 50 }} referrerPolicy="no-referrer" />
+      <LogBtn />
+      {user.isLoggedIn && <button onClick={handleLogout}>Logout</button>}
+    </div>
+  );
+}
+
+export default UserMenu
