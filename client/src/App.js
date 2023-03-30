@@ -1,5 +1,6 @@
 import './App.css';
 import Nav from "./components/Nav.js";
+import LogBtn from './components/LogBtn';
 import { useState } from 'react';
 import { GoogleLogin, GoogleOAuthProvider } from "@react-oauth/google";
 import UserContext from './userContext';
@@ -36,17 +37,9 @@ function App() {
           <h1 id="title"><a href="/">WORDICT</a></h1>
           <div className="profile login">
             <img src={userPic} style={{ width: 50, height: 50 }} referrerPolicy="no-referrer" />
-            <GoogleOAuthProvider clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}>
-              {!userName &&
-                <GoogleLogin
-                  onSuccess={handleLogin}
-                  onError={() => {
-                    console.log('Login Failed');
-                  }}
-                  cookiePolicy={"single_host_origin"}
-                />
-              }
-            </GoogleOAuthProvider>
+            <LogBtn
+              handleLogin = {handleLogin} 
+            />
             {userName && <button onClick={handleLogout}>Logout</button>}
           </div>
         </div>
