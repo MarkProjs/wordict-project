@@ -66,24 +66,13 @@ router.get("/dictionary", async (req, res) => {
   res.json(words);
 })
 
-/**
- * Get API to retrieve User
- */
-router.get("/user", async (req, res) => {
-  let user;
-  try {
-    user = await controllers.getUser();
-  } catch (error) {
-    user = {}
-  }
-  res.json(user);
-});
 
 /**
  * Get API to retrieve all Users
  */
 router.get("/all-users", async (req, res) => {
   let users;
+  //TODO: HANDLE ERROR
   try {
     users = await controllers.getAllUsers();
   } catch (error) {
@@ -92,19 +81,6 @@ router.get("/all-users", async (req, res) => {
   res.json(users);
 })
 
-/**
- * POST API to update user elo
- */
-router.post("/user-elo", async (req, res) => {
-  const email = req.body.email
-  const elo = req.body.elo
-  try {
-    await controllers.postUserElo(email, elo);
-    res.sendStatus(200).end();
-  } catch (e) {
-    console.error(e);
-    res.sendStatus(500).end();
-  }
-})
+
 
 export default router;

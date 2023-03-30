@@ -13,7 +13,10 @@ Runs on Node.js
 
 1. Add the absolute path to the `dictionary.csv` file to the root .env file as `SVG_PATH` (for java test you also need to add the absolute path to the `test.csv` file to the .env file in the `java/population_app` directory as `TEST_PATH`)
 
+
 1. Run java population script to populate DB
+
+1. Go to https://console.cloud.google.com/ and create a new project in order to obtain a secret string and the google client id. Save them in root .env file as `SECRET` and `REACT_APP_GOOGLE_CLIENT_ID` respectively. Additionally create a third .env file in the client directory and save ONLY `REACT_APP_GOOGLE_CLIENT_ID` in it.
 
 1. Run `npm run build` in the root of the project
 
