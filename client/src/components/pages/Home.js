@@ -1,6 +1,6 @@
 function Home() {
   return(
-    <>
+    <div>
       <h1>Home</h1>
       <h2>Welcome To WordDict!</h2>
       <h3>Here is a guide to maximize the experience in the website:</h3>
@@ -11,10 +11,9 @@ function Home() {
         <li>Play <a href="/wordle">Wordle</a>!</li>
         <li>Test your skills against another player in <a href="">Wordle Online</a>!</li>
         <li>Check your ranking in <a href="">Leaderboard</a>!</li>
-        <li><a href="">Sign up</a></li>
-        <li><a href="">About Us</a></li>
+        <li><a href="/about">About Us</a></li>
       </ul>
-    </>
+    </div>
   );
 }
 export default Home;

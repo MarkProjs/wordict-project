@@ -1,4 +1,4 @@
-import { Words, Users } from "../db/db.js"
+import { Words } from "../db/db.js"
 
 
 
@@ -46,32 +46,5 @@ async function getAllWords(length) {
   return returnObj;
 }
 
-/**
- * @async
- * @returns the user
- */
-async function getUser() {
-  let result = await Users.getLatestUser();
-  return result;
-}
 
-/**
- * Get all users
- * @async
- * @returns all users sorted by Elo
- */
-async function getAllUsers() {
-  let result = await Users.getAllUsers();
-  return result;
-}
-
-/**
- * Post user elo
- * @param {String} name Name of the user
- * @param {Int} elo New calculated elo of the user
- */
-async function postUserElo(name, elo) {
-  await Users.updateUserElo(name, elo);
-}
-
-export default { getRandomWord, getDefinition, getAllWords, getUser, getAllUsers, postUserElo };
+export default { getRandomWord, getDefinition, getAllWords };
