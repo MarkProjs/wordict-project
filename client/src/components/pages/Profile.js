@@ -20,10 +20,11 @@ function Profile() {
     (async () => {
       // Fetch user from database
       let data = await FetchModule.fetchUser();
-      setProfileName(data[0].name);
-      setProfilePicture(data[0].image);
+      setProfileName(data.name);
+      setProfilePicture(data.image);
+      // use context for email
       setEmail(data[0].email);
-      setFavoriteWords(data[0].favoriteWords);
+      setFavoriteWords(data.favoriteWords);
     })();
   }, []);
 
@@ -55,7 +56,7 @@ function Profile() {
     <section className="preview-section">
       <p>Quick Preview:</p>
       <article>
-        <img alt="profile picture" src={profilePicture} />
+        <img alt="profile picture" src={profilePicture} referrerPolicy="no-referrer"/>
         <h1 className="name">{profileName}</h1>
       </article>
     </section>;

@@ -2,42 +2,19 @@
     background: #000;
     height: 80px;
     display: flex;
-    justify-content: space-between;
+    justify-content: space-evenly;
     padding: 0.5rem calc((100vw - 1000px) / 2);
     z-index: 10;
 }
 
 .NavMenu {
     display: flex;
-    align-items: center;
     margin-right: -24px;
     color: #fff;
 
     @media screen and (max-width: 768px) {
         display: none;
     }
-}
-
-.NavBtn {
-    display: flex;
-    align-items: center;
-    margin-right: 24px;
-
-    @media screen and (max-width: 768px) {
-        display: none;
-    }
-}
-
-.NavBtnLink {
-    border-radius: 4px;
-    background: #256ce1;
-    padding: 10px 22px;
-    color: #fff;
-    border: none;
-    outline: none;
-    cursor: pointer;
-    transition: all 0.2s ease-in-out;
-    text-decoration: none;
 }
 
 .mainNavLink {

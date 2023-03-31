@@ -8,6 +8,8 @@ mongoose.set('strictQuery', true);
 const dbUrl = process.env.ATLAS_URI;
 
 
+// WORD STRUCTURE
+
 //create schemas
 const DefinitionSchema = new mongoose.Schema({
   type: String,
@@ -31,14 +33,6 @@ const wordSchema = new mongoose.Schema({
   }
 });
 
-const userSchema = new mongoose.Schema({
-  email: String,
-  name: String,
-  image: String,
-  favoriteWords: [{ type: String }],
-  elo: Number
-});
-
 /**
  * @async
  * @param {Number} randValue random number of documents to skip
@@ -51,7 +45,7 @@ wordSchema.statics.getRandomUsingVal = async function(randValue, query = {}){
 
 /**
  * @async
- * @returns {Array} and array with all the words represented in the form {word: word};
+ * @returns {Array} an array with all the words represented in the form {word: word};
  */
 wordSchema.statics.getOnlyWordFields =  async function(query = {}){
   return await Words.find(query).select('word -_id').exec();
@@ -62,14 +56,68 @@ wordSchema.pre('save', function (next) {
   next();
 });
 
+
+//USER STRUCTURE
+
+const userSchema = new mongoose.Schema({
+  email: {
+    type: String,
+    unique: true
+  },
+  name: String,
+  picture: String,
+  favoriteWords: [String],
+  elo: Number
+});
+
+
 /**
- * Temporary function just to test with profile page
+ * Get all users sorted by elo
  * @async
- * @returns the latest user
  */
-userSchema.statics.getLatestUser = async function (){
-  return await Users.find().sort({_id:-1}).limit(1).exec();
-};
+userSchema.statics.getAllUsersForLeaderboard = async function () {
+  return await Users.find().select('name elo -_id').sort('-elo')
+}
+
+/**
+ * Update User Elo
+ * @param {String} email email to id user
+ * @param {Int} elo new elo
+ */
+userSchema.statics.updateUserElo = async function (email, elo) {
+  await Users.updateOne(
+    { email: email },
+    { $set: { elo: elo } }
+  )
+}
+
+/**
+ * Update User Picture
+ * @param {String} email email to id user
+ * @param {String} picture new picture
+ */
+userSchema.statics.updatePicture = async function (email, picture) {
+  await Users.updateOne(
+    { email: email },
+    { $set: { picture: picture } }
+  )
+}
+
+/**
+ * Update User Favorites
+ * @param {String} email email to id user
+ * @param {Array} favoriteWords
+ */
+userSchema.statics.updateFavorites = async function (email, favoriteWords) {
+  await Users.updateOne(
+    { email: email },
+    { $set: { favoriteWords: favoriteWords } }
+  )
+}
+
+// userSchema.statics.getLatestUser = async function (){
+//   return await Users.find().sort({_id:-1}).limit(1).exec();
+// };
 
 /**
  * Add a new word to the user's favorite words array
@@ -95,27 +143,10 @@ userSchema.statics.removeUserFavoriteWord = async function (email, word) {
   );
 }
 
-/**
- * Get all users
- */
-userSchema.statics.getAllUsers = async function () {
-  return await Users.find().sort('-elo')
-}
-
-/**
- * Update User Elo
- * @param {String} email 
- * @param {Int} elo 
- */
-userSchema.statics.updateUserElo = async function (email, elo) {
-  await Users.updateOne(
-    { email: email },
-    { $inc: { elo: elo } }
-  )
-}
+//init models
 
 const Words = mongoose.model('WordsV3', wordSchema);
-const Users = mongoose.model('Users', userSchema);
+const Users = mongoose.model('UsersV2', userSchema);
 console.log("Schemas made");
 console.log("Connect to DB to interact")
 
@@ -125,7 +156,12 @@ process.on("SIGINT", async () => {
   process.exit();
 });
 
-async function connect(){
+/**
+ * connect to the database
+ * @void
+ * @async
+ */
+async function connect() {
   await mongoose.connect(dbUrl);
   console.log("Connected to database");
   console.log("Ready to interact with DB");
