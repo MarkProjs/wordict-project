@@ -86,7 +86,7 @@ async function fetchPostElo(data) {
  * login of the google authentication
  */
 async function handleLogin(googleData) {
-  let url = new URL("/auth", location.origin);
+  let url = new URL("/auth/login", location.origin);
   let data;
   try {
     const res = await fetch(url, {
@@ -108,7 +108,7 @@ async function handleLogin(googleData) {
  * logging out of the authentication
  */
 async function handleLogout() {
-  let url = new URL("/logout", location.origin);
+  let url = new URL("/auth/logout", location.origin);
   try {
     await fetch(url);
   }
