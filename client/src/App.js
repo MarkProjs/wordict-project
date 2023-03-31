@@ -36,7 +36,6 @@ function App() {
         <div className="header">
           <h1 id="title"><a href="/">WORDICT</a></h1>
           <UserMenu/>
-          
         </div>
         <Nav/>
       </div>
