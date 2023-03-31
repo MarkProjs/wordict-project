@@ -31,7 +31,7 @@ let sessionHandler = session({
 router.use(fileUpload({
   createParentPath: true,
 }));
-  
+
 
 router.use(express.json());
 
@@ -65,7 +65,7 @@ router.post("/login", async (req, res) => {
     res.json({ user: user });
   });
 });
-  
+
 
 /**
  * route to the server that will require authentication
@@ -93,11 +93,11 @@ router.get("/loggedInCheck", isAuthenticated, (req, res) => {
 router.post("/updateElo", isAuthenticated, async (req, res) => {
   const user = req.session.user;
   const elo = req.body.elo;
-  if(!elo){
+  if (!elo) {
     return res.sendStatus(400).end()
   }
   try {
-    await userControllers.uptadeElo(user, elo);
+    await userControllers.updateElo(user, elo);
     res.sendStatus(200).end();
   } catch (e) {
     console.error(e);
@@ -109,17 +109,42 @@ router.post("/updateElo", isAuthenticated, async (req, res) => {
  * POST API to update user favorites
  */
 router.post("/updateFavorites", isAuthenticated, async (req, res) => {
-  const user = req.session.user;
-  const favs = req.body.favoriteWords;
-  if(!favs){
-    return res.sendStatus(400).end()
+  // const user = req.session.user;
+  // const favs = req.body.favoriteWords;
+  const email = req.body.email;
+  const word = req.body.word;
+  const isFavorite = req.body.favorite;
+  if (!email || !word) {
+    res.sendStatus(400).end();
   }
   try {
-    await userControllers.updateFavorites(user, favs);
+    // Update user favorite words in database
+    await userControllers.postUserFavoriteWord(email, word, isFavorite);
     res.sendStatus(200).end();
   } catch (e) {
     console.error(e);
     res.sendStatus(500).end();
+  }
+});
+
+/**
+ * Post API to update User
+ */
+router.post("/user-profile", async (req, res) => {
+  // const file = req.files.file;
+  const email = req.body.email;
+  const name = req.body.name;
+  if (!email || !name) {
+    res.sendStatus(400).end();
+  } else {
+    try {
+      // Update user in database
+      await userControllers.updateUser(email, name);
+      res.sendStatus(200).end();
+    } catch (e) {
+      console.error(e);
+      res.sendStatus(500).end();
+    }
   }
 });
 
@@ -129,7 +154,7 @@ router.post("/updateFavorites", isAuthenticated, async (req, res) => {
 router.post("/updatePicture", isAuthenticated, async (req, res) => {
   const user = req.session.user;
   const file = req.files.file;
-  if(!file){
+  if (!file) {
     return res.sendStatus(400).end()
   }
   try {
@@ -172,7 +197,7 @@ router.get("/logout", isAuthenticated, function (req, res) {
     res.sendStatus(200);
   });
 });
-  
+
 
 
 export default router;

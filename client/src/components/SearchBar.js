@@ -1,9 +1,11 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
 import { useLocation } from "react-router-dom";
+import UserContext from '../userContext';
 import FetchModule from '../controllers/FetchModule';
 import './SearchBar.css';
 
 function SearchBar() {
+  const user = useContext(UserContext);
   const [searchInput, setSearchInput] = useState("");
   const [searchResult, setSearchResult] = useState();
   const [words, setWords] = useState([]);
@@ -41,9 +43,8 @@ function SearchBar() {
       data = { "word": "No results" };
     }
     setSearchResult(data);
-    //TODO: here
     let user = await FetchModule.fetchUser();
-    let favoriteWords = user[0].favoriteWords;
+    let favoriteWords = user.favoriteWords;
     if (favoriteWords.find(elem => elem === word)) {
       setIsFavorite(true);
     } else {
@@ -78,8 +79,12 @@ function SearchBar() {
 
   async function favoriteHandler() {
     setIsFavorite(!isFavorite);
-    const email = "monkey@gmail.com";
-    let formData = JSON.stringify({ email: email, word: searchInput, favorite: isFavorite });
+    let x = user;
+    for(let y in x){
+      console.log(y);
+    }
+    const email = "3ndeavor3@gmail.com";
+    let formData = { email: email, word: searchInput, favorite: isFavorite };
     console.log(formData);
     await FetchModule.updateUserFavoriteWords(formData);
   }

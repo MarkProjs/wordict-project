@@ -74,7 +74,7 @@ router.get("/dictionary", async (req, res) => {
 /**
  * Post API to update User
  */
-router.post("/user-profile", async (req, res) => {
+router.post("/user-profilee", async (req, res) => {
   // const file = req.files.file;
   const email = req.body.email;
   const name = req.body.name;

@@ -78,11 +78,11 @@ async function fetchUser() {
  * @param {JSON} data 
  */
 async function updateUser(data) {
-  let url = new URL("/api/user-profile", location.origin);
+  let url = new URL("/auth/user-profile", location.origin);
   await fetch(url, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: data,
+    body: JSON.stringify(data),
   });
 }
 
@@ -91,11 +91,11 @@ async function updateUser(data) {
  * @param {JSON} data 
  */
 async function updateUserFavoriteWords(data) {
-  let url = new URL("/api/user-favorites", location.origin);
+  let url = new URL("/auth/updateFavorites", location.origin);
   await fetch(url, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: data,
+    body: JSON.stringify(data),
   });
 }
 

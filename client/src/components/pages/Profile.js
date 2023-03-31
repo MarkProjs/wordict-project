@@ -21,9 +21,9 @@ function Profile() {
       // Fetch user from database
       let data = await FetchModule.fetchUser();
       setProfileName(data.name);
-      setProfilePicture(data.image);
+      setProfilePicture(data.picture);
       // use context for email
-      setEmail(data[0].email);
+      setEmail(data.email);
       setFavoriteWords(data.favoriteWords);
     })();
   }, []);
