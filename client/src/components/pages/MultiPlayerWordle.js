@@ -15,19 +15,6 @@ function MultiPlayerWordle() {
   const navigate = useNavigate();
   const location = useLocation();
 
-  /**
-   * If they are not connected, send them back to the start
-   * @param {Ref} socket the socket of the game
-   */
-  function sendToStart(socket) {
-    if (!socket.current || !socket.current.connected) {
-      navigate("/wordle-online", {replace: true});
-      console.log("here")
-    } else {
-      console.log("CONNECTED")
-    }
-  }
-
   useEffect(() => {
     // Fetch all the valid words in our dictionary
     (async () => {
@@ -50,20 +37,21 @@ function MultiPlayerWordle() {
 
   // If they navigate to the wordle-online page, send them to the connect page.
   useEffect(() => {
-    if (location.pathname === "/wordle-online") {
+    if (location.pathname.match(/^\/wordle-online\/?$/)) {
       navigate("/wordle-online/connect", {replace: true});
     }
   }, [location.pathname]);
   
+
   return (
     <div>
       <SocketContext.Provider value={{socket: socket}}>
         <Routes>
           <Route path="connect" exact element={<SocketForm/>} />
           <Route path="startup" exact element= {
-            <GameSettings allWords={allWords} sendToStart={sendToStart}/>
+            <GameSettings allWords={allWords}/>
           } />
-          <Route path="game" exact element={<GameBoard sendToStart={sendToStart}/>} />
+          <Route path="game" exact element={<GameBoard/>} />
         </Routes>
         <Outlet/>
       </SocketContext.Provider>
