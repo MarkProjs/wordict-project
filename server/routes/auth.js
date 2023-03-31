@@ -35,10 +35,12 @@ router.use(fileUpload({
 
 router.use(express.json());
 
+router.use(sessionHandler);
+
 /**
  * Athentication post
  */
-router.post("/login", sessionHandler, async (req, res) => {
+router.post("/login", async (req, res) => {
   //TODO: should validate that the token was sent first
   const { token } = req.body;
   const ticket = await client.verifyIdToken({
@@ -49,12 +51,10 @@ router.post("/login", sessionHandler, async (req, res) => {
     return res.sendStatus(401);
   }
   const { name, email, picture } = ticket.getPayload();
-  //TODO: may want to update and insert the user's name, email and picture in the db.
-  //For now I will be using an array, as a mock data that is on top of the app.js
+
   const user = { "name": name, "email": email, "picture": picture };
   userControllers.addUserIfNew(user);
 
-  //TODO: create a session cookie send it back to the client
   req.session.regenerate(function (err) {
     if (err) {
       //server error, couldn't create the session
@@ -68,9 +68,9 @@ router.post("/login", sessionHandler, async (req, res) => {
   
 
 /**
-   * route to the server that will require authentication
-   * middleware to verify the session
-   */
+ * route to the server that will require authentication
+ * middleware to verify the session
+ */
 function isAuthenticated(req, res, next) {
   if (!req.session.user) {
     //unauthorized
@@ -80,18 +80,17 @@ function isAuthenticated(req, res, next) {
 }
 
 /**
-   * route for authenticated users only (Template)
-   */
-router.get("/protected", sessionHandler, isAuthenticated, function (req, res) {
-  //would actually be doing something
-  res.sendStatus(200);
+ * NOTE: not currently in use
+ * check if the user is logged in
+ */
+router.get("/loggedInCheck", isAuthenticated, (req, res) => {
+  res.sendStatus(200).end();
 });
-
 
 /**
  * POST API to update user elo
  */
-router.post("/updateElo", sessionHandler, isAuthenticated, async (req, res) => {
+router.post("/updateElo", isAuthenticated, async (req, res) => {
   const user = req.session.user;
   const elo = req.body.elo;
   if(!elo){
@@ -109,7 +108,7 @@ router.post("/updateElo", sessionHandler, isAuthenticated, async (req, res) => {
 /**
  * POST API to update user favorites
  */
-router.post("/updateFavorites", sessionHandler, isAuthenticated, async (req, res) => {
+router.post("/updateFavorites", isAuthenticated, async (req, res) => {
   const user = req.session.user;
   const favs = req.body.favoriteWords;
   if(!favs){
@@ -127,7 +126,7 @@ router.post("/updateFavorites", sessionHandler, isAuthenticated, async (req, res
 /**
  * POST API to update user pciture
  */
-router.post("/updatePicture", sessionHandler, isAuthenticated, async (req, res) => {
+router.post("/updatePicture", isAuthenticated, async (req, res) => {
   const user = req.session.user;
   const file = req.files.file;
   if(!file){
@@ -146,7 +145,7 @@ router.post("/updatePicture", sessionHandler, isAuthenticated, async (req, res) 
 /**
  * Get API to retrieve User
  */
-router.get("/getUserInfo", sessionHandler, isAuthenticated, async (req, res) => {
+router.get("/getUserInfo", isAuthenticated, async (req, res) => {
   let user = req.session.user;
   try {
     user = await userControllers.getUserInfo(user);
@@ -161,7 +160,7 @@ router.get("/getUserInfo", sessionHandler, isAuthenticated, async (req, res) => 
 /**
    * logout route
    */
-router.get("/logout", sessionHandler, isAuthenticated, function (req, res) {
+router.get("/logout", isAuthenticated, function (req, res) {
   //destroy the session
   req.session.destroy(function (err) {
     //callback invoked after destroy returns

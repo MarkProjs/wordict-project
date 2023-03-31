@@ -4,7 +4,6 @@ import userControllers from "../controllers/userControllers.js";
 import wordControllers from "../controllers/wordControllers.js";
 
 const router = express.Router();
-
 router.use(express.json());
 
 /**

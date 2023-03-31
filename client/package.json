@@ -17,7 +17,7 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start": "set \"REACT_APP_GOOGLE_CLIENT_ID=629473902521-6gv6fr7i9mk2davigo2psdb25gaocr07.apps.googleusercontent.com\" && react-scripts start",
+    "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"

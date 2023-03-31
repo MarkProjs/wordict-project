@@ -51,8 +51,9 @@ async function updatePicture(user, picture) {
 async function updateFavorites(user, favoriteWords) {
   await Users.updateFavorites(user.email, favoriteWords);
 }
+
 async function addUserIfNew(newUser){
-  let alreadyExists = getUserInfo(newUser);
+  let alreadyExists = await getUserInfo(newUser);
   if(!alreadyExists){
     const newWord = new Users({
       email: newUser.email,
