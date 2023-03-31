@@ -1,5 +1,5 @@
 import NavBar from './NavBar.js';
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import { BrowserRouter as Router, Route, Routes, Navigate } from "react-router-dom";
 import Home from "./pages/Home.js";
 import Dict from "./pages/Dict.js";
 import Error from "./pages/Error.js";
@@ -8,13 +8,14 @@ import MultiPlayerWordle from "./pages/MultiPlayerWordle.js";
 import LeaderBoard from "./pages/Leaderboard.js"
 import AboutUs from './pages/AboutUs.js';
 import Profile from "./pages/Profile.js";
+import LogIn from './pages/LogIn.js';
+import userContext from '../userContext.js';
+import { useContext } from 'react';
 
-function Header() {
+function Nav() {
+  const user = useContext(userContext);
   return(
     <>
-      <div className="title">
-        WORDICT
-      </div>
       <Router>
         <NavBar/>
         <Routes>
@@ -24,7 +25,10 @@ function Header() {
           <Route path="/wordle-online/*" exact element={<MultiPlayerWordle/>}/>
           <Route path="/leaderboard" exact element={<LeaderBoard/>}/>
           <Route path="/about" exact element={<AboutUs/>} />
-          <Route path="/profile" exact element={<Profile/>} />
+          <Route path="/profile" 
+            exact element={user.isLoggedIn ? <Profile/> : <Navigate to="/login"/>} />
+          <Route path="/login" exact element={user.isLoggedIn ? <Profile/> : 
+            <LogIn />} />
           <Route path="/*" exact element= {<Error/>}/>
         </Routes>
       </Router>
@@ -33,4 +37,4 @@ function Header() {
   );
 }
 
-export default Header;
+export default Nav;

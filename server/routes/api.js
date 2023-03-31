@@ -1,6 +1,7 @@
 import express from "express";
 import fs from 'fs';
-import controllers from "../controllers/controllers.js";
+import userControllers from "../controllers/userControllers.js";
+import wordControllers from "../controllers/wordControllers.js";
 
 const router = express.Router();
 router.use(express.json());
@@ -42,7 +43,7 @@ router.use(logger);
 router.get("/:word/definition", async (req, res) => {
   const word = req.params.word
   // Retrieve data from MongoDB
-  let data = await controllers.getDefinition(word);
+  let data = await wordControllers.getDefinition(word);
   if (data === null) {
     res.sendStatus(404);
   } else {
@@ -57,7 +58,7 @@ router.get("/dictionary", async (req, res) => {
   let words;
   // try {
   // Retrieve words from MongoDB
-  let data = await controllers.getAllWords(req.query.length);
+  let data = await wordControllers.getAllWords(req.query.length);
   words = data.words;
   // } catch (e) {
   //   words = [];
@@ -65,45 +66,20 @@ router.get("/dictionary", async (req, res) => {
   res.json(words);
 })
 
-/**
- * Get API to retrieve User
- */
-router.get("/user", async (req, res) => {
-  let user;
-  try {
-    user = await controllers.getUser();
-  } catch (error) {
-    user = {}
-  }
-  res.json(user);
-});
 
 /**
  * Get API to retrieve all Users
  */
 router.get("/all-users", async (req, res) => {
-  let users;
   try {
-    users = await controllers.getAllUsers();
-  } catch (error) {
-    users = []
-  }
-  res.json(users);
-})
-
-/**
- * POST API to update user elo
- */
-router.post("/user-elo", async (req, res) => {
-  const email = req.body.email
-  const elo = req.body.elo
-  try {
-    await controllers.postUserElo(email, elo);
-    res.sendStatus(200).end();
+    let users = await userControllers.getAllUsers();
+    res.json(users);
   } catch (e) {
     console.error(e);
     res.sendStatus(500).end();
   }
 })
+
+
 
 export default router;
