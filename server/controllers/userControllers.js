@@ -54,9 +54,7 @@ async function updateFavorites(user, favoriteWords) {
 
 async function addUserIfNew(newUser){
   let alreadyExists = await getUserInfo(newUser);
-  console.log(!alreadyExists);
   if(!alreadyExists){
-    console.log("trying to save");
     const newWord = new Users({
       email: newUser.email,
       name: newUser.name,
@@ -65,7 +63,6 @@ async function addUserIfNew(newUser){
       elo: 0
     });
     await newWord.save();
-    console.log("saved");
   }
 }
     

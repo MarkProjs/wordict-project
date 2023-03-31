@@ -76,8 +76,7 @@ async function fetchPostElo(data) {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(data),
     });
-  }
-  catch (e) {
+  } catch (e) {
     console.log(e);
   }
 }
@@ -111,8 +110,7 @@ async function handleLogout() {
   let url = new URL("/auth/logout", location.origin);
   try {
     await fetch(url);
-  }
-  catch (e) {
+  } catch (e) {
     console.log(e);
   }
   
