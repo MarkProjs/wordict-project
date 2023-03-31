@@ -11,7 +11,7 @@ Runs on Node.js
 
 1. Create two .env files, one in the root directory and one in the `java/population_app` directory. Add url to mongoBD named `ATLAS_URI` to both.
 
-1. Add the absolute path to the `dictionary.csv` file to the root .env file as `SVG_PATH` (for java test you also need to add the absolute path to the `test.csv` file to the .env file in the `java/population_app` directory as `TEST_PATH`)
+1. Add the absolute path to the `dict` directory file to the root .env file as `CSV_PATH` (for java test you also need to add the absolute path to the `test.csv` file to the .env file in the `java/population_app` directory as `TEST_PATH`).  
 
 1. Run java population script to populate DB
 
