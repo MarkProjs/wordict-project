@@ -21,8 +21,7 @@ function App() {
     localStorage.setItem("isLoggedIn", JSON.stringify(isLoggedIn));
     if (isLoggedIn) {
       (async () => {
-        const user = (await FetchModule.fetchUser());
-        console.log(user);
+        const user = await FetchModule.fetchUser();
         setUserPic(user.picture);
         setUsername(user.name);
       })();
