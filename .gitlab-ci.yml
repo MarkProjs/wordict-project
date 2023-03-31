@@ -88,7 +88,7 @@ lint:
     - cd client && npm install --save-dev eslint-plugin-security@latest eslint-plugin-react@latest
     - cd ..
   script:
-    - eslint --max-warning 0 --ext .js .
+    - eslint --max-warnings 0 --ext .js .
 
 #test_db:
 #  script:
