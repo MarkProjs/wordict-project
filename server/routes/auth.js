@@ -35,10 +35,12 @@ router.use(fileUpload({
 
 router.use(express.json());
 
+router.use(sessionHandler);
+
 /**
  * Athentication post
  */
-router.post("/login", sessionHandler, async (req, res) => {
+router.post("/login", async (req, res) => {
   //TODO: should validate that the token was sent first
   const { token } = req.body;
   const ticket = await client.verifyIdToken({
@@ -79,19 +81,11 @@ function isAuthenticated(req, res, next) {
   next();
 }
 
-/**
-   * route for authenticated users only (Template)
-   */
-router.get("/protected", sessionHandler, isAuthenticated, function (req, res) {
-  //would actually be doing something
-  res.sendStatus(200);
-});
-
 
 /**
  * POST API to update user elo
  */
-router.post("/updateElo", sessionHandler, isAuthenticated, async (req, res) => {
+router.post("/updateElo", isAuthenticated, async (req, res) => {
   const user = req.session.user;
   const elo = req.body.elo;
   if(!elo){
@@ -109,7 +103,7 @@ router.post("/updateElo", sessionHandler, isAuthenticated, async (req, res) => {
 /**
  * POST API to update user favorites
  */
-router.post("/updateFavorites", sessionHandler, isAuthenticated, async (req, res) => {
+router.post("/updateFavorites", isAuthenticated, async (req, res) => {
   const user = req.session.user;
   const favs = req.body.favoriteWords;
   if(!favs){
@@ -127,7 +121,7 @@ router.post("/updateFavorites", sessionHandler, isAuthenticated, async (req, res
 /**
  * POST API to update user pciture
  */
-router.post("/updatePicture", sessionHandler, isAuthenticated, async (req, res) => {
+router.post("/updatePicture", isAuthenticated, async (req, res) => {
   const user = req.session.user;
   const file = req.files.file;
   if(!file){
@@ -146,7 +140,7 @@ router.post("/updatePicture", sessionHandler, isAuthenticated, async (req, res) 
 /**
  * Get API to retrieve User
  */
-router.get("/getUserInfo", sessionHandler, isAuthenticated, async (req, res) => {
+router.get("/getUserInfo", isAuthenticated, async (req, res) => {
   let user = req.session.user;
   try {
     user = await userControllers.getUserInfo(user);
@@ -161,7 +155,7 @@ router.get("/getUserInfo", sessionHandler, isAuthenticated, async (req, res) => 
 /**
    * logout route
    */
-router.get("/logout", sessionHandler, isAuthenticated, function (req, res) {
+router.get("/logout", isAuthenticated, function (req, res) {
   //destroy the session
   req.session.destroy(function (err) {
     //callback invoked after destroy returns
