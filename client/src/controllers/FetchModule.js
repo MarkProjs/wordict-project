@@ -41,7 +41,7 @@ async function fetchAllWords(length = undefined) {
  * @returns An object containing a user's data (name, image, etc.) or an empty object
  */
 async function fetchUser() {
-  let url = new URL("/api/user", location.origin);
+  let url = new URL("/auth/getUserInfo", location.origin);
   let data;
   try {
     let response = await fetch(url);
@@ -69,7 +69,7 @@ async function fetchAllUsers() {
 }
 
 async function fetchPostElo(data) {
-  let url = new URL("/api/user-elo", location.origin);
+  let url = new URL("/auth/updateElo", location.origin);
   try {
     await fetch(url, {
       method: 'POST',
