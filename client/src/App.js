@@ -7,28 +7,20 @@ import FetchModule from './controllers/FetchModule';
 
 
 function App() {
-  const saved = localStorage.getItem("isLoggedIn");
-  let initialValue = false;
-  if(saved){
-    initialValue = JSON.parse(saved);
-  }
 
-  const [isLoggedIn, setIsLoggedIn] = useState(initialValue);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [username, setUsername] = useState("Guest");
   const [userPic, setUserPic] = useState("/img/default.jpg");
   
   useEffect(() => {
-    localStorage.setItem("isLoggedIn", JSON.stringify(isLoggedIn));
-    if (isLoggedIn) {
-      (async () => {
-        const user = await FetchModule.fetchUser();
-        setUserPic(user.picture);
-        setUsername(user.name);
-      })();
-    } else {
-      setUserPic("/img/default.jpg");
-      setUsername("Guest");
-    }
+    (async () => {
+      //for some reason this is not infinite, only runs ~3 times
+      //be carefull tho O_o
+      const user = await FetchModule.fetchUser();
+      setUserPic(user.picture || "/img/default.jpg");
+      setUsername(user.name || "Guest");
+      user.name ? setIsLoggedIn(true) : setIsLoggedIn(false);
+    })();
     
   }, [isLoggedIn]);
 

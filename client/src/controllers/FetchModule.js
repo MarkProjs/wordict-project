@@ -17,6 +17,27 @@ async function fetchDefinition(word) {
 }
 
 /**
+ * NOTE: not curently in use
+ * returns true or false based on if the user is logged in on the back end
+ * @returns {Boolean} state of login
+ */
+async function loggedInCheck() {
+  let url = new URL('/auth/loggedInCheck', location.origin);
+  let result = false;
+  try {
+    let response = await fetch(url);
+    if(response.ok){
+      result = true;
+    }
+  } catch (e) {
+    cosole.error(e);
+  }
+  return result;
+}
+
+
+
+/**
  * Get all words of a given length from our api
  * @param {int} length The length of the words to get
  * @returns A list of all words that have that length or an empty array if none are found
@@ -47,7 +68,7 @@ async function fetchUser() {
     let response = await fetch(url);
     data = await response.json();
   } catch (e) {
-    data = {user: {}};
+    console.error(e);
   }
   return data;
 }
@@ -123,5 +144,6 @@ export default {
   fetchAllUsers,
   fetchPostElo,
   handleLogin,
-  handleLogout
+  handleLogout,
+  loggedInCheck
 }

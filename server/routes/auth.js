@@ -51,12 +51,10 @@ router.post("/login", async (req, res) => {
     return res.sendStatus(401);
   }
   const { name, email, picture } = ticket.getPayload();
-  //TODO: may want to update and insert the user's name, email and picture in the db.
-  //For now I will be using an array, as a mock data that is on top of the app.js
+
   const user = { "name": name, "email": email, "picture": picture };
   userControllers.addUserIfNew(user);
 
-  //TODO: create a session cookie send it back to the client
   req.session.regenerate(function (err) {
     if (err) {
       //server error, couldn't create the session
@@ -70,9 +68,9 @@ router.post("/login", async (req, res) => {
   
 
 /**
-   * route to the server that will require authentication
-   * middleware to verify the session
-   */
+ * route to the server that will require authentication
+ * middleware to verify the session
+ */
 function isAuthenticated(req, res, next) {
   if (!req.session.user) {
     //unauthorized
@@ -81,6 +79,13 @@ function isAuthenticated(req, res, next) {
   next();
 }
 
+/**
+ * NOTE: not currently in use
+ * check if the user is logged in
+ */
+router.get("/loggedInCheck", isAuthenticated, (req, res) => {
+  res.sendStatus(200).end();
+});
 
 /**
  * POST API to update user elo
