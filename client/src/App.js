@@ -7,11 +7,18 @@ import FetchModule from './controllers/FetchModule';
 
 
 function App() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const saved = localStorage.getItem("isLoggedIn");
+  let initialValue = false;
+  if(saved){
+    initialValue = JSON.parse(saved);
+  }
+
+  const [isLoggedIn, setIsLoggedIn] = useState(initialValue);
   const [username, setUsername] = useState("Guest");
   const [userPic, setUserPic] = useState("/img/default.jpg");
   
   useEffect(() => {
+    localStorage.setItem("isLoggedIn", JSON.stringify(isLoggedIn));
     if (isLoggedIn) {
       (async () => {
         const user = (await FetchModule.fetchUser());
@@ -25,6 +32,8 @@ function App() {
     }
     
   }, [isLoggedIn]);
+
+ 
 
   return (
     <UserContext.Provider value={{ 
