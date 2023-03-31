@@ -3,7 +3,7 @@ import userContext from "../userContext";
 import { useContext } from 'react';
 import FetchModule from "../controllers/FetchModule";
 
-function LogBtn() {
+function LogInBtn() {
   const user = useContext(userContext);
   //handle the login
   async function handleLogin(googleData) {
@@ -25,4 +25,4 @@ function LogBtn() {
   );
 }
 
-export default LogBtn;
+export default LogInBtn;

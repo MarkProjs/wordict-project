@@ -17,8 +17,8 @@ function App() {
       //for some reason this is not infinite, only runs ~3 times
       //be carefull tho O_o
       const user = await FetchModule.fetchUser();
-      setUserPic(user.picture || "/img/default.jpg");
-      setUsername(user.name || "Guest");
+      setUserPic(user.picture ?  user.picture : "/img/default.jpg");
+      setUsername(user.name ? user.name : "Guest");
       user.name ? setIsLoggedIn(true) : setIsLoggedIn(false);
     })();
     

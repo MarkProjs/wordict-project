@@ -1,5 +1,5 @@
 import { useContext } from 'react';
-import LogBtn from './LogBtn';
+import LogInBtn from './LogInBtn';
 import UserContext from '../userContext';
 import FetchModule from '../controllers/FetchModule';
 
@@ -16,7 +16,7 @@ function UserMenu() {
   return (
     <div className="profile login">
       <img src={user.picture} style={{ width: 50, height: 50 }} referrerPolicy="no-referrer" />
-      <LogBtn />
+      <LogInBtn />
       {user.isLoggedIn && <button onClick={handleLogout}>Logout</button>}
     </div>
   );
