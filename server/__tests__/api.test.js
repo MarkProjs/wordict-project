@@ -26,6 +26,8 @@ wordControllers.getAllWords = jest.fn((e) => {
     'limit', 'elite', 'exuberant', 'destruction', 'present', 'three'
   ];
   if (e) {
+    e = parseInt(e);
+    console.log(words.filter(word => word.length === e))
     return { "words": words.filter(word => word.length === e) }
   } else {
     return { "words": words }
