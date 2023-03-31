@@ -68,7 +68,7 @@ async function fetchUser() {
     let response = await fetch(url);
     data = await response.json();
   } catch (e) {
-    console.error(e);
+    data = {}
   }
   return data;
 }
