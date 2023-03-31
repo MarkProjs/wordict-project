@@ -14,7 +14,8 @@ function App() {
   useEffect(() => {
     if (isLoggedIn) {
       (async () => {
-        const user = (await FetchModule.fetchUser()).user;
+        const user = (await FetchModule.fetchUser());
+        console.log(user);
         setUserPic(user.picture);
         setUsername(user.name);
       })();

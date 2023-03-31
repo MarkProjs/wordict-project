@@ -18,8 +18,8 @@ function Profile() {
     (async () => {
       // Fetch user from database
       let data = await FetchModule.fetchUser();
-      setProfileName(data[0].name);
-      setProfilePicture(data[0].image);
+      setProfileName(data.name);
+      setProfilePicture(data.picture);
     })();
   }, []);
 
