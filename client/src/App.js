@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import UserContext from './userContext';
 import UserMenu from './components/UserMenu';
 import FetchModule from './controllers/FetchModule';
+import PreviousPageContext from './components/NavigationExtra/PreviousPageContext';
 
 
 function App() {
@@ -27,20 +28,22 @@ function App() {
  
 
   return (
-    <UserContext.Provider value={{ 
-      username: username, 
-      picture: userPic, 
-      isLoggedIn: isLoggedIn, 
-      setIsLoggedIn: setIsLoggedIn
-    }}>
-      <div className="App">
-        <div className="header">
-          <h1 id="title"><a href="/">WORDICT</a></h1>
-          <UserMenu/>
+    <PreviousPageContext.Provider value={{}}>
+      <UserContext.Provider value={{ 
+        username: username, 
+        picture: userPic, 
+        isLoggedIn: isLoggedIn, 
+        setIsLoggedIn: setIsLoggedIn
+      }}>
+        <div className="App">
+          <div className="header">
+            <h1 id="title"><a href="/">WORDICT</a></h1>
+            <UserMenu/>
+          </div>
+          <Nav/>
         </div>
-        <Nav/>
-      </div>
-    </UserContext.Provider>
+      </UserContext.Provider>
+    </PreviousPageContext.Provider>
   );
 }
 

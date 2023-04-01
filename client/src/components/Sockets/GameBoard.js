@@ -1,18 +1,21 @@
 import { useEffect, useRef, useContext } from 'react';
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import Wordle from '../Wordle/Wordle.js';
 import validInputs from "../../controllers/ValidInput.json";
 import SocketContext from './SocketContext.js';
 import RematchButton from "./RematchButton.js";
+import PreviousPageContext from '../NavigationExtra/PreviousPageContext.js';
 
 const WORDLE_PREFIX = "W-"
 
-function GameBoard(props) {
+function GameBoard() {
 
+  const navigate = useNavigate();
   const location = useLocation();
   const word = location.state?.ownWord || "";
   const opponentWord = location.state?.opponentWord || "";
   const socketContext = useContext(SocketContext);
+  const previousPageContext = useContext(PreviousPageContext);
 
   // Contains all of the functions subscribed to the key input event
   const keyInputEvent = useRef(new Map());
@@ -53,7 +56,9 @@ function GameBoard(props) {
 
   useEffect(() => {
 
-    props.sendToStart(socketContext.socket);
+    if (previousPageContext.previousPage !== "/wordle-online/startup") {
+      navigate("/wordle-online", {replace: true});
+    }
 
     if (socketContext.socket.current && socketContext.socket.current.connected) {
       //Don't want to double up on the listeners

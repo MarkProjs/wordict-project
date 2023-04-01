@@ -9,7 +9,11 @@ async function fetchDefinition(word) {
   let data;
   try {
     let response = await fetch(url);
-    data = await response.json();
+    if (response.ok) {
+      data = await response.json();
+    } else {
+      data = null;
+    }
   } catch (e) {
     data = null;
   }
@@ -30,7 +34,7 @@ async function loggedInCheck() {
       result = true;
     }
   } catch (e) {
-    cosole.error(e);
+    console.error(e);
   }
   return result;
 }
@@ -48,7 +52,11 @@ async function fetchAllWords(length = undefined) {
   }
   try {
     let response = await fetch(url);
-    words = await response.json();
+    if (response.ok) {
+      words = await response.json();
+    } else {
+      words = [];
+    }
   } catch (e) {
     words = [];
   }
@@ -64,7 +72,11 @@ async function fetchUser() {
   let data;
   try {
     let response = await fetch(url);
-    data = await response.json();
+    if (response.ok) {
+      data = await response.json();
+    } else {
+      data = {};
+    }
   } catch (e) {
     data = {}
   }
@@ -117,7 +129,11 @@ async function fetchAllUsers() {
   let data;
   try {
     let response = await fetch(url);
-    data = await response.json();
+    if (response.ok) {
+      data = await response.json();
+    } else {
+      data = [];
+    }
   } catch (e) {
     data = [];
   }
@@ -151,9 +167,13 @@ async function handleLogin(googleData) {
         "Content-Type": "application/json"
       }
     });
-    data = await res.json();
-  } catch (e) {
-    data = { user: {} };
+    if (res.ok) {
+      data = await res.json();
+    } else {
+      data = {user: {}};
+    }
+  } catch(e) {
+    data = {user: {}};
   }
 
   return data;

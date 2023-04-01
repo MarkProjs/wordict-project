@@ -1,7 +1,9 @@
 import './NavBar.css';
 import { NavLink } from 'react-router-dom';
+import usePreviousPage from './NavigationExtra/usePreviousPage';
 
 function NavBar() {
+  usePreviousPage();
   return(
     <>
       <nav className='Nav'>
