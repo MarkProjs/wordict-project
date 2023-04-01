@@ -92,8 +92,6 @@ async function updateUser(data, nameChanged, pictureChanged) {
     let url = new URL("/auth/update-name", location.origin);
     await fetch(url, {
       method: 'POST',
-      // headers: { 'Content-Type': 'application/json' },
-      // body: JSON.stringify(data),
       body: data,
     });
   }
@@ -101,8 +99,6 @@ async function updateUser(data, nameChanged, pictureChanged) {
     let url = new URL("/auth/update-picture", location.origin);
     await fetch(url, {
       method: 'POST',
-      // headers: { 'Content-Type': 'application/json' },
-      // body: JSON.stringify(data),
       body: data,
     });
   }

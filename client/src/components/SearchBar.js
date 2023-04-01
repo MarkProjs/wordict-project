@@ -78,7 +78,6 @@ function SearchBar() {
   async function favoriteHandler() {
     setIsFavorite(!isFavorite);
     let data = { word: searchInput, favorite: isFavorite };
-    // console.log(data);
     await FetchModule.updateUserFavoriteWords(data);
   }
 
