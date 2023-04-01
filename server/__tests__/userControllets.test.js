@@ -8,6 +8,25 @@ const saveFunc = jest
   .spyOn(Users.prototype, 'save')
   .mockImplementation(() => {}); 
 
+
+Users.addUserFavoriteWord = jest.fn((email, word) => {
+  if(!email || !word){
+    throw new Error("TEST FAILED: input not valid");
+  }
+});
+
+Users.removeUserFavoriteWord = jest.fn((email, word) => {
+  if(!email || !word){
+    throw new Error("TEST FAILED: input not valid");
+  }
+});
+
+Users.findOneAndUpdate = jest.fn((user, newName) => {
+  if(!user.email || !newName.name){
+    throw new Error("TEST FAILED: input not valid");
+  }
+});
+
 Users.findOne = jest.fn(async (query) => {
   if(query.email === "greg"){
     return {name: "Grigor"};
@@ -47,52 +66,69 @@ beforeEach(() => {
   saveFunc.mockClear();
 });
 
-/**
+describe("testing user controllers", () => {
+  /**
  * tests getUserInfo method
  */
-test("test getUserInfo", async () => {
-  const response = await userControllers.getUserInfo({email:'greg'});
-  expect(response.name).toBe("Grigor");
-});
-/**
+  test("test getUserInfo", async () => {
+    const response = await userControllers.getUserInfo({email:'greg'});
+    expect(response.name).toBe("Grigor");
+  });
+  /**
  * tests getAllUsers function
  */
-test("test get all users", async () => {
-  const response = await userControllers.getAllUsers();
-  expect(response[0].name).toBe("Grigor");
-  expect(response[1].name).toBe("Nolan");
-});
-/**
+  test("test get all users", async () => {
+    const response = await userControllers.getAllUsers();
+    expect(response[0].name).toBe("Grigor");
+    expect(response[1].name).toBe("Nolan");
+  });
+  /**
  * test updatePicture function
  */
-test("test update Picture", async () => {
-  await userControllers.updatePicture( {email:"Test"}, "urlPic");
-  expect(Users.updatePicture).toHaveBeenCalledWith("Test", "urlPic");  
-  expect(Users.updatePicture).toHaveBeenCalledTimes(1);
-});
-/**
+  test("test update Picture", async () => {
+    await userControllers.updatePicture( {email:"Test"}, "urlPic");
+    expect(Users.updatePicture).toHaveBeenCalledWith("Test", "urlPic");  
+    expect(Users.updatePicture).toHaveBeenCalledTimes(1);
+  });
+  /**
  * tests updateFavorites function
  */
-test("test update Favorites", async () => {
-  await userControllers.updateFavorites( {email:"Test"}, ["faves1", "faves2"]);
-  expect(Users.updateFavorites).toHaveBeenCalledWith("Test", ["faves1", "faves2"]);  
-  expect(Users.updateFavorites).toHaveBeenCalledTimes(1);
-});
-/**
+  test("test update Favorites", async () => {
+    await userControllers.updateFavorites( {email:"Test"}, ["faves1", "faves2"]);
+    expect(Users.updateFavorites).toHaveBeenCalledWith("Test", ["faves1", "faves2"]);  
+    expect(Users.updateFavorites).toHaveBeenCalledTimes(1);
+  });
+  /**
  * tests updateElo function
  */
-test("test update Elo", async () => {
-  await userControllers.updateElo( {email:"Test"}, 100);
-  expect(Users.updateUserElo).toHaveBeenCalledWith("Test", 100);  
-  expect(Users.updateUserElo).toHaveBeenCalledTimes(1);
-});
+  test("test update Elo", async () => {
+    await userControllers.updateElo( {email:"Test"}, 100);
+    expect(Users.updateUserElo).toHaveBeenCalledWith("Test", 100);  
+    expect(Users.updateUserElo).toHaveBeenCalledTimes(1);
+  });
 
-test("test addUserIfNew with new user", async () =>{
-  await userControllers.addUserIfNew({email:'newEmail'});
-  expect(saveFunc).toHaveBeenCalledTimes(1);
-});
+  test("test addUserIfNew with new user", async () =>{
+    await userControllers.addUserIfNew({email:'newEmail'});
+    expect(saveFunc).toHaveBeenCalledTimes(1);
+  });
 
-test("test addUserIfNew with new user", async () =>{
-  await userControllers.addUserIfNew({email:'greg'});
-  expect(saveFunc).toHaveBeenCalledTimes(0);
+  test("test addUserIfNew with new user", async () =>{
+    await userControllers.addUserIfNew({email:'greg'});
+    expect(saveFunc).toHaveBeenCalledTimes(0);
+  });
+
+  test("test updateName function", async () => {
+    await userControllers.updateName({email:"grer"}, "newNmae");
+    expect(Users.findOneAndUpdate).toHaveBeenCalledTimes(1);
+  });
+  
+  test("test postUserFavoriteWord where the word is already a fav", async () => {
+    await userControllers.postUserFavoriteWord({email:"email"}, "word", true);
+    expect(Users.removeUserFavoriteWord).toHaveBeenCalledTimes(1);
+  });
+
+  test("test postUserFavoriteWord where the word is already a fav", async () => {
+    await userControllers.postUserFavoriteWord({email:"email"}, "word", );
+    expect(Users.addUserFavoriteWord).toHaveBeenCalledTimes(1);
+  });
 });

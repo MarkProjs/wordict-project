@@ -21,27 +21,32 @@ Words.getOnlyWordFields = jest.fn( async () => {
 });
 // TESTS
 
-/**
+
+describe("testing user controllers", () => {
+
+  /**
  * tests the random word function
  */
-test("random word test", async () => {
-  const response = await wordControllers.getRandomWord();
-  expect(response).toBe('word');
+  test("random word test", async () => {
+    const response = await wordControllers.getRandomWord();
+    expect(response).toBe('word');
 
-});
-/**
+  });
+  /**
  * tests the getDefinition function
  */
-test("getDefinitionTest", async () => {
-  const response = await wordControllers.getDefinition();
-  expect(response.word).toBe("hello");
-});
-/**
+  test("getDefinitionTest", async () => {
+    const response = await wordControllers.getDefinition();
+    expect(response.word).toBe("hello");
+  });
+  /**
  * test getAllWords dunction
  */
-test("get all words test", async () => {
-  const response = await wordControllers.getAllWords();
-  expect(response.words[0]).toBe("hello");
-  expect(response.words[1]).toBe("two");
-  expect(response.count).toBe(2);
+  test("get all words test", async () => {
+    const response = await wordControllers.getAllWords();
+    expect(response.words[0]).toBe("hello");
+    expect(response.words[1]).toBe("two");
+    expect(response.count).toBe(2);
+  });
+
 });
