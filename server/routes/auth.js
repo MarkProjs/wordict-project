@@ -7,7 +7,7 @@ import fileUpload from "express-fileupload";
 import imageUpload from "../controllers/blobController.js";
 dotenv.config();
 
-const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
+const client = new OAuth2Client(process.env.REACT_APP_GOOGLE_CLIENT_ID);
 
 
 
@@ -45,7 +45,7 @@ router.post("/login", async (req, res) => {
   const { token } = req.body;
   const ticket = await client.verifyIdToken({
     idToken: token,
-    audience: process.env.GOOGLE_CLIENT_ID
+    audience: process.env.REACT_APP_GOOGLE_CLIENT_ID
   });
   if (!ticket) {
     return res.sendStatus(401);
