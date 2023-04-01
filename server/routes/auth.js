@@ -19,7 +19,7 @@ let sessionHandler = session({
   saveUninitialized: false,
   resave: false,
   cookie: {
-    maxAge: 120000,
+    maxAge: 3600000,
     secure: false,
     httpOnly: true,
     sameSite: 'strict'
@@ -97,7 +97,7 @@ router.post("/updateElo", isAuthenticated, async (req, res) => {
     return res.sendStatus(400).end()
   }
   try {
-    await userControllers.uptadeElo(user, elo);
+    await userControllers.updateElo(user, elo);
     res.sendStatus(200).end();
   } catch (e) {
     console.error(e);
@@ -163,6 +163,7 @@ router.get("/getUserInfo", isAuthenticated, async (req, res) => {
 router.get("/logout", isAuthenticated, function (req, res) {
   //destroy the session
   req.session.destroy(function (err) {
+    console.log("Destroying Session")
     //callback invoked after destroy returns
     if (err) {
       //server error, couldn't destroy the session
