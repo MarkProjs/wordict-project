@@ -6,7 +6,6 @@ function SearchBar() {
   const [searchInput, setSearchInput] = useState("");
   const [searchResult, setSearchResult] = useState();
   const [words, setWords] = useState([]);
-  const [renderedWords, setRenderedWords] = useState([]);
   const locationData = useLocation();
 
   // Search input field with default value attribute set to searchInput (favorite word / no word)
@@ -58,18 +57,8 @@ function SearchBar() {
     })();
   }, []);
 
-  useEffect(() => {
-    //render 100 words at a time
-    const increment = 100;
-    const wordsToRender = words.slice(0, renderedWords.length + increment);
-
-    if (wordsToRender.length !== renderedWords.length) {
-      setRenderedWords(wordsToRender);
-    }
-  }, [words, renderedWords]);
-
   const dataList = <datalist id="words">
-    {renderedWords.map((item, key) =>
+    {words.map((item, key) =>
       <option key={key} value={item} />
     )}
   </datalist>;
