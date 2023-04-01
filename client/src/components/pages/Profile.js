@@ -8,12 +8,12 @@ import FetchModule from '../../controllers/FetchModule';
 function Profile() {
   const placeholderName = "Loading..."
   const placeholderPicture = process.env.PUBLIC_URL + '/img/profile_placeholder.png';
-  const [email, setEmail] = useState("");
   const [profileName, setProfileName] = useState(placeholderName);
   const [profilePicture, setProfilePicture] = useState(placeholderPicture);
   const [previousProfileName, setPreviousProfileName] = useState("");
   const [previousProfilePicture, setPreviousProfilePicture] = useState("");
   const [favoriteWords, setFavoriteWords] = useState([]);
+  const [userElo, setUserElo] = useState();
   const [isViewMode, setIsViewMode] = useState(true);
 
   useEffect(() => {
@@ -22,9 +22,8 @@ function Profile() {
       let data = await FetchModule.fetchUser();
       setProfileName(data.name);
       setProfilePicture(data.picture);
-      // use context for email
-      setEmail(data.email);
       setFavoriteWords(data.favoriteWords);
+      setUserElo(data.elo);
     })();
   }, []);
 
@@ -33,7 +32,7 @@ function Profile() {
     <>
       <section className="left-section">
         <UserProfile image={profilePicture} />
-        <UserRank />
+        <UserRank elo={userElo} />
       </section>
       <section className="right-section">
         <div className="top-part">
@@ -47,7 +46,7 @@ function Profile() {
             setIsViewMode(false);
           }}>Edit profile</button>
         </div>
-        <FavoriteWords favoriteWords={favoriteWords} setFavoriteWords={setFavoriteWords}/>
+        <FavoriteWords favoriteWords={favoriteWords} setFavoriteWords={setFavoriteWords} />
       </section>
     </>;
 
@@ -56,7 +55,7 @@ function Profile() {
     <section className="preview-section">
       <p>Quick Preview:</p>
       <article>
-        <img alt="profile picture" src={profilePicture} referrerPolicy="no-referrer"/>
+        <img alt="profile picture" src={profilePicture} referrerPolicy="no-referrer" />
         <h1 className="name">{profileName}</h1>
       </article>
     </section>;
@@ -95,11 +94,16 @@ function Profile() {
 
   async function updateProfile(e) {
     e.preventDefault();
+    let nameChanged = profileName !== previousProfileName;
+    let pictureChanged = profilePicture !== previousProfilePicture;
     // check if any changes were made to prevent unnecessary api calls
-    if (profileName !== previousProfileName || profilePicture !== previousProfilePicture) {   
+    if (nameChanged || pictureChanged) {
       // form data in json
-      let formData = {email: email, name: profileName, picture: profilePicture};
-      await FetchModule.updateUser(formData);
+      let formData = new FormData();
+      formData.append('file', e.target.file.files[0]);
+      formData.append('name', profileName);
+      // let formData = { name: profileName, picture: profilePicture };
+      await FetchModule.updateUser(formData, nameChanged, pictureChanged);
     }
     setIsViewMode(true);
   }

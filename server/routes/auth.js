@@ -128,15 +128,15 @@ router.post("/updateFavorites", isAuthenticated, async (req, res) => {
 /**
  * Post API to update User's name
  */
-router.post("/updateName", async (req, res) => {
+router.post("/updateName", isAuthenticated, async (req, res) => {
   const user = req.session.user;
-  const newName = req.body.newName;
+  const newName = req.body.name;
   if (!newName) {
     return res.sendStatus(400).end();
   } else {
     try {
       // Update user's name in database
-      await userControllers.updateUser(user, newName);
+      await userControllers.updateName(user, newName);
       res.sendStatus(200).end();
     } catch (e) {
       console.error(e);

@@ -1,11 +1,9 @@
-import { useEffect, useState, useContext } from 'react';
+import { useEffect, useState } from 'react';
 import { useLocation } from "react-router-dom";
-import UserContext from '../userContext';
 import FetchModule from '../controllers/FetchModule';
 import './SearchBar.css';
 
 function SearchBar() {
-  const user = useContext(UserContext);
   const [searchInput, setSearchInput] = useState("");
   const [searchResult, setSearchResult] = useState();
   const [words, setWords] = useState([]);
@@ -79,14 +77,9 @@ function SearchBar() {
 
   async function favoriteHandler() {
     setIsFavorite(!isFavorite);
-    let x = user;
-    for(let y in x){
-      console.log(y);
-    }
-    const email = "3ndeavor3@gmail.com";
-    let formData = { email: email, word: searchInput, favorite: isFavorite };
-    console.log(formData);
-    await FetchModule.updateUserFavoriteWords(formData);
+    let data = { word: searchInput, favorite: isFavorite };
+    // console.log(data);
+    await FetchModule.updateUserFavoriteWords(data);
   }
 
   return (

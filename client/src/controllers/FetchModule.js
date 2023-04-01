@@ -26,7 +26,7 @@ async function loggedInCheck() {
   let result = false;
   try {
     let response = await fetch(url);
-    if(response.ok){
+    if (response.ok) {
       result = true;
     }
   } catch (e) {
@@ -77,13 +77,28 @@ async function fetchUser() {
  * Update a user using api
  * @param {JSON} data 
  */
-async function updateUser(data) {
-  let url = new URL("/auth/user-profile", location.origin);
-  await fetch(url, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(data),
-  });
+async function updateUser(data, nameChanged, pictureChanged) {
+  console.log(data);
+  console.log(nameChanged);
+  console.log(pictureChanged);
+  if (nameChanged) {
+    let url = new URL("/auth/updateName", location.origin);
+    await fetch(url, {
+      method: 'POST',
+      // headers: { 'Content-Type': 'application/json' },
+      // body: JSON.stringify(data),
+      body: data,
+    });
+  }
+  if (pictureChanged) {
+    let url = new URL("/auth/updatePicture", location.origin);
+    await fetch(url, {
+      method: 'POST',
+      // headers: { 'Content-Type': 'application/json' },
+      // body: JSON.stringify(data),
+      body: data,
+    });
+  }
 }
 
 /**
@@ -142,8 +157,8 @@ async function handleLogin(googleData) {
       }
     });
     data = await res.json();
-  } catch(e) {
-    data = {user: {}};
+  } catch (e) {
+    data = { user: {} };
   }
 
   return data;
@@ -159,7 +174,7 @@ async function handleLogout() {
   } catch (e) {
     console.log(e);
   }
-  
+
 }
 
 export default {
