@@ -109,17 +109,15 @@ router.post("/updateElo", isAuthenticated, async (req, res) => {
  * POST API to update user favorites
  */
 router.post("/updateFavorites", isAuthenticated, async (req, res) => {
-  // const user = req.session.user;
-  // const favs = req.body.favoriteWords;
-  const email = req.body.email;
+  const user = req.session.user;
   const word = req.body.word;
   const isFavorite = req.body.favorite;
-  if (!email || !word) {
-    res.sendStatus(400).end();
+  if (!isFavorite || !word) {
+    return res.sendStatus(400).end();
   }
   try {
     // Update user favorite words in database
-    await userControllers.postUserFavoriteWord(email, word, isFavorite);
+    await userControllers.postUserFavoriteWord(user, word, isFavorite);
     res.sendStatus(200).end();
   } catch (e) {
     console.error(e);
@@ -128,18 +126,17 @@ router.post("/updateFavorites", isAuthenticated, async (req, res) => {
 });
 
 /**
- * Post API to update User
+ * Post API to update User's name
  */
-router.post("/user-profile", async (req, res) => {
-  // const file = req.files.file;
-  const email = req.body.email;
-  const name = req.body.name;
-  if (!email || !name) {
-    res.sendStatus(400).end();
+router.post("/updateName", async (req, res) => {
+  const user = req.session.user;
+  const newName = req.body.newName;
+  if (!newName) {
+    return res.sendStatus(400).end();
   } else {
     try {
-      // Update user in database
-      await userControllers.updateUser(email, name);
+      // Update user's name in database
+      await userControllers.updateUser(user, newName);
       res.sendStatus(200).end();
     } catch (e) {
       console.error(e);
