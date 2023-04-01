@@ -1,9 +1,11 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
+import { useNavigate } from "react-router-dom";
 import FavoriteWords from "../Profile/FavoriteWords";
 import UserProfile from "../Profile/UserProfile";
 import UserRank from "../Profile/UserRank";
 import './Profile.css';
 import FetchModule from '../../controllers/FetchModule';
+import UserContext from '../../userContext';
 
 function Profile() {
   const placeholderName = "Loading..."
@@ -13,6 +15,8 @@ function Profile() {
   const [previousProfileName, setPreviousProfileName] = useState("");
   const [previousProfilePicture, setPreviousProfilePicture] = useState("");
   const [isViewMode, setIsViewMode] = useState(true);
+  const user = useContext(UserContext);
+  const navigate = useNavigate();
 
   useEffect(() => {
     (async () => {
@@ -21,6 +25,9 @@ function Profile() {
       setProfileName(data.name);
       setProfilePicture(data.picture);
     })();
+    if (!user.isLoggedIn) {
+      navigate("/");
+    }
   }, []);
 
   // view user profile
