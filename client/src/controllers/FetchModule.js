@@ -17,12 +17,12 @@ async function fetchDefinition(word) {
 }
 
 /**
- * NOTE: not curently in use
+ * NOTE: not currently in use
  * returns true or false based on if the user is logged in on the back end
  * @returns {Boolean} state of login
  */
 async function loggedInCheck() {
-  let url = new URL('/auth/loggedInCheck', location.origin);
+  let url = new URL('/auth/logged-in-check', location.origin);
   let result = false;
   try {
     let response = await fetch(url);
@@ -34,8 +34,6 @@ async function loggedInCheck() {
   }
   return result;
 }
-
-
 
 /**
  * Get all words of a given length from our api
@@ -62,7 +60,7 @@ async function fetchAllWords(length = undefined) {
  * @returns An object containing a user's data (name, image, etc.) or an empty object
  */
 async function fetchUser() {
-  let url = new URL("/auth/getUserInfo", location.origin);
+  let url = new URL("/auth/get-user-info", location.origin);
   let data;
   try {
     let response = await fetch(url);
@@ -78,11 +76,8 @@ async function fetchUser() {
  * @param {JSON} data 
  */
 async function updateUser(data, nameChanged, pictureChanged) {
-  console.log(data);
-  console.log(nameChanged);
-  console.log(pictureChanged);
   if (nameChanged) {
-    let url = new URL("/auth/updateName", location.origin);
+    let url = new URL("/auth/update-name", location.origin);
     await fetch(url, {
       method: 'POST',
       // headers: { 'Content-Type': 'application/json' },
@@ -91,7 +86,7 @@ async function updateUser(data, nameChanged, pictureChanged) {
     });
   }
   if (pictureChanged) {
-    let url = new URL("/auth/updatePicture", location.origin);
+    let url = new URL("/auth/update-picture", location.origin);
     await fetch(url, {
       method: 'POST',
       // headers: { 'Content-Type': 'application/json' },
@@ -106,7 +101,7 @@ async function updateUser(data, nameChanged, pictureChanged) {
  * @param {JSON} data 
  */
 async function updateUserFavoriteWords(data) {
-  let url = new URL("/auth/updateFavorites", location.origin);
+  let url = new URL("/auth/update-favorites", location.origin);
   await fetch(url, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -130,7 +125,7 @@ async function fetchAllUsers() {
 }
 
 async function fetchPostElo(data) {
-  let url = new URL("/auth/updateElo", location.origin);
+  let url = new URL("/auth/update-elo", location.origin);
   try {
     await fetch(url, {
       method: 'POST',

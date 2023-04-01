@@ -83,14 +83,14 @@ function isAuthenticated(req, res, next) {
  * NOTE: not currently in use
  * check if the user is logged in
  */
-router.get("/loggedInCheck", isAuthenticated, (req, res) => {
+router.get("/logged-in-check", isAuthenticated, (req, res) => {
   res.sendStatus(200).end();
 });
 
 /**
  * POST API to update user elo
  */
-router.post("/updateElo", isAuthenticated, async (req, res) => {
+router.post("/update-elo", isAuthenticated, async (req, res) => {
   const user = req.session.user;
   const elo = req.body.elo;
   if (!elo) {
@@ -108,11 +108,11 @@ router.post("/updateElo", isAuthenticated, async (req, res) => {
 /**
  * POST API to update user favorites
  */
-router.post("/updateFavorites", isAuthenticated, async (req, res) => {
+router.post("/update-favorites", isAuthenticated, async (req, res) => {
   const user = req.session.user;
   const word = req.body.word;
   const isFavorite = req.body.favorite;
-  if (!isFavorite || !word) {
+  if (isFavorite === undefined || !word) {
     return res.sendStatus(400).end();
   }
   try {
@@ -128,7 +128,7 @@ router.post("/updateFavorites", isAuthenticated, async (req, res) => {
 /**
  * Post API to update User's name
  */
-router.post("/updateName", isAuthenticated, async (req, res) => {
+router.post("/update-name", isAuthenticated, async (req, res) => {
   const user = req.session.user;
   const newName = req.body.name;
   if (!newName) {
@@ -148,7 +148,7 @@ router.post("/updateName", isAuthenticated, async (req, res) => {
 /**
  * POST API to update user picture
  */
-router.post("/updatePicture", isAuthenticated, async (req, res) => {
+router.post("/update-picture", isAuthenticated, async (req, res) => {
   const user = req.session.user;
   const file = req.files.file;
   if (!file) {
@@ -167,7 +167,7 @@ router.post("/updatePicture", isAuthenticated, async (req, res) => {
 /**
  * Get API to retrieve User
  */
-router.get("/getUserInfo", isAuthenticated, async (req, res) => {
+router.get("/get-user-info", isAuthenticated, async (req, res) => {
   let user = req.session.user;
   try {
     user = await userControllers.getUserInfo(user);
@@ -177,7 +177,6 @@ router.get("/getUserInfo", isAuthenticated, async (req, res) => {
     res.sendStatus(500).end();
   }
 });
-
 
 /**
    * logout route
@@ -194,7 +193,6 @@ router.get("/logout", isAuthenticated, function (req, res) {
     res.sendStatus(200);
   });
 });
-
 
 
 export default router;
