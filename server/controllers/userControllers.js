@@ -43,17 +43,18 @@ async function updatePicture(user, picture) {
   await Users.updatePicture(user.email, picture);
 }
 
+
+// TODO remove log
 /**
  * update the user document with provided data
  * @async
- * @param {String} email 
- * @param {String} name 
- * @param {String} picture 
+ * @param {Object} user target user
+ * @param {String} newName newName
  */
-async function updateUser(email, name) {
+async function updateName(user, newName) {
   const doc = await Users.findOneAndUpdate(
-    { email: email },
-    { name: name },
+    { email: user.email },
+    { name: newName },
     // { picture: picture},
     // If `new` isn't true, `findOneAndUpdate()` will return the
     // document as it was _before_ it was updated.
@@ -62,23 +63,28 @@ async function updateUser(email, name) {
   console.log(`user ${doc.email} has been updated`);
 }
 
+
+
 /**
  * update the user's favorite words
- * @param {String} email 
- * @param {String} word 
- * @param {boolean} isFavorite true: remove from favorites, false: add to favorites
+ * @param {String} user target user
+ * @param {String} word new word
+ * @param {Boolean} isFavorite true: remove from favorites, false: add to favorites
  */
-async function postUserFavoriteWord(email, word, isFavorite) {
+async function postUserFavoriteWord(user, word, isFavorite) {
+  //TODO remove logs
   if (!isFavorite) {
     console.log(`add ${word} to favorites`);
-    await Users.addUserFavoriteWord(email, word);
+    await Users.addUserFavoriteWord(user.email, word);
   } else {
     console.log(`remove ${word} to favorites`);
-    await Users.removeUserFavoriteWord(email, word);
+    await Users.removeUserFavoriteWord(user.email, word);
   }
 }
 
+
 /**
+ * NOTE: currently not used
  * Uptade user favorite
  * @async
  * @param {Object} user the target user
@@ -88,6 +94,11 @@ async function updateFavorites(user, favoriteWords) {
   await Users.updateFavorites(user.email, favoriteWords);
 }
 
+
+/**
+ * add a user if they dont already exist
+ * @param {Object} newUser 
+ */
 async function addUserIfNew(newUser){
   let alreadyExists = await getUserInfo(newUser);
   if(!alreadyExists){
@@ -104,4 +115,4 @@ async function addUserIfNew(newUser){
     
 
 export default {addUserIfNew, getUserInfo, getAllUsers, updateElo,
-  updatePicture, updateFavorites, updateUser, postUserFavoriteWord};
+  updatePicture, updateFavorites, updateName, postUserFavoriteWord};
