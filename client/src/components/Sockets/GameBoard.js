@@ -5,6 +5,7 @@ import validInputs from "../../controllers/ValidInput.json";
 import SocketContext from './SocketContext.js';
 import RematchButton from "./RematchButton.js";
 import PreviousPageContext from '../NavigationExtra/PreviousPageContext.js';
+import UserContext from '../../userContext.js';
 
 const WORDLE_PREFIX = "W-"
 
@@ -16,6 +17,8 @@ function GameBoard() {
   const opponentWord = location.state?.opponentWord || "";
   const socketContext = useContext(SocketContext);
   const previousPageContext = useContext(PreviousPageContext);
+  const user = useContext(UserContext);
+  const name = user.username || "Guest";
 
   // Contains all of the functions subscribed to the key input event
   const keyInputEvent = useRef(new Map());
@@ -72,32 +75,35 @@ function GameBoard() {
     }
   }, []);
 
+
   return (
     <>
       <div className="wordle-container" onKeyUp={(e) => handleKeyInput(e)} tabIndex={0}>
         <div>
-          <p>You</p>
+          <p>{name}</p>
           <Wordle
             id={WORDLE_PREFIX + 0}
-            person="You"
+            person={name}
             word={word}
             submitKey={validInputs.submitKey}
             deleteKey={validInputs.deleteKey}
             subToInputEvent={subToKeyInputEvent}
             defaultValue={validInputs.empty}
             gameDoneFunc={() => socketContext.socket.current.emit("user-done")}
+            shouldPost={user.isLoggedIn}
           />
         </div>
         <div>
-          <p>Your Opponent</p>
+          <p>{socketContext.opponent.current}</p>
           <Wordle
             id={WORDLE_PREFIX + 1}
-            person="Your opponent"
+            person={socketContext.opponent.current}
             word={opponentWord}
             submitKey={validInputs.submitKey}
             deleteKey={validInputs.deleteKey}
             subToInputEvent={subToServerInputEvent}
             defaultValue={validInputs.empty}
+            shouldPost={false}
           />
         </div>
       </div>
