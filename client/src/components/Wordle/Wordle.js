@@ -138,6 +138,7 @@ function Wordle(props) {
         word={props.word}
         id={POP_PREFIX + 0}
         subToGameStateEvent={subToGameStateEvent}
+        shouldPost={props.shouldPost}
       />
       {attempts.map((elem, index) => {
         return <WordRow 
