@@ -53,7 +53,7 @@ router.get("/:word/definition", async (req, res) => {
   } else {
     res.json(data);
   }
-})
+});
 
 /**
  * Get API to retrieve Dictionary
@@ -68,49 +68,6 @@ router.get("/dictionary", async (req, res) => {
   //   words = [];
   // }
   res.json(words);
-})
-
-
-/**
- * Post API to update User
- */
-router.post("/user-profilee", async (req, res) => {
-  // const file = req.files.file;
-  const email = req.body.email;
-  const name = req.body.name;
-  if (!email || !name) {
-    res.sendStatus(400).end();
-  } else {
-    try {
-      // Update user in database
-      await controllers.updateUser(email, name);
-      res.sendStatus(200).end();
-    } catch (e) {
-      console.error(e);
-      res.sendStatus(500).end();
-    }
-  }
-});
-
-/**
- * Post API to update User favorite words
- */
-router.post("/user-favorites", async (req, res) => {
-  const email = req.body.email;
-  const word = req.body.word;
-  const isFavorite = req.body.favorite;
-  if (!email || !word) {
-    res.sendStatus(400).end();
-  } else {
-    try {
-      // Update user favorite words in database
-      await controllers.postUserFavoriteWord(email, word, isFavorite);
-      res.sendStatus(200).end();
-    } catch (e) {
-      console.error(e);
-      res.sendStatus(500).end();
-    }
-  }
 });
 
 /**
@@ -124,8 +81,7 @@ router.get("/all-users", async (req, res) => {
     console.error(e);
     res.sendStatus(500).end();
   }
-})
-
+});
 
 
 export default router;
