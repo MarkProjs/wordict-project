@@ -56,13 +56,13 @@ describe('Test Definition GET API', () => {
     const response = await request(app).get('/api/monkey/definition');
     expect(response.body.word).toEqual("monkey");
     expect(response.body.definitions).toBeDefined()
-  })
+  });
   // test for non existant word
   test('Test for non existant word', async () => {
     const response = await request(app).get('/api/asdasd/definition');
     expect(response.body.word).not.toBeDefined();
     expect(response.body.word).not.toEqual("monkey");
-  })
+  });
 });
 
 // tests for dictionary get api

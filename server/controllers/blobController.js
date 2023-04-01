@@ -16,14 +16,18 @@ const containerClient = blobService.getContainerClient(containerName);
  * @param {FileObject} pictureFile 
  * @returns {String} url to the picture blob on asure
  */
-export default async function imageUpload(pictureFile){
+async function imageUpload(pictureFile){
+  console.log(containerClient);
   const path = pictureFile.name;
   const blobPublicUrl = `https://${storageAccountName}.blob.core.windows.net/${containerName}/`;
   const blobClient = containerClient.getBlockBlobClient(path);
-
+  console.log(blobClient);
   // set mimetype as determined from browser with file upload control
   const options = { blobHTTPHeaders: { blobContentType: pictureFile.mimetype } };
   await blobClient.uploadData(pictureFile.data, options);
 
   return blobPublicUrl + path;
 }
+
+//exporting client for testing
+export {containerClient, imageUpload};

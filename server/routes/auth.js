@@ -4,7 +4,7 @@ import session from 'express-session';
 import { OAuth2Client } from 'google-auth-library';
 import dotenv from 'dotenv';
 import fileUpload from "express-fileupload";
-import imageUpload from "../controllers/blobController.js";
+import {imageUpload} from "../controllers/blobController.js";
 dotenv.config();
 
 const client = new OAuth2Client(process.env.REACT_APP_GOOGLE_CLIENT_ID);

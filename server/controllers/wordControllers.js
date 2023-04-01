@@ -1,8 +1,7 @@
 import { Words } from "../db/db.js"
 
-
-
 /**
+ * NOTE not currently used
  * @async
  * @param {Number} length the desired length for the random word
  * @returns the random word
@@ -10,7 +9,6 @@ import { Words } from "../db/db.js"
 async function getRandomWord(length) {
   let query = { length: length };
   let count = await Words.count(query);
-  console.log(count);
   let randVal = Math.floor(Math.random() * count);
   let randomWord = await Words.getRandomUsingVal(randVal, query);
   return randomWord;
@@ -22,8 +20,7 @@ async function getRandomWord(length) {
  */
 async function getDefinition(word) {
   let query = { word: word };
-  console.log(word)
-  let result = await Words.findOne(query).exec()
+  let result = await Words.findOne(query);
   return result;
 }
 /**
