@@ -1,10 +1,11 @@
-import { useState, useContext, useEffect } from "react";
+import { useState, useContext, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import SocketContext from "./SocketContext";
 import io from "socket.io-client";
 
 function SocketForm() {
   
+  const button = useRef();
   const [isConnected, setIsConnected] = useState(false);
   const [currentRoom, setCurrentRoom] = useState("");
   const socketContext = useContext(SocketContext);
@@ -21,6 +22,9 @@ function SocketForm() {
 
   // Attempt to connect on click, also setup listeners on the socket
   function initialiseSocket(room) {
+
+    button.current.disabled = true;
+
     // If a connection is open, close it
     tryDisconnect();
 
@@ -53,10 +57,11 @@ function SocketForm() {
       navigate("/wordle-online/startup", {replace: true});
     });
 
-    // Display the room code for easy invites
+    // Display the room code for easy invites and enable the connect button
     socketContext.socket.current.on("return-code", (message) => {
       console.log(message);
       setCurrentRoom(message.code);
+      button.current.disabled = false;
     });
   }
 
@@ -78,7 +83,7 @@ function SocketForm() {
       <form onSubmit={(e) => handleFormSubmit(e)}>
         <p>Your Room: {currentRoom}</p>
         <input id="nextRoom" name="room"/>
-        <button>
+        <button ref={button}>
           Connect
         </button>
       </form>

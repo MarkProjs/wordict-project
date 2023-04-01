@@ -9,7 +9,11 @@ async function fetchDefinition(word) {
   let data;
   try {
     let response = await fetch(url);
-    data = await response.json();
+    if (response.ok) {
+      data = await response.json();
+    } else {
+      data = null;
+    }
   } catch (e) {
     data = null;
   }
@@ -17,25 +21,23 @@ async function fetchDefinition(word) {
 }
 
 /**
- * NOTE: not curently in use
+ * NOTE: not currently in use
  * returns true or false based on if the user is logged in on the back end
  * @returns {Boolean} state of login
  */
 async function loggedInCheck() {
-  let url = new URL('/auth/loggedInCheck', location.origin);
+  let url = new URL('/auth/logged-in-check', location.origin);
   let result = false;
   try {
     let response = await fetch(url);
-    if(response.ok){
+    if (response.ok) {
       result = true;
     }
   } catch (e) {
-    cosole.error(e);
+    console.error(e);
   }
   return result;
 }
-
-
 
 /**
  * Get all words of a given length from our api
@@ -50,7 +52,11 @@ async function fetchAllWords(length = undefined) {
   }
   try {
     let response = await fetch(url);
-    words = await response.json();
+    if (response.ok) {
+      words = await response.json();
+    } else {
+      words = [];
+    }
   } catch (e) {
     words = [];
   }
@@ -62,11 +68,15 @@ async function fetchAllWords(length = undefined) {
  * @returns An object containing a user's data (name, image, etc.) or an empty object
  */
 async function fetchUser() {
-  let url = new URL("/auth/getUserInfo", location.origin);
+  let url = new URL("/auth/get-user-info", location.origin);
   let data;
   try {
     let response = await fetch(url);
-    data = await response.json();
+    if (response.ok) {
+      data = await response.json();
+    } else {
+      data = {};
+    }
   } catch (e) {
     data = {}
   }
@@ -74,15 +84,56 @@ async function fetchUser() {
 }
 
 /**
- * Get all users from api
- * @returns Array containing all users
+ * Update a user using api
+ * @param {JSON} data 
  */
+async function updateUser(data, nameChanged, pictureChanged) {
+  if (nameChanged) {
+    let url = new URL("/auth/update-name", location.origin);
+    await fetch(url, {
+      method: 'POST',
+      // headers: { 'Content-Type': 'application/json' },
+      // body: JSON.stringify(data),
+      body: data,
+    });
+  }
+  if (pictureChanged) {
+    let url = new URL("/auth/update-picture", location.origin);
+    await fetch(url, {
+      method: 'POST',
+      // headers: { 'Content-Type': 'application/json' },
+      // body: JSON.stringify(data),
+      body: data,
+    });
+  }
+}
+
+/**
+ * Update a user's favorite words using api
+ * @param {JSON} data 
+ */
+async function updateUserFavoriteWords(data) {
+  let url = new URL("/auth/update-favorites", location.origin);
+  await fetch(url, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(data),
+  });
+}
+
+/** Get all users from api
+* @returns Array containing all users
+*/
 async function fetchAllUsers() {
   let url = new URL("/api/all-users", location.origin);
   let data;
   try {
     let response = await fetch(url);
-    data = await response.json();
+    if (response.ok) {
+      data = await response.json();
+    } else {
+      data = [];
+    }
   } catch (e) {
     data = [];
   }
@@ -90,7 +141,7 @@ async function fetchAllUsers() {
 }
 
 async function fetchPostElo(data) {
-  let url = new URL("/auth/updateElo", location.origin);
+  let url = new URL("/auth/update-elo", location.origin);
   try {
     await fetch(url, {
       method: 'POST',
@@ -116,7 +167,11 @@ async function handleLogin(googleData) {
         "Content-Type": "application/json"
       }
     });
-    data = await res.json();
+    if (res.ok) {
+      data = await res.json();
+    } else {
+      data = {user: {}};
+    }
   } catch(e) {
     data = {user: {}};
   }
@@ -134,13 +189,15 @@ async function handleLogout() {
   } catch (e) {
     console.log(e);
   }
-  
+
 }
 
 export default {
   fetchDefinition,
   fetchAllWords,
   fetchUser,
+  updateUser,
+  updateUserFavoriteWords,
   fetchAllUsers,
   fetchPostElo,
   handleLogin,

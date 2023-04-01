@@ -12,6 +12,8 @@ function Profile() {
   const [profilePicture, setProfilePicture] = useState(placeholderPicture);
   const [previousProfileName, setPreviousProfileName] = useState("");
   const [previousProfilePicture, setPreviousProfilePicture] = useState("");
+  const [favoriteWords, setFavoriteWords] = useState([]);
+  const [userElo, setUserElo] = useState();
   const [isViewMode, setIsViewMode] = useState(true);
 
   useEffect(() => {
@@ -20,6 +22,8 @@ function Profile() {
       let data = await FetchModule.fetchUser();
       setProfileName(data.name);
       setProfilePicture(data.picture);
+      setFavoriteWords(data.favoriteWords);
+      setUserElo(data.elo);
     })();
   }, []);
 
@@ -28,7 +32,7 @@ function Profile() {
     <>
       <section className="left-section">
         <UserProfile image={profilePicture} />
-        <UserRank />
+        <UserRank elo={userElo} />
       </section>
       <section className="right-section">
         <div className="top-part">
@@ -42,7 +46,7 @@ function Profile() {
             setIsViewMode(false);
           }}>Edit profile</button>
         </div>
-        <FavoriteWords />
+        <FavoriteWords favoriteWords={favoriteWords} setFavoriteWords={setFavoriteWords} />
       </section>
     </>;
 
@@ -51,7 +55,7 @@ function Profile() {
     <section className="preview-section">
       <p>Quick Preview:</p>
       <article>
-        <img alt="profile picture" src={profilePicture} referrerPolicy="no-referrer"/>
+        <img alt="profile picture" src={profilePicture} referrerPolicy="no-referrer" />
         <h1 className="name">{profileName}</h1>
       </article>
     </section>;
@@ -61,7 +65,7 @@ function Profile() {
     <div className="edit-container">
       <section className="form-section">
         <h2>Edit Profile</h2>
-        <form onSubmit={updateProfile} className="edit-form">
+        <form onSubmit={async (e) => await updateProfile(e)} className="edit-form">
           <label>Name: </label>
           <input id="username" type="text" name="username" defaultValue={profileName}
             // allow real time name change preview
@@ -73,8 +77,8 @@ function Profile() {
             onChange={(e) => setProfilePicture(window.URL.createObjectURL(e.target.files[0]))} />
           <br />
           <div className="form-buttons">
-            <input type="submit" value="Save" />
-            <button onClick={() => {
+            <button type="submit">Save</button>
+            <button type="button" onClick={() => {
               // reset profile name using previous
               setProfileName(previousProfileName);
               // reset profile picture using previous
@@ -88,8 +92,19 @@ function Profile() {
       {profileEditPreview}
     </div>;
 
-  function updateProfile() {
-    //TODO: update user in db using api
+  async function updateProfile(e) {
+    e.preventDefault();
+    let nameChanged = profileName !== previousProfileName;
+    let pictureChanged = profilePicture !== previousProfilePicture;
+    // check if any changes were made to prevent unnecessary api calls
+    if (nameChanged || pictureChanged) {
+      // form data in json
+      let formData = new FormData();
+      formData.append('file', e.target.file.files[0]);
+      formData.append('name', profileName);
+      // let formData = { name: profileName, picture: profilePicture };
+      await FetchModule.updateUser(formData, nameChanged, pictureChanged);
+    }
     setIsViewMode(true);
   }
 
