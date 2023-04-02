@@ -24,9 +24,10 @@ function Profile() {
     (async () => {
       // Fetch user from database
       let data = await FetchModule.fetchUser();
+      let favs = await FetchModule.fetchUserFavorites();
       setProfileName(data.name);
       setProfilePicture(data.picture);
-      setFavoriteWords(data.favoriteWords);
+      setFavoriteWords(favs.favoriteWords);
       setUserElo(data.elo);
     })();
     if (!user.isLoggedIn) {
