@@ -1,7 +1,8 @@
 import { createContext } from "react";
 
 const SocketContext = createContext({
-  socket: undefined
+  socket: undefined,
+  opponent: ""
 });
 
 export default SocketContext;

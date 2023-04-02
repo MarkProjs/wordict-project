@@ -32,11 +32,11 @@ function Popup(props) {
   }, [gameState]);
 
   useEffect(() => {
-    if (gameState.done) {
+    if (gameState.done && props.shouldPost) {
       (async () => {
+        console.log("Posting")
         // Update Elo
-        // Using mock data
-        // await FetchModule.fetchPostElo({ email: "monkey@monkemail.com", elo: elo })
+        await FetchModule.fetchPostElo({ elo: elo })
       })();
     }
   }, [elo]);
@@ -44,7 +44,7 @@ function Popup(props) {
   return (
     <>
       {gameState.done && <article className="popup">
-        <p>{props.person} have {gameState.win ? "won!!!" :
+        <p>{props.person} {gameState.win ? "won!!!" :
           "Lost :(("}</p>
         <p>{elo} Points !</p>
         <p>The word was {props.word}</p>
