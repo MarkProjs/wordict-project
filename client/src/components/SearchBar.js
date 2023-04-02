@@ -11,6 +11,7 @@ function SearchBar() {
   const [isFavorite, setIsFavorite] = useState(false);
   const [isPending, startTransition] = useTransition();
   const isFetching = useRef();
+  const aborter = useRef(new AbortController())
   const unfavoritedIcon = process.env.PUBLIC_URL + '/img/star_FILL0.svg';
   const favoritedIcon = process.env.PUBLIC_URL + '/img/star_FILL1.svg';
 
@@ -30,15 +31,15 @@ function SearchBar() {
     if (newValue && !isPending) {
       startTransition(() => {
         (async () => {
-          let newFilteredWords;
           if (isFetching.current) {
-            newFilteredWords = filteredWords;
-          } else {
-            isFetching.current = true;
-            newFilteredWords = await FetchModule.fetchWordsStartWith(newValue);
-            isFetching.current = false;
+            aborter.current.abort();
+            aborter.current = new AbortController();
           }
-          setFilteredWords(newFilteredWords);
+          isFetching.current = true;
+          let words = await FetchModule.fetchWordsStartWith(newValue, aborter.current.signal);
+          isFetching.current = false;
+          
+          setFilteredWords(words);
         })()
       });
     }

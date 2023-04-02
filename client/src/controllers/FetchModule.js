@@ -64,12 +64,12 @@ async function fetchAllWords(length = undefined) {
 }
 
 
-async function fetchWordsStartWith(startsWith) {
+async function fetchWordsStartWith(startsWith, signal) {
   let words;
   let url = new URL(`/api/dictionary`, location.origin);
   url.searchParams.set("startsWith", startsWith);
   try {
-    let response = await fetch(url);
+    let response = await fetch(url, {signal});
     if (response.ok) {
       words = await response.json();
     } else {
