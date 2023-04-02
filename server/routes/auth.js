@@ -41,8 +41,10 @@ router.use(sessionHandler);
  * Authentication post
  */
 router.post("/login", async (req, res) => {
-  //TODO: should validate that the token was sent first
   const { token } = req.body;
+  if (!token) {
+    return res.sendStatus(400).end();
+  }
   const ticket = await client.verifyIdToken({
     idToken: token,
     audience: process.env.REACT_APP_GOOGLE_CLIENT_ID
@@ -93,6 +95,7 @@ router.get("/logged-in-check", isAuthenticated, (req, res) => {
 router.post("/update-elo", isAuthenticated, async (req, res) => {
   const user = req.session.user;
   const elo = req.body.elo;
+  c
   if (!elo) {
     return res.sendStatus(400).end()
   }
@@ -194,5 +197,5 @@ router.get("/logout", isAuthenticated, function (req, res) {
   });
 });
 
-
-export default router;
+//isAuthenticated exported only for testing
+export default {router, isAuthenticated};

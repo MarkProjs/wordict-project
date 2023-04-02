@@ -14,6 +14,9 @@ jest.spyOn(containerClient, 'getBlockBlobClient')
     return {uploadData: uploadFunc};
   });
 
+/**
+ * test image upload to blob
+ */
 test("Testing image upload", async () => {
   await imageUpload({data:"pic1"});
   expect(uploadFunc).toHaveBeenCalledTimes(1);

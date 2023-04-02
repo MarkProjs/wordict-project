@@ -1,5 +1,4 @@
 import express from "express";
-import fs from 'fs';
 import userControllers from "../controllers/userControllers.js";
 import wordControllers from "../controllers/wordControllers.js";
 
