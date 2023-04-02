@@ -86,6 +86,7 @@ function isAuthenticated(req, res, next) {
  * check if the user is logged in
  */
 router.get("/logged-in-check", isAuthenticated, (req, res) => {
+  console.log("AM HERE");
   res.sendStatus(200).end();
 });
 
@@ -198,4 +199,4 @@ router.get("/logout", isAuthenticated, function (req, res) {
 });
 
 //isAuthenticated exported only for testing
-export default {router, isAuthenticated};
+export default {router, isAuthenticated, sessionHandler};

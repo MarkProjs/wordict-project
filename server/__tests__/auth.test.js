@@ -14,6 +14,10 @@ userControllers.updateElo = jest.fn(async (user, elo) => {
   }
 });
 
+auth.sessionHandler = jest.fn((req, res, next) => {
+  console.log("AM HERE");
+  next();
+});
 auth.isAuthenticated = jest.fn((req, res, next) => {
 //   req.session.regenerate(function () {
 //     req.session.user = {
@@ -22,6 +26,7 @@ auth.isAuthenticated = jest.fn((req, res, next) => {
 //       picture: "someUrl"
 //     };
 //   });
+  console.log("AM HERE");
   next();
 });
 
@@ -32,7 +37,8 @@ describe("tests for auth route", () => {
    */
   test("test login check", async () => {
     let response = await request(app).get('/auth/logged-in-check').expect(200);
-    
+    console.log(response.status);
+
   });
   
 //   test("test update elo", async () => {
