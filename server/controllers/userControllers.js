@@ -9,8 +9,7 @@ import { Users } from "../db/db.js";
  */
 async function getUserInfo(user) {
   let query = {email: user.email};
-  let result = await Users.findOne(query).select('name elo email picture');
-  return result;
+  return await Users.getUserData(query);
 }
 /**
  * gets favortie words of user
@@ -20,8 +19,7 @@ async function getUserInfo(user) {
  */
 async function getUserFavorites(user){
   let query = {email: user.email};
-  let result = await Users.findOne(query).select('favoriteWords');
-  return result;
+  return Users.getUserFavorites(query);
 }
 /**
  * Get all users
@@ -59,7 +57,7 @@ async function updatePicture(user, picture) {
  * @param {String} newName newName
  */
 async function updateName(user, newName) {
-  const doc = await Users.findOneAndUpdate(
+  await Users.findOneAndUpdate(
     { email: user.email },
     { name: newName },
     // { picture: picture},

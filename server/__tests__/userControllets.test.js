@@ -9,6 +9,13 @@ const saveFunc = jest
   .mockImplementation(() => {}); 
 
 
+Users.getUserFavorites = jest.fn((query) => {
+  if(!query.email){
+    throw new Error("TEST FAILED: input not valid");
+  }
+  return ["apple", "papa"];
+});
+  
 Users.addUserFavoriteWord = jest.fn((email, word) => {
   if(!email || !word){
     throw new Error("TEST FAILED: input not valid");
@@ -27,13 +34,14 @@ Users.findOneAndUpdate = jest.fn((user, newName) => {
   }
 });
 
-Users.findOne = jest.fn(async (query) => {
+Users.getUserData = jest.fn(async (query) => {
   if(query.email === "greg"){
     return {name: "Grigor"};
   }else{
     return false;
   }
 });
+
 
 Users.updatePicture = jest.fn(async (email, pic) => {
   if(!email || !pic){
@@ -67,6 +75,16 @@ beforeEach(() => {
 });
 
 describe("testing user controllers", () => {
+  /**
+   * test getUserFavorites function
+   */
+  test("test get favortie words", async () =>{
+    let response = await userControllers.getUserFavorites({
+      email: "smth"
+    });
+    expect(response[0]).toBe("apple");
+    expect(response[1]).toBe("papa");
+  })
   /**
    * tests getUserInfo method
    */
