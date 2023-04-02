@@ -1,9 +1,8 @@
 import express from "express";
 import api from "./routes/api.js";
 import path from "path";
-import authRoute from "./routes/auth.js";
+import auth from "./routes/auth.js";
 import fs from 'fs';
-const auth = authRoute.router;
 
 let app = express();
 

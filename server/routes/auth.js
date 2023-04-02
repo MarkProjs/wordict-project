@@ -205,4 +205,4 @@ router.get("/logout", isAuthenticated, function (req, res) {
 });
 
 //isAuthenticated exported only for testing
-export default {router, client, isAuthenticated, sessionHandler};
+export default router;
