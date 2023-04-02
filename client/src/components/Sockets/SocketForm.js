@@ -2,6 +2,7 @@ import { useState, useContext, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import SocketContext from "./SocketContext";
 import io from "socket.io-client";
+import UserContext from "../../userContext";
 
 function SocketForm() {
   
@@ -9,6 +10,7 @@ function SocketForm() {
   const [isConnected, setIsConnected] = useState(false);
   const [currentRoom, setCurrentRoom] = useState("");
   const socketContext = useContext(SocketContext);
+  const user = useContext(UserContext)
   const navigate = useNavigate();
 
   /**
@@ -29,7 +31,10 @@ function SocketForm() {
     tryDisconnect();
 
     // Open a new connection
-    socketContext.socket.current = io("", { query: { room: room } });
+    socketContext.socket.current = io("", {
+      query: { room: room }, 
+      auth: {userInfo: {name: user.username || "Guest"}} 
+    });
 
     // Show the text area upon connecting
     socketContext.socket.current.on("connect", () => {
@@ -62,6 +67,17 @@ function SocketForm() {
       console.log(message);
       setCurrentRoom(message.code);
       button.current.disabled = false;
+    });
+
+    // Set the opponent name to the correct name
+    socketContext.socket.current.on("player-join", (users) => {
+      console.log(users)
+      users.forEach(user => {
+        if (user.sid !== socketContext.socket.current.id) {
+          socketContext.opponent.current = user.info.name;
+          console.log(user.info.name)
+        }
+      });
     });
   }
 

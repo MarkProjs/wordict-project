@@ -91,7 +91,7 @@ userSchema.statics.getAllUsersForLeaderboard = async function () {
 userSchema.statics.updateUserElo = async function (email, elo) {
   await Users.updateOne(
     { email: email },
-    { $set: { elo: elo } }
+    { $inc: { elo: elo } }
   )
 }
 

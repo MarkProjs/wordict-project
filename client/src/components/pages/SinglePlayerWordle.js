@@ -1,7 +1,8 @@
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState, useRef, useContext } from 'react';
 import Wordle from '../Wordle/Wordle.js';
 import validInputs from "../../controllers/ValidInput.json";
 import FetchModule from '../../controllers/FetchModule.js';
+import UserContext from '../../userContext.js';
 
 const WORDLE_PREFIX = "W-"
 
@@ -10,6 +11,7 @@ function SinglePlayerWordle() {
   const [isLoaded, setIsLoaded] = useState(false);
   const [word, setWord] = useState("");
   const allWords = useRef([]);
+  const user = useContext(UserContext);
 
   // Contains all of the functions subscribed to the input event
   const inputEvent = new Map();
@@ -60,12 +62,13 @@ function SinglePlayerWordle() {
       <div className="wordle-container" onKeyUp={(e) => handleInput(e)} tabIndex={0}>
         <Wordle 
           id={WORDLE_PREFIX + 0}
-          person="You"
+          person={user.username || "Guest"}
           word={word}
           submitKey={validInputs.submitKey}
           deleteKey={validInputs.deleteKey}
           subToInputEvent={subToInputEvent}
           defaultValue={validInputs.empty}
+          shouldPost={user.isLoggedIn}
         />
       </div>
     </>

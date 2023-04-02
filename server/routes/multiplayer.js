@@ -33,14 +33,12 @@ function setupServer(app) {
     let room = socket.handshake.query.room;
 
     const user = {};
-    user.info = socket.handshake.auth;
+    user.info = socket.handshake.auth.userInfo;
     user.sid = socket.id;
 
     if (room && rooms[room]?.users?.length < maxPlayers && !rooms[room].hasStarted) {
 
       socket.join(room);
-      
-      socket.to(room).emit("oponnent-join");
 
     } else {
       // Breaks some default functionality if you use just the socket id
@@ -97,6 +95,10 @@ function setupServer(app) {
 
     // Send the user the code of their room to allow invites
     socket.emit("return-code", {code: room});
+
+    //Send the list of users to everyone when someone joins
+    server.to(room).emit("player-join", rooms[room].users);
+    
   });
 
   // Upon automatic deletion of room, detele extra room info

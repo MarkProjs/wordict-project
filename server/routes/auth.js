@@ -19,7 +19,7 @@ let sessionHandler = session({
   saveUninitialized: false,
   resave: false,
   cookie: {
-    maxAge: 120000,
+    maxAge: 3600000,
     secure: false,
     httpOnly: true,
     sameSite: 'strict'
@@ -198,6 +198,7 @@ router.get("/get-user-favorites", isAuthenticated, async (req, res) => {
 router.get("/logout", isAuthenticated, function (req, res) {
   //destroy the session
   req.session.destroy(function (err) {
+    console.log("Destroying Session")
     //callback invoked after destroy returns
     if (err) {
       //server error, couldn't destroy the session
