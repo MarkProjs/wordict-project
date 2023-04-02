@@ -8,7 +8,8 @@ function UserMenu() {
   const user = useContext(UserContext);
 
   //handle the logout for google authentcation
-  async function handleLogout() {
+  async function handleLogout(e) {
+    e.target.disabled = true
     await FetchModule.handleLogout();
     user.setIsLoggedIn(false);
   }
