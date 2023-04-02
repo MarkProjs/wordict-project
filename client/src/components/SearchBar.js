@@ -46,7 +46,6 @@ function SearchBar() {
     setSearchResult(data);
     let user = await FetchModule.fetchUser();
     if (user.favoriteWords) {
-      console.log("user");
       favoriteButton = <img className='favorite' src={isFavorite ? favoritedIcon : unfavoritedIcon}
         alt='favorite button' onClick={favoriteHandler} />
       let favoriteWords = user.favoriteWords;
@@ -56,7 +55,6 @@ function SearchBar() {
         setIsFavorite(false);
       }
     } else {
-      console.log("empty user");
       favoriteButton = <></>
     }
   }
