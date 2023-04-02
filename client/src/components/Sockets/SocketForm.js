@@ -38,14 +38,11 @@ function SocketForm() {
 
     // Show the text area upon connecting
     socketContext.socket.current.on("connect", () => {
-      console.log("Connected");
       setIsConnected(true);
     });
 
     // Remove the text field if there is a disconnect
     socketContext.socket.current.on("disconnect", (reason) => {
-      console.log("disconnect");
-      console.log(reason);
       if (reason !== "io client disconnect") {
         navigate("/wordle-online", {replace: true});
       }
@@ -64,18 +61,15 @@ function SocketForm() {
 
     // Display the room code for easy invites and enable the connect button
     socketContext.socket.current.on("return-code", (message) => {
-      console.log(message);
       setCurrentRoom(message.code);
       button.current.disabled = false;
     });
 
     // Set the opponent name to the correct name
     socketContext.socket.current.on("player-join", (users) => {
-      console.log(users)
       users.forEach(user => {
         if (user.sid !== socketContext.socket.current.id) {
           socketContext.opponent.current = user.info.name;
-          console.log(user.info.name)
         }
       });
     });

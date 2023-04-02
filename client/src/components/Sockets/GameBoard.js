@@ -68,8 +68,6 @@ function GameBoard() {
       socketContext.socket.current.off("keypress");
       // Upon receiving message, change the text area
       socketContext.socket.current.on("keypress", (key) => {
-        console.log("Got Keypress");
-        console.log(key);
         serverInputEvent.current.forEach(func => func(key));
       });
     }
