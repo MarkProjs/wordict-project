@@ -23,9 +23,6 @@ function SearchBar() {
     defaultValue={searchInput}
   />;
 
-  // Favorite button, empty unless user is signed in
-  let favoriteButton = <></>;
-
   /**
    * Search word definition via form submission using event
    * @param {form} e 
@@ -47,14 +44,14 @@ function SearchBar() {
     }
     setSearchResult(data);
     if (user.isLoggedIn) {
-      favoriteButton = <img className='favorite' src={isFavorite ? favoritedIcon : unfavoritedIcon}
-        alt='favorite button' onClick={favoriteHandler} />
       let userData = await FetchModule.fetchUser();
       if (userData.favoriteWords.find(elem => elem === word)) {
         setIsFavorite(true);
       } else {
         setIsFavorite(false);
       }
+    } else {
+      // favoriteButton = <></>;
     }
   }
 
@@ -98,7 +95,10 @@ function SearchBar() {
       </form>
       {searchResult ? <div className='definition'>
         <h2>{searchResult.word} {searchResult.definitions ?
-          <>{favoriteButton}</> : <></>}</h2>
+          <>{user.isLoggedIn ?
+            <img className='favorite' src={isFavorite ? favoritedIcon : unfavoritedIcon}
+              alt='favorite button' onClick={favoriteHandler} /> : <></>
+          }</> : <></>}</h2>
         <ol>
           {searchResult.definitions ? searchResult.definitions.map((item, key) =>
             <li key={key}>{item.definition}</li>
