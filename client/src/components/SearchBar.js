@@ -7,6 +7,7 @@ function SearchBar() {
   const [searchInput, setSearchInput] = useState("");
   const [searchResult, setSearchResult] = useState();
   const [words, setWords] = useState([]);
+  const [filteredWords, setFilteredWords] = useState([]);
   const locationData = useLocation();
   const [isFavorite, setIsFavorite] = useState(false);
   const unfavoritedIcon = process.env.PUBLIC_URL + '/img/star_FILL0.svg';
@@ -19,7 +20,25 @@ function SearchBar() {
     placeholder="Search here"
     list="words"
     defaultValue={searchInput}
+    onChange = {inputUpdate}
   />;
+
+
+  async function inputUpdate(event) {
+    let newValue = event.target.value;
+    if (newValue) {
+      let newFilteredWords = [];
+      // if(words.length) {
+      //   newFilteredWords = words.filter((item)=> {
+      //     return item.startsWith(newValue);
+      //   });
+      // } else {
+      newFilteredWords = await FetchModule.fetchWordsStartWith(newValue);
+      // }
+      setFilteredWords(newFilteredWords);
+    }
+    setSearchInput(newValue);
+  }
 
   /**
    * Search word definition via form submission using event
@@ -64,15 +83,15 @@ function SearchBar() {
       }
 
       // Fetch all the words for the dataset
-      let data = await FetchModule.fetchAllWords();
-      setWords(data);
+      // let data = await FetchModule.fetchAllWords();
+      // setWords(data);
     })();
   }, []);
 
   const dataList = <datalist id="words">
-    {words.map((item, key) =>
+    {filteredWords.length ? filteredWords.map((item, key) =>
       <option key={key} value={item} />
-    )}
+    ) : <option value={"Loading..."}/>}
   </datalist>;
 
   async function favoriteHandler() {
@@ -86,7 +105,7 @@ function SearchBar() {
       <form onSubmit={searchWord}>
         {searchInputField}
         <input type="submit" value="Search" />
-        {dataList}
+        {searchInput ? dataList : <></>}
       </form>
       {searchResult ? <div className='definition'>
         <h2>{searchResult.word} {searchResult.definitions ?
