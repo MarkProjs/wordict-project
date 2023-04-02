@@ -1,9 +1,11 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
 import { useLocation } from "react-router-dom";
 import FetchModule from '../controllers/FetchModule';
+import userContext from '../userContext.js';
 import './SearchBar.css';
 
 function SearchBar() {
+  const user = useContext(userContext);
   const [searchInput, setSearchInput] = useState("");
   const [searchResult, setSearchResult] = useState();
   const [words, setWords] = useState([]);
@@ -41,12 +43,14 @@ function SearchBar() {
       data = { "word": "No results" };
     }
     setSearchResult(data);
-    let user = await FetchModule.fetchUser();
-    let favoriteWords = user.favoriteWords;
-    if (favoriteWords.find(elem => elem === word)) {
-      setIsFavorite(true);
-    } else {
-      setIsFavorite(false);
+    // Fetch only if user is logged in
+    if (user.isLoggedIn) {
+      let userData = await FetchModule.fetchUser();
+      if (userData.favoriteWords.find(elem => elem === word)) {
+        setIsFavorite(true);
+      } else {
+        setIsFavorite(false);
+      }
     }
   }
 
@@ -75,6 +79,9 @@ function SearchBar() {
     )}
   </datalist>;
 
+  /**
+   * Handler for favorite button
+   */
   async function favoriteHandler() {
     setIsFavorite(!isFavorite);
     let data = { word: searchInput, favorite: isFavorite };
@@ -90,9 +97,10 @@ function SearchBar() {
       </form>
       {searchResult ? <div className='definition'>
         <h2>{searchResult.word} {searchResult.definitions ?
-          <img className='favorite' src={isFavorite ? favoritedIcon : unfavoritedIcon}
-            alt='favorite button' onClick={favoriteHandler} />
-          : <></>}</h2>
+          <>{user.isLoggedIn ?
+            <img className='favorite' src={isFavorite ? favoritedIcon : unfavoritedIcon}
+              alt='favorite button' onClick={favoriteHandler} /> : <></>
+          }</> : <></>}</h2>
         <ol>
           {searchResult.definitions ? searchResult.definitions.map((item, key) =>
             <li key={key}>{item.definition}</li>
