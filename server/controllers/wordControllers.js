@@ -28,10 +28,13 @@ async function getDefinition(word) {
  * @returns an object with a field count for the number of words and a field words
  * that's an array of all the words
  */
-async function getAllWords(length) {
+async function getAllWords(length, startsWith) {
   let query = {};
   if (length) {
-    query = { length: length };
+    query.length = length;
+  }
+  if(startsWith){
+    query.word = {$regex: RegExp("^" + startsWith, "i") };
   }
   let returnObj = {};
   let arr = await Words.getOnlyWordFields(query);

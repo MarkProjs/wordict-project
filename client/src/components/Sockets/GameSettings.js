@@ -94,7 +94,7 @@ function GameSettings(props) {
   return (
     <>
       {
-        isWordSent && <p>Word Sent to Opponent</p>
+        isWordSent && <p>Word Sent to {socketContext.opponent.current}</p>
         || <form onSubmit={e => handleSend(e)}>
           <label htmlFor="word">Opponent&apos;s Word: </label>
           <input required value={opponentWord} onInput={e => handleWordInput(e)} name="word"/>
@@ -104,7 +104,7 @@ function GameSettings(props) {
         </form>
       }
       {
-        isWordReceived && <p>Word Received From Opponent</p>
+        isWordReceived && <p>Word Received From {socketContext.opponent.current}</p>
       }
     </>
   );

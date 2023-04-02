@@ -27,7 +27,7 @@ router.get("/dictionary", async (req, res) => {
   let words;
   try {
     // Retrieve words from MongoDB
-    let data = await wordControllers.getAllWords(req.query.length);
+    let data = await wordControllers.getAllWords(req.query.length, req.query.startsWith);
     words = data.words;
   } catch (e) {
     words = [];
