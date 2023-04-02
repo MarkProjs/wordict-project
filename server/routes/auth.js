@@ -179,6 +179,20 @@ router.get("/get-user-info", isAuthenticated, async (req, res) => {
 });
 
 /**
+ * Get API to retrieve Uses's favorites
+ */
+router.get("/get-user-favorites", isAuthenticated, async (req, res) => {
+  let user = req.session.user;
+  try {
+    user = await userControllers.getUserFavorites(user);
+    res.json(user).end();
+  } catch (e) {
+    console.error(e);
+    res.sendStatus(500).end();
+  }
+});
+
+/**
    * logout route
    */
 router.get("/logout", isAuthenticated, function (req, res) {

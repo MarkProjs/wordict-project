@@ -70,7 +70,7 @@ function SearchBar() {
     setSearchResult(data);
     // Fetch only if user is logged in
     if (user.isLoggedIn) {
-      let userData = await FetchModule.fetchUser();
+      let userData = await FetchModule.fetchUserFavorites();
       if (userData.favoriteWords.find(elem => elem === word)) {
         setIsFavorite(true);
       } else {

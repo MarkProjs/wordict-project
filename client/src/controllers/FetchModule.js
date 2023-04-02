@@ -100,6 +100,26 @@ async function fetchUser() {
   }
   return data;
 }
+/**
+ * Get a user object from api
+ * @returns An object containing a user's data (name, image, etc.) or an empty object
+ */
+async function fetchUserFavorites() {
+  let url = new URL("/auth/get-user-favorites", location.origin);
+  let data;
+  try {
+    let response = await fetch(url);
+    if (response.ok) {
+      data = await response.json();
+    } else {
+      data = {};
+    }
+  } catch (e) {
+    data = {}
+  }
+  return data;
+}
+
 
 /**
  * Update a user using api
@@ -217,5 +237,6 @@ export default {
   fetchPostElo,
   handleLogin,
   handleLogout,
-  loggedInCheck
+  loggedInCheck,
+  fetchUserFavorites
 }

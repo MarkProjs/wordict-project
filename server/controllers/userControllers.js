@@ -5,14 +5,24 @@ import { Users } from "../db/db.js";
  * get one users data
  * @param {Object} user the target user
  * @async
- * @returns the user
+ * @returns {Object} the user's data
  */
 async function getUserInfo(user) {
   let query = {email: user.email};
-  let result = await Users.findOne(query);
+  let result = await Users.findOne(query).select('name elo email picture');
   return result;
 }
-  
+/**
+ * gets favortie words of user
+ * @param {Object} user target user
+ * @async
+ * @returns {Array} the favorite words of th euser
+ */
+async function getUserFavorites(user){
+  let query = {email: user.email};
+  let result = await Users.findOne(query).select('favoriteWords');
+  return result;
+}
 /**
  * Get all users
  * @async
@@ -115,4 +125,4 @@ async function addUserIfNew(newUser){
     
 
 export default {addUserIfNew, getUserInfo, getAllUsers, updateElo,
-  updatePicture, updateFavorites, updateName, postUserFavoriteWord};
+  updatePicture, updateFavorites, updateName, postUserFavoriteWord, getUserFavorites};
