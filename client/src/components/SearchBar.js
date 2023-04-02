@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useTransition, useRef } from 'react';
 import { useLocation } from "react-router-dom";
 import FetchModule from '../controllers/FetchModule';
 import './SearchBar.css';
@@ -9,6 +9,8 @@ function SearchBar() {
   const [filteredWords, setFilteredWords] = useState([]);
   const locationData = useLocation();
   const [isFavorite, setIsFavorite] = useState(false);
+  const [isPending, startTransition] = useTransition();
+  const isFetching = useRef();
   const unfavoritedIcon = process.env.PUBLIC_URL + '/img/star_FILL0.svg';
   const favoritedIcon = process.env.PUBLIC_URL + '/img/star_FILL1.svg';
 
@@ -25,9 +27,20 @@ function SearchBar() {
 
   async function inputUpdate(event) {
     let newValue = event.target.value;
-    if (newValue) {
-      let newFilteredWords = await FetchModule.fetchWordsStartWith(newValue);
-      setFilteredWords(newFilteredWords);
+    if (newValue && !isPending) {
+      startTransition(() => {
+        (async () => {
+          let newFilteredWords;
+          if (isFetching.current) {
+            newFilteredWords = filteredWords;
+          } else {
+            isFetching.current = true;
+            newFilteredWords = await FetchModule.fetchWordsStartWith(newValue);
+            isFetching.current = false;
+          }
+          setFilteredWords(newFilteredWords);
+        })()
+      });
     }
     setSearchInput(newValue);
   }
