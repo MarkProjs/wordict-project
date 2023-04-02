@@ -17,6 +17,7 @@ function Profile() {
   const [favoriteWords, setFavoriteWords] = useState([]);
   const [userElo, setUserElo] = useState();
   const [isViewMode, setIsViewMode] = useState(true);
+  const [isLoading, setIsLoading] = useState(true);
   const user = useContext(UserContext);
   const navigate = useNavigate();
 
@@ -29,6 +30,7 @@ function Profile() {
       setProfilePicture(data.picture);
       setFavoriteWords(favs.favoriteWords);
       setUserElo(data.elo);
+      setIsLoading(false);
     })();
     if (!user.isLoggedIn) {
       navigate("/");
@@ -45,7 +47,7 @@ function Profile() {
       <section className="right-section">
         <div className="top-part">
           <h1 className="name">{profileName}</h1>
-          <button onClick={() => {
+          <button disabled={isLoading} onClick={() => {
             // set current profile name as previous to be used on cancel
             setPreviousProfileName(profileName);
             // set current profile picture as previous to be used on cancel
@@ -85,8 +87,8 @@ function Profile() {
             onChange={(e) => setProfilePicture(window.URL.createObjectURL(e.target.files[0]))} />
           <br />
           <div className="form-buttons">
-            <button type="submit">Save</button>
-            <button type="button" onClick={() => {
+            <button disabled={isLoading} type="submit">Save</button>
+            <button disabled={isLoading} type="button" onClick={() => {
               // reset profile name using previous
               setProfileName(previousProfileName);
               // reset profile picture using previous
@@ -101,6 +103,7 @@ function Profile() {
     </div>;
 
   async function updateProfile(e) {
+    setIsLoading(true);
     e.preventDefault();
     let nameChanged = profileName !== previousProfileName;
     let pictureChanged = profilePicture !== previousProfilePicture;
@@ -113,6 +116,7 @@ function Profile() {
       // let formData = { name: profileName, picture: profilePicture };
       await FetchModule.updateUser(formData, nameChanged, pictureChanged);
     }
+    setIsLoading(false)
     setIsViewMode(true);
   }
 
