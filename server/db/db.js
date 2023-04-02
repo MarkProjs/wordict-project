@@ -1,8 +1,8 @@
 import dotenv from "dotenv";
 import mongoose from "mongoose";
 dotenv.config();
-//supresses warning
-mongoose.set('strictQuery', true);
+//suppresses warning
+mongoose.set('strictQuery', true); 
 
 
 const dbUrl = process.env.ATLAS_URI;
@@ -39,7 +39,7 @@ const wordSchema = new mongoose.Schema({
  * @param {Object} query query object of the form {field: value}
  * @returns a word that matches the query, selected based on the randomValue
  */
-wordSchema.statics.getRandomUsingVal = async function (randValue, query = {}) {
+wordSchema.statics.getRandomUsingVal = async function(randValue, query = {}){
   return await Words.findOne(query).skip(randValue).exec();
 }
 
@@ -47,7 +47,7 @@ wordSchema.statics.getRandomUsingVal = async function (randValue, query = {}) {
  * @async
  * @returns {Array} an array with all the words represented in the form {word: word};
  */
-wordSchema.statics.getOnlyWordFields = async function (query = {}) {
+wordSchema.statics.getOnlyWordFields =  async function(query = {}){
   return await Words.find(query).select('word -_id').exec();
 }
 
@@ -92,7 +92,7 @@ userSchema.statics.updateUserElo = async function (email, elo) {
 }
 
 /**
- * Update User Pciture
+ * Update User Picture
  * @param {String} email email to id user
  * @param {String} picture new picture
  */
@@ -102,6 +102,7 @@ userSchema.statics.updatePicture = async function (email, picture) {
     { $set: { picture: picture } }
   )
 }
+
 /**
  * Update User Favorites
  * @param {String} email email to id user
@@ -114,8 +115,35 @@ userSchema.statics.updateFavorites = async function (email, favoriteWords) {
   )
 }
 
+// userSchema.statics.getLatestUser = async function (){
+//   return await Users.find().sort({_id:-1}).limit(1).exec();
+// };
 
-//init mmodels
+/**
+ * Add a new word to the user's favorite words array
+ * @param {String} email 
+ * @param {String} word 
+ */
+userSchema.statics.addUserFavoriteWord = async function (email, word) {
+  await Users.updateOne(
+    { email: email },
+    { $push: { favoriteWords: word } }
+  );
+}
+
+/**
+ * Remove a word from the user's favorite words array
+ * @param {String} email 
+ * @param {String} word 
+ */
+userSchema.statics.removeUserFavoriteWord = async function (email, word) {
+  await Users.updateOne(
+    { email: email },
+    { $pull: { favoriteWords: word } }
+  );
+}
+
+//init models
 
 const Words = mongoose.model('WordsV3', wordSchema);
 const Users = mongoose.model('UsersV2', userSchema);
@@ -128,9 +156,8 @@ process.on("SIGINT", async () => {
   process.exit();
 });
 
-
 /**
- * connect to the databse
+ * connect to the database
  * @void
  * @async
  */
@@ -140,11 +167,11 @@ async function connect() {
   console.log("Ready to interact with DB");
 }
 /**
- * disconnect from the databse
+ * disconnect from the database
  * @void
  * @async
  */
-async function disconnect() {
+async function disconnect(){
   await mongoose.disconnect();
   console.log("Disconnected from Database.");
 }
@@ -153,7 +180,7 @@ async function disconnect() {
 
 //await test()
 // eslint-disable-next-line no-unused-vars
-async function test() {
+async function test(){
   await Words.deleteMany({});
   const newWord = new Words({
     word: "three",

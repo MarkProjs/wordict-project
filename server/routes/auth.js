@@ -31,14 +31,14 @@ let sessionHandler = session({
 router.use(fileUpload({
   createParentPath: true,
 }));
-  
+
 
 router.use(express.json());
 
 router.use(sessionHandler);
 
 /**
- * Athentication post
+ * Authentication post
  */
 router.post("/login", async (req, res) => {
   //TODO: should validate that the token was sent first
@@ -65,7 +65,7 @@ router.post("/login", async (req, res) => {
     res.json({ user: user });
   });
 });
-  
+
 
 /**
  * route to the server that will require authentication
@@ -83,21 +83,21 @@ function isAuthenticated(req, res, next) {
  * NOTE: not currently in use
  * check if the user is logged in
  */
-router.get("/loggedInCheck", isAuthenticated, (req, res) => {
+router.get("/logged-in-check", isAuthenticated, (req, res) => {
   res.sendStatus(200).end();
 });
 
 /**
  * POST API to update user elo
  */
-router.post("/updateElo", isAuthenticated, async (req, res) => {
+router.post("/update-elo", isAuthenticated, async (req, res) => {
   const user = req.session.user;
   const elo = req.body.elo;
-  if(!elo){
+  if (!elo) {
     return res.sendStatus(400).end()
   }
   try {
-    await userControllers.uptadeElo(user, elo);
+    await userControllers.updateElo(user, elo);
     res.sendStatus(200).end();
   } catch (e) {
     console.error(e);
@@ -108,14 +108,16 @@ router.post("/updateElo", isAuthenticated, async (req, res) => {
 /**
  * POST API to update user favorites
  */
-router.post("/updateFavorites", isAuthenticated, async (req, res) => {
+router.post("/update-favorites", isAuthenticated, async (req, res) => {
   const user = req.session.user;
-  const favs = req.body.favoriteWords;
-  if(!favs){
-    return res.sendStatus(400).end()
+  const word = req.body.word;
+  const isFavorite = req.body.favorite;
+  if (isFavorite === undefined || !word) {
+    return res.sendStatus(400).end();
   }
   try {
-    await userControllers.updateFavorites(user, favs);
+    // Update user favorite words in database
+    await userControllers.postUserFavoriteWord(user, word, isFavorite);
     res.sendStatus(200).end();
   } catch (e) {
     console.error(e);
@@ -124,12 +126,32 @@ router.post("/updateFavorites", isAuthenticated, async (req, res) => {
 });
 
 /**
- * POST API to update user pciture
+ * Post API to update User's name
  */
-router.post("/updatePicture", isAuthenticated, async (req, res) => {
+router.post("/update-name", isAuthenticated, async (req, res) => {
+  const user = req.session.user;
+  const newName = req.body.name;
+  if (!newName) {
+    return res.sendStatus(400).end();
+  } else {
+    try {
+      // Update user's name in database
+      await userControllers.updateName(user, newName);
+      res.sendStatus(200).end();
+    } catch (e) {
+      console.error(e);
+      res.sendStatus(500).end();
+    }
+  }
+});
+
+/**
+ * POST API to update user picture
+ */
+router.post("/update-picture", isAuthenticated, async (req, res) => {
   const user = req.session.user;
   const file = req.files.file;
-  if(!file){
+  if (!file) {
     return res.sendStatus(400).end()
   }
   try {
@@ -145,7 +167,7 @@ router.post("/updatePicture", isAuthenticated, async (req, res) => {
 /**
  * Get API to retrieve User
  */
-router.get("/getUserInfo", isAuthenticated, async (req, res) => {
+router.get("/get-user-info", isAuthenticated, async (req, res) => {
   let user = req.session.user;
   try {
     user = await userControllers.getUserInfo(user);
@@ -155,7 +177,6 @@ router.get("/getUserInfo", isAuthenticated, async (req, res) => {
     res.sendStatus(500).end();
   }
 });
-
 
 /**
    * logout route
@@ -172,7 +193,6 @@ router.get("/logout", isAuthenticated, function (req, res) {
     res.sendStatus(200);
   });
 });
-  
 
 
 export default router;

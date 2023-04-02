@@ -46,5 +46,4 @@ async function getAllWords(length) {
   return returnObj;
 }
 
-
 export default { getRandomWord, getDefinition, getAllWords };

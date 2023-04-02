@@ -1,12 +1,16 @@
 import { useEffect, useState } from 'react';
 import { useLocation } from "react-router-dom";
 import FetchModule from '../controllers/FetchModule';
+import './SearchBar.css';
 
 function SearchBar() {
   const [searchInput, setSearchInput] = useState("");
   const [searchResult, setSearchResult] = useState();
   const [words, setWords] = useState([]);
   const locationData = useLocation();
+  const [isFavorite, setIsFavorite] = useState(false);
+  const unfavoritedIcon = process.env.PUBLIC_URL + '/img/star_FILL0.svg';
+  const favoritedIcon = process.env.PUBLIC_URL + '/img/star_FILL1.svg';
 
   // Search input field with default value attribute set to searchInput (favorite word / no word)
   let searchInputField = <input
@@ -31,11 +35,19 @@ function SearchBar() {
    * @param {URL} url 
    */
   async function findWord(word) {
+    setSearchInput(word);
     let data = await FetchModule.fetchDefinition(word);
     if (data === null) {
       data = { "word": "No results" };
     }
     setSearchResult(data);
+    let user = await FetchModule.fetchUser();
+    let favoriteWords = user.favoriteWords;
+    if (favoriteWords.find(elem => elem === word)) {
+      setIsFavorite(true);
+    } else {
+      setIsFavorite(false);
+    }
   }
 
   useEffect(() => {
@@ -63,6 +75,12 @@ function SearchBar() {
     )}
   </datalist>;
 
+  async function favoriteHandler() {
+    setIsFavorite(!isFavorite);
+    let data = { word: searchInput, favorite: isFavorite };
+    await FetchModule.updateUserFavoriteWords(data);
+  }
+
   return (
     <>
       <form onSubmit={searchWord}>
@@ -71,7 +89,10 @@ function SearchBar() {
         {dataList}
       </form>
       {searchResult ? <div className='definition'>
-        <h2>{searchResult.word}</h2>
+        <h2>{searchResult.word} {searchResult.definitions ?
+          <img className='favorite' src={isFavorite ? favoritedIcon : unfavoritedIcon}
+            alt='favorite button' onClick={favoriteHandler} />
+          : <></>}</h2>
         <ol>
           {searchResult.definitions ? searchResult.definitions.map((item, key) =>
             <li key={key}>{item.definition}</li>

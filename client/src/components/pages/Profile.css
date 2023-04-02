@@ -50,6 +50,11 @@ main {
   margin: 2rem;
 }
 
+ul {
+  max-height: 15rem;
+  overflow-y: scroll;
+}
+
 .favorites li {
   margin-top: 0.5rem;
   padding: 0.5rem;

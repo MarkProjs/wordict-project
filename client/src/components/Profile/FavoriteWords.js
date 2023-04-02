@@ -1,16 +1,23 @@
 import { Link } from "react-router-dom";
 
-function FavoriteWords() {
-  const mockData = [{ word: 'happy' }, { word: 'rooty' }, { word: 'earthworm' }];
-  // might need props to receive favorite words, or fetch from db here
+function FavoriteWords(props) {
+  function setDisplay() {
+    if (props.favoriteWords && props.favoriteWords.length > 0) {
+      return props.favoriteWords.map((item, key) =>
+        <li key={key}>
+          <Link to="/dict" state={{ word: item }}>{item}</Link>
+        </li>)
+    } else {
+      return <p>Your favorite words list is empty.
+        Head to our <Link to="/dict">dictionary</Link> to add words!</p>;
+    }
+  }
+
   return (
     <article className="favorites">
       <h2>Favorite Words</h2>
       <ul>
-        {mockData.map((item, key) =>
-          <li key={key}>
-            <Link to="/dict" state={{ word: item.word }}>{item.word}</Link>
-          </li>)}
+        {setDisplay()}
       </ul>
     </article>
   );

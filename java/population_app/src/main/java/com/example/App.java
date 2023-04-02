@@ -23,19 +23,19 @@ public class App {
         for(char alphabet = 'A'; alphabet <='Z'; alphabet++ ){
 
             //get dat for each letter and save to dict
-            System.out.println("Proccessing letter: "+ alphabet);
+            System.out.println("Processing letter: "+ alphabet);
             interpreter = new CSVinterpreter(dirPath+"\\"+alphabet+".csv", "\", \"");
             String[][] data = interpreter.getData();
             saveDataToDict(data, dict);
         }
 
         
-        System.out.println("Total words proccessed: " + dict.getWords().size());
-        System.out.println("DATA PROCCESED");
+        System.out.println("Total words processed: " + dict.getWords().size());
+        System.out.println("DATA PROCESSED");
 
-        // finaly save list to db
+        // finally save list to db
         saveToDB(dict.getWords());
-        System.out.println("CLEEARED DB AND SAVED");
+        System.out.println("CLEARED DB AND SAVED");
     }
     /**
      * takes the raw data and saves it to the dict
@@ -78,11 +78,11 @@ public class App {
             }
             // some logging
             if (i % 1000 == 0) {
-                System.out.println("Lines proccessed: " + i+"/"+data.length);
+                System.out.println("Lines processed: " + i+"/"+data.length);
             }
         }
 
-        System.out.println("Lines proccessed: " + data.length +"/"+data.length);
+        System.out.println("Lines processed: " + data.length +"/"+data.length);
         System.out.println();
     }
 
@@ -97,7 +97,7 @@ public class App {
         String uri = dotenv.get("ATLAS_URI");
         MongoUtil util = new MongoUtil(uri);
 
-        // connect clinet, db and collection
+        // connect client, db and collection
         util.connectClient();
         util.connectDB("test");
         util.connectCollection("wordsv3", Word.class);
