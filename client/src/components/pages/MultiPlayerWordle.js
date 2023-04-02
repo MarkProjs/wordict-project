@@ -11,6 +11,7 @@ import GameBoard from '../Sockets/GameBoard.js';
 function MultiPlayerWordle() {
 
   const socket = useRef(undefined);
+  const opponent = useRef("");
   const allWords = useRef([]);
   const navigate = useNavigate();
   const location = useLocation();
@@ -45,7 +46,7 @@ function MultiPlayerWordle() {
 
   return (
     <div>
-      <SocketContext.Provider value={{socket: socket}}>
+      <SocketContext.Provider value={{socket: socket, opponent: opponent}}>
         <Routes>
           <Route path="connect" exact element={<SocketForm/>} />
           <Route path="startup" exact element= {
