@@ -6,7 +6,6 @@ import './SearchBar.css';
 function SearchBar() {
   const [searchInput, setSearchInput] = useState("");
   const [searchResult, setSearchResult] = useState();
-  const [words, setWords] = useState([]);
   const [filteredWords, setFilteredWords] = useState([]);
   const locationData = useLocation();
   const [isFavorite, setIsFavorite] = useState(false);
@@ -27,14 +26,7 @@ function SearchBar() {
   async function inputUpdate(event) {
     let newValue = event.target.value;
     if (newValue) {
-      let newFilteredWords = [];
-      if(words.length) {
-        newFilteredWords = words.filter((item)=> {
-          return item.startsWith(newValue);
-        });
-      } else {
-        newFilteredWords = await FetchModule.fetchWordsStartWith(newValue);
-      }
+      let newFilteredWords = await FetchModule.fetchWordsStartWith(newValue);
       setFilteredWords(newFilteredWords);
     }
     setSearchInput(newValue);
@@ -81,17 +73,13 @@ function SearchBar() {
         locationData.state.word = null;
         window.history.replaceState({}, document.title)
       }
-
-      // Fetch all the words for the dataset
-      let data = await FetchModule.fetchAllWords();
-      setWords(data);
     })();
   }, []);
 
   const dataList = <datalist id="words">
-    {filteredWords.length ? filteredWords.map((item, key) =>
-      <option key={key} value={item} />
-    ) : <option value={"Loading..."}/>}
+    {
+      filteredWords.map((item, key) => <option key={key} value={item}/>)
+    }
   </datalist>;
 
   async function favoriteHandler() {
