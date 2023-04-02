@@ -44,7 +44,7 @@ function GameSettings(props) {
     if (props.allWords.current.includes(opponentWord)) {
       sendWord(opponentWord);
     } else {
-      e.target.word.setCustomValidity("That word is not in our dictionary");
+      e.target.word.setCustomValidity("That word isn't in our dictionary/has the incorrect length");
       e.target.word.reportValidity();
     }
   }
