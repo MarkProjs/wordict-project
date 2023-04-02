@@ -8,27 +8,46 @@ jest.mock('../controllers/userControllers.js');
 
 
 //mocks
+
+jest.spyOn(auth.client, 'verifyIdToken')
+  .mockImplementation(() => {
+    return {getPayload: () => {
+      return { 
+        name: "Greg", 
+        email: "g@email", 
+        picture: "picUrl" 
+      }; 
+    }}
+  });
+
 userControllers.updateElo = jest.fn(async (user, elo) => {
   if(!user.email || !elo){
     throw new Error("TEST FAILED: input not valid");
   }
 });
+userControllers.addUserIfNew = jest.fn(async (user) => {
+  if(!user.email){
+    throw new Error("TEST FAILED: input not valid");
+  }
+});
 
-auth.sessionHandler = jest.fn((req, res, next) => {
-  console.log("AM HERE");
-  next();
-});
-auth.isAuthenticated = jest.fn((req, res, next) => {
-//   req.session.regenerate(function () {
-//     req.session.user = {
-//       email: "some_email@smth.com",
-//       name: "Greg",
-//       picture: "someUrl"
-//     };
-//   });
-  console.log("AM HERE");
-  next();
-});
+
+// auth.sessionHandler = jest.fn((req, res, next) => {
+//   next();
+// });
+// auth.isAuthenticated = jest.fn((req, res, next) => {
+// //   req.session.regenerate(function () {
+// //     req.session.user = {
+// //       email: "some_email@smth.com",
+// //       name: "Greg",
+// //       picture: "someUrl"
+// //     };
+// //   });
+//   next();
+// });
+
+const response = await request(app).post('/auth/logged-in-check').send({token:100});
+console.log(response.statusCode);
 
 describe("tests for auth route", () => {
 

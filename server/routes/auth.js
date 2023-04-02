@@ -45,10 +45,16 @@ router.post("/login", async (req, res) => {
   if (!token) {
     return res.sendStatus(400).end();
   }
-  const ticket = await client.verifyIdToken({
-    idToken: token,
-    audience: process.env.REACT_APP_GOOGLE_CLIENT_ID
-  });
+  let ticket;
+  try{
+    ticket = await client.verifyIdToken({
+      idToken: token,
+      audience: process.env.REACT_APP_GOOGLE_CLIENT_ID
+    });
+  }catch(e){
+    console.log("invalid token");
+  }
+  
   if (!ticket) {
     return res.sendStatus(401);
   }
@@ -199,4 +205,4 @@ router.get("/logout", isAuthenticated, function (req, res) {
 });
 
 //isAuthenticated exported only for testing
-export default {router, isAuthenticated, sessionHandler};
+export default {router, client, isAuthenticated, sessionHandler};
