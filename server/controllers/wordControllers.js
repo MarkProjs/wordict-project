@@ -37,7 +37,7 @@ async function getAllWords(length, startsWith) {
     query.length = length;
   }
   if(startsWith){
-    query.word = {$regex: RegExp("^" + startsWith) };
+    query.word = {$regex: RegExp("^" + startsWith, "i") };
   }
   let returnObj = {};
   let arr = await Words.getOnlyWordFields(query);
