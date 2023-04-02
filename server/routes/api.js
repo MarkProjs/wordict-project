@@ -53,7 +53,7 @@ router.get("/:word/definition", async (req, res) => {
   } else {
     res.json(data);
   }
-})
+});
 
 /**
  * Get API to retrieve Dictionary
@@ -68,8 +68,7 @@ router.get("/dictionary", async (req, res) => {
     words = [];
   }
   res.json(words);
-})
-
+});
 
 /**
  * Get API to retrieve all Users
@@ -82,8 +81,7 @@ router.get("/all-users", async (req, res) => {
     console.error(e);
     res.sendStatus(500).end();
   }
-})
-
+});
 
 
 export default router;

@@ -1,9 +1,8 @@
-function UserRank() {
-  // might need props to receive rank, or fetch from db here
+function UserRank(props) {
   return (
     <article className="rank">
-      <h3>Rank</h3>
-      <p>Leaderboard rank: #1</p>
+      <h3>Rank Points</h3>
+      <h2>{props.elo}</h2>
     </article>
   );
 }
