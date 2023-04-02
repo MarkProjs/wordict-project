@@ -50,8 +50,6 @@ function SearchBar() {
       } else {
         setIsFavorite(false);
       }
-    } else {
-      // favoriteButton = <></>;
     }
   }
 
