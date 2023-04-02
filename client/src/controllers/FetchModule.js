@@ -63,6 +63,24 @@ async function fetchAllWords(length = undefined) {
   return words;
 }
 
+
+async function fetchWordsStartWith(startsWith, signal) {
+  let words;
+  let url = new URL(`/api/dictionary`, location.origin);
+  url.searchParams.set("startsWith", startsWith);
+  try {
+    let response = await fetch(url, {signal});
+    if (response.ok) {
+      words = await response.json();
+    } else {
+      words = [];
+    }
+  } catch (e) {
+    words = [];
+  }
+  return words;
+}
+
 /**
  * Get a user object from api
  * @returns An object containing a user's data (name, image, etc.) or an empty object
@@ -191,6 +209,7 @@ async function handleLogout() {
 export default {
   fetchDefinition,
   fetchAllWords,
+  fetchWordsStartWith,
   fetchUser,
   updateUser,
   updateUserFavoriteWords,

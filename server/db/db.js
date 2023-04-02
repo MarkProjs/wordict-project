@@ -48,7 +48,11 @@ wordSchema.statics.getRandomUsingVal = async function(randValue, query = {}){
  * @returns {Array} an array with all the words represented in the form {word: word};
  */
 wordSchema.statics.getOnlyWordFields =  async function(query = {}){
-  return await Words.find(query).select('word -_id').exec();
+  const cursor = Words.find(query).select('word -_id')
+  if (query.word) {
+    return await cursor.limit(10);
+  } 
+  return await cursor.exec();
 }
 
 wordSchema.pre('save', function (next) {
