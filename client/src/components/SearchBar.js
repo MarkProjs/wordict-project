@@ -28,13 +28,13 @@ function SearchBar() {
     let newValue = event.target.value;
     if (newValue) {
       let newFilteredWords = [];
-      // if(words.length) {
-      //   newFilteredWords = words.filter((item)=> {
-      //     return item.startsWith(newValue);
-      //   });
-      // } else {
-      newFilteredWords = await FetchModule.fetchWordsStartWith(newValue);
-      // }
+      if(words.length) {
+        newFilteredWords = words.filter((item)=> {
+          return item.startsWith(newValue);
+        });
+      } else {
+        newFilteredWords = await FetchModule.fetchWordsStartWith(newValue);
+      }
       setFilteredWords(newFilteredWords);
     }
     setSearchInput(newValue);
@@ -83,8 +83,8 @@ function SearchBar() {
       }
 
       // Fetch all the words for the dataset
-      // let data = await FetchModule.fetchAllWords();
-      // setWords(data);
+      let data = await FetchModule.fetchAllWords();
+      setWords(data);
     })();
   }, []);
 
