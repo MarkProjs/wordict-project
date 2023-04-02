@@ -43,6 +43,7 @@ function SearchBar() {
       data = { "word": "No results" };
     }
     setSearchResult(data);
+    // Fetch if user is logged in
     if (user.isLoggedIn) {
       let userData = await FetchModule.fetchUser();
       if (userData.favoriteWords.find(elem => elem === word)) {
@@ -78,6 +79,9 @@ function SearchBar() {
     )}
   </datalist>;
 
+  /**
+   * Handler for favorite button
+   */
   async function favoriteHandler() {
     setIsFavorite(!isFavorite);
     let data = { word: searchInput, favorite: isFavorite };
