@@ -19,6 +19,8 @@ main {
   padding-top: 1.5rem;
   margin-right: 1rem;
   border: black 1px solid;
+  border-radius: 1rem;
+  background-color: white;
 }
 
 .name {
@@ -53,7 +55,9 @@ main {
 
 .favorites {
   border: gray 1px solid;
-  margin: 4rem;
+  margin-block-start: 2rem;
+  margin-block-end: 2rem;
+  margin-inline-start: 4rem;
   width: 80%;
 }
 
