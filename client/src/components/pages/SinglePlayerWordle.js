@@ -69,6 +69,7 @@ function SinglePlayerWordle() {
           subToInputEvent={subToInputEvent}
           defaultValue={validInputs.empty}
           shouldPost={user.isLoggedIn}
+          validWords={allWords.current}
         />
       </div>
     </>
