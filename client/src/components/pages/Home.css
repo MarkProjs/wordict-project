@@ -1,17 +1,26 @@
+html {
+  height: 100%;
+}
+
 .home {
   display: flex;
   justify-content: space-around;
+  height: 100%;
 }
+
+.guideList {
+  height: 100%;
+}
+
 .guideList ul {
   padding: 0;
-  height: 55rem;
 }
 
 .guideList li {
   display: flex;
-  justify-content:center;
+  justify-content: center;
   align-items: center;
   padding: 10px 0;
-  border-style:solid;
-  margin-bottom:1rem;
+  border-style: solid;
+  margin-bottom: 1rem;
 }
