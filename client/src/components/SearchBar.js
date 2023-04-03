@@ -24,7 +24,7 @@ function SearchBar() {
     placeholder="Search here"
     list="words"
     defaultValue={searchInput}
-    onChange = {inputUpdate}
+    onChange={inputUpdate}
   />;
 
 
@@ -40,7 +40,7 @@ function SearchBar() {
           isFetching.current = true;
           let words = await FetchModule.fetchWordsStartWith(newValue, aborter.current.signal);
           isFetching.current = false;
-          
+
           setFilteredWords(words);
         })()
       });
@@ -96,7 +96,7 @@ function SearchBar() {
 
   const dataList = <datalist id="words">
     {
-      filteredWords.map((item, key) => <option key={key} value={item}/>)
+      filteredWords.map((item, key) => <option key={key} value={item} />)
     }
   </datalist>;
 
@@ -117,14 +117,16 @@ function SearchBar() {
         {searchInput ? dataList : <></>}
       </form>
       {searchResult ? <div className='definition'>
-        <h2>{searchResult.word} {searchResult.definitions ?
-          <>{user.isLoggedIn ?
+        <div className='definition-top'>
+          {user.isLoggedIn ?
             <img className='favorite' src={isFavorite ? favoritedIcon : unfavoritedIcon}
               alt='favorite button' onClick={favoriteHandler} /> : <></>
-          }</> : <></>}</h2>
-        <ol>
+          }
+          <h2>{searchResult.word}</h2>
+        </div>
+        <ol >
           {searchResult.definitions ? searchResult.definitions.map((item, key) =>
-            <li key={key}>{item.definition}</li>
+            <li className='definition-line' key={key}>{item.definition}</li>
           ) : <></>}
         </ol>
       </div> : <></>}
