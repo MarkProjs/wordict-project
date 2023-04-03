@@ -9,7 +9,7 @@ import UserContext from '../../userContext.js';
 
 const WORDLE_PREFIX = "W-"
 
-function GameBoard() {
+function GameBoard(props) {
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -89,6 +89,7 @@ function GameBoard() {
             defaultValue={validInputs.empty}
             gameDoneFunc={() => socketContext.socket.current.emit("user-done")}
             shouldPost={user.isLoggedIn}
+            validWords={props.allWords.current}
           />
         </div>
         <div>
@@ -102,6 +103,7 @@ function GameBoard() {
             subToInputEvent={subToServerInputEvent}
             defaultValue={validInputs.empty}
             shouldPost={false}
+            validWords={props.allWords.current}
           />
         </div>
       </div>
