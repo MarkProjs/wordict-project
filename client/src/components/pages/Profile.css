@@ -1,7 +1,11 @@
+html {
+  background-color: ivory;
+}
+
 main {
   display: flex;
   flex-direction: row;
-  margin: 1rem 6%;
+  margin: 1.5rem 15%;
   padding: 2rem;
 }
 
@@ -19,6 +23,8 @@ main {
 
 .name {
   font-size: 1.5rem;
+  overflow-wrap:break-word;
+  overflow-wrap:anywhere;
 }
 
 .left-section img {
@@ -47,7 +53,8 @@ main {
 
 .favorites {
   border: gray 1px solid;
-  margin: 2rem;
+  margin: 4rem;
+  width: 80%;
 }
 
 ul {
