@@ -2,8 +2,10 @@
 main {
   display: flex;
   flex-direction: row;
-  margin: 1.5rem 15%;
+  margin: 2rem 15%;
   padding: 2rem;
+  border: 1px solid black;
+  border-radius: 1rem;
 }
 
 .left-section {
@@ -15,15 +17,15 @@ main {
   height: 100%;
   padding-top: 1.5rem;
   margin-right: 1rem;
-  border: black 1px solid;
+  /* border: black 0px solid;
   border-radius: 1rem;
-  background-color: white;
+  background-color: white; */
 }
 
 .name {
   font-size: 1.5rem;
-  overflow-wrap:break-word;
-  overflow-wrap:anywhere;
+  overflow-wrap: break-word;
+  overflow-wrap: anywhere;
 }
 
 .left-section img {
@@ -36,7 +38,8 @@ main {
 .right-section {
   width: 80%;
   text-align: left;
-  border: black 1px solid;
+  /* border: black 1px solid;
+  border-radius: 1rem; */
 }
 
 .top-part {
@@ -51,14 +54,15 @@ main {
 }
 
 .favorites {
-  border: gray 1px solid;
   margin-block-start: 2rem;
   margin-block-end: 2rem;
   margin-inline-start: 4rem;
   width: 80%;
+  border: black 1px solid;
+  border-radius: 1rem;
 }
 
-ul {
+.favorites-list {
   max-height: 15rem;
   overflow-y: auto;
 }
