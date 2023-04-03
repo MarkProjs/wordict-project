@@ -4,6 +4,7 @@ import { useEffect } from "react";
 import "./Wordle.css"
 import Popup from "./Popup.js";
 import LetterBank from "./LetterBank.js";
+import ValidGuess from "./ValidGuess.js";
 
 const ROW_PREFIX = "R-";
 const POP_PREFIX = "P-";
@@ -71,6 +72,16 @@ function Wordle(props) {
   }
 
   /**
+   * Check if the guessed word is a valid word
+   * @param {Array} letters The guessed letters
+   * @returns Boolean of if it is valid or not
+   */
+  function checkValidWord(letters) {
+    const word = letters.join("").toLocaleLowerCase();
+    return props.validWords.some(validWord => word === validWord);
+  }
+
+  /**
    * Process keyboard input and trigger game events accordingly
    * @param {Event} e The key event
    * @param {Function} send An optional function to send the key event result somewhere else
@@ -86,40 +97,44 @@ function Wordle(props) {
         key === props.submitKey
         && letters.every(letter => letter !== props.defaultValue)
       ) {
-        
+
+        const validGuess = checkValidWord(letters);
         // FIre the guess event before doing everything else
-        guessEvent.forEach(func => func(letters));
+        guessEvent.forEach(func => func(letters, validGuess));
 
-        // Get the result array to determine which letters are correct
-        let results = GameLogic.checkSubmission(letters.join(""), props.word);
+        if (validGuess) {
+          // Get the result array to determine which letters are correct
+          let results = GameLogic.checkSubmission(letters.join(""), props.word);
 
-        // Trigger the style event for the current row
-        styleEvent.get(ROW_PREFIX + currentRow)(results);
+          // Trigger the style event for the current row
+          styleEvent.get(ROW_PREFIX + currentRow)(results);
 
-        currentRow++;
-        let gameWon = results.every(result => result === GameLogic.RIGHT);
-        if (gameWon) {
-          gameDone = true;
-        } else if (currentRow >= numAttempts) {
-          gameDone = true;
+          currentRow++;
+          let gameWon = results.every(result => result === GameLogic.RIGHT);
+          if (gameWon) {
+            gameDone = true;
+          } else if (currentRow >= numAttempts) {
+            gameDone = true;
+          }
+
+          if (gameDone) {
+            const gameState = { done: gameDone, win: gameWon, attempts: currentRow }
+            props?.gameDoneFunc?.call(undefined, gameState);
+            gameStateEvent.forEach(func => func(gameState));
+          }
+
+          //clear the current word that is being written
+          letters.forEach((letter, index, array) => {
+            array[index.toFixed()] = props.defaultValue;
+          })
         }
 
-        if (gameDone) {
-          const gameState = {done: gameDone, win: gameWon, attempts: currentRow}
-          props?.gameDoneFunc?.call(undefined, gameState);
-          gameStateEvent.forEach(func => func(gameState));
-        }
-
-        //clear the current word that is being written
-        letters.forEach((letter, index, array) => {
-          array[index.toFixed()] = props.defaultValue;
-        })
       } else if (key !== props.submitKey) {
 
         // Trigger the key event for the current row
         keyEvent.get(ROW_PREFIX + currentRow)(key);
-        
-      } 
+
+      }
       // If the key should be sent somewhere else send it here
       send?.call(undefined, key);
     }
@@ -130,7 +145,7 @@ function Wordle(props) {
     // Get keyboard input from the parent component
     props.subToInputEvent(props.id, handleInput);
   }, [props]);
-  
+
   return (
     <section className="wordle">
       <Popup
@@ -140,9 +155,13 @@ function Wordle(props) {
         subToGameStateEvent={subToGameStateEvent}
         shouldPost={props.shouldPost}
       />
+      <ValidGuess
+        id={"guess-display"}
+        subToGuessEvent={subToGuessEvent}
+      />
       {attempts.map((elem, index) => {
-        return <WordRow 
-          key={index} 
+        return <WordRow
+          key={index}
           id={ROW_PREFIX + index}
           wordLength={props.word.length}
           subToKeyEvent={subToKeyEvent}

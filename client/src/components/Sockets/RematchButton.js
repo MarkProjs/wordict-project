@@ -20,7 +20,6 @@ function RematchButton(props) {
   useEffect(() => {
 
     if (socketContext.socket.current && socketContext.socket.current.connected) {
-      console.log("here")
       //Don't want to double up on the listeners
       socketContext.socket.current.off("game-done");
       socketContext.socket.current.off("request-rematch");
@@ -32,7 +31,6 @@ function RematchButton(props) {
 
       // Upon being notified that the game is done, display the rematch button
       socketContext.socket.current.on("game-done", () => {
-        console.log("Game Finished");
         setIsGameDone(true);
       });
     }
@@ -54,7 +52,7 @@ function RematchButton(props) {
         </button>
       }
       {
-        isRematchReceived && <p>Rematch Requested By Opponent</p>
+        isRematchReceived && <p>Rematch Requested By {socketContext.opponent.current}</p>
       }
     </>
   );

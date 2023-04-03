@@ -52,7 +52,7 @@ function MultiPlayerWordle() {
           <Route path="startup" exact element= {
             <GameSettings allWords={allWords}/>
           } />
-          <Route path="game" exact element={<GameBoard/>} />
+          <Route path="game" exact element={<GameBoard allWords={allWords}/>} />
         </Routes>
         <Outlet/>
       </SocketContext.Provider>

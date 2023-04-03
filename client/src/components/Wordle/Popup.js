@@ -34,7 +34,6 @@ function Popup(props) {
   useEffect(() => {
     if (gameState.done && props.shouldPost) {
       (async () => {
-        console.log("Posting")
         // Update Elo
         await FetchModule.fetchPostElo({ elo: elo })
       })();

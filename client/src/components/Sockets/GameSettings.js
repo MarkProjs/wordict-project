@@ -42,10 +42,9 @@ function GameSettings(props) {
   function handleSend(e) {
     e.preventDefault();
     if (props.allWords.current.includes(opponentWord)) {
-      console.log(opponentWord);
       sendWord(opponentWord);
     } else {
-      e.target.word.setCustomValidity("That word is not in our dictionary");
+      e.target.word.setCustomValidity("That word isn't in our dictionary/has the incorrect length");
       e.target.word.reportValidity();
     }
   }
@@ -71,7 +70,6 @@ function GameSettings(props) {
       socketContext.socket.current.off("send-start-data");
       // Receive the player's word from the opponent
       socketContext.socket.current.on("send-start-data", data => {
-        console.log("data received");
         ownWord.current = data.word;
         setIsWordReceived(true);
       })

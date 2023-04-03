@@ -2,7 +2,6 @@ import './App.css';
 import Nav from "./components/Nav.js";
 import { useEffect, useState } from 'react';
 import UserContext from './userContext';
-import UserMenu from './components/UserMenu';
 import FetchModule from './controllers/FetchModule';
 import PreviousPageContext from './components/NavigationExtra/PreviousPageContext';
 
@@ -36,10 +35,6 @@ function App() {
         setIsLoggedIn: setIsLoggedIn
       }}>
         <div className="App">
-          <div className="header">
-            <h1 id="title"><a href="/">WORDICT</a></h1>
-            <UserMenu/>
-          </div>
           <Nav/>
         </div>
       </UserContext.Provider>

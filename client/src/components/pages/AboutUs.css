@@ -1,0 +1,23 @@
+html {
+  height: 70%;
+}
+
+.AboutUs {
+  display:flex;
+  flex-direction:column;
+}
+.missOne {
+  margin-left:30%;
+  margin-right:30%;
+}
+.AboutUs h1 {
+  font-size:4rem;
+}
+.AboutUs p{
+  font-weight:500;
+}
+
+#thanks {
+  margin-top:23%;
+  font-size: 2rem;
+}

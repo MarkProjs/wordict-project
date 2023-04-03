@@ -6,11 +6,14 @@ function LetterBank(props) {
   const [letters, setLetters] = useState([]);
 
   /**
-   * Remove the displayed words from the filtered words.
+   * Remove the displayed words from the filtered words if the guess is valid.
    * @param {Array} guessedLetters letters that have been guessed by the user
+   * @param {Boolean} validGuess Whether the current guess is valid or not
    */
-  function filterGuessedLetters(guessedLetters) {
-    setLetters(letters => letters.filter(letter => !guessedLetters.includes(letter)));
+  function filterGuessedLetters(guessedLetters, validGuess) {
+    if (validGuess) {
+      setLetters(letters => letters.filter(letter => !guessedLetters.includes(letter)));
+    }
   }
 
   /**

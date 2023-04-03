@@ -16,7 +16,7 @@ function FavoriteWords(props) {
   return (
     <article className="favorites">
       <h2>Favorite Words</h2>
-      <ul>
+      <ul className="favorites-list">
         {setDisplay()}
       </ul>
     </article>

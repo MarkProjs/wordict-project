@@ -9,7 +9,7 @@ import UserContext from '../../userContext.js';
 
 const WORDLE_PREFIX = "W-"
 
-function GameBoard() {
+function GameBoard(props) {
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -68,8 +68,6 @@ function GameBoard() {
       socketContext.socket.current.off("keypress");
       // Upon receiving message, change the text area
       socketContext.socket.current.on("keypress", (key) => {
-        console.log("Got Keypress");
-        console.log(key);
         serverInputEvent.current.forEach(func => func(key));
       });
     }
@@ -91,6 +89,7 @@ function GameBoard() {
             defaultValue={validInputs.empty}
             gameDoneFunc={() => socketContext.socket.current.emit("user-done")}
             shouldPost={user.isLoggedIn}
+            validWords={props.allWords.current}
           />
         </div>
         <div>
@@ -104,6 +103,7 @@ function GameBoard() {
             subToInputEvent={subToServerInputEvent}
             defaultValue={validInputs.empty}
             shouldPost={false}
+            validWords={props.allWords.current}
           />
         </div>
       </div>
