@@ -86,8 +86,9 @@ lint:
   before_script:
     - npm install -g eslint 
     - cd client && npm install --save-dev eslint-plugin-security@latest eslint-plugin-react@latest
+    - cd ..
   script:
-    - eslint --ext .js .
+    - eslint --max-warnings 0 --ext .js .
 
 #test_db:
 #  script:
@@ -110,6 +111,8 @@ prod-deploy:
     - "az webapp config appsettings set --resource-group $RESOURCE_GROUP_NAME --name $APP_NAME --settings WEBSITE_RUN_FROM_PACKAGE='1'"
     - "az webapp config appsettings set --resource-group $RESOURCE_GROUP_NAME --name $APP_NAME --settings ATLAS_URI=$ATLAS_URI"
     - "az webapp config appsettings set --resource-group $RESOURCE_GROUP_NAME --name $APP_NAME --settings AZURE_SAS=$AZURE_SAS"
+    - "az webapp config appsettings set --resource-group $RESOURCE_GROUP_NAME --name $DEV_APP_NAME --settings SECRET=$SECRET"
+    - "az webapp config appsettings set --resource-group $RESOURCE_GROUP_NAME --name $DEV_APP_NAME --settings REACT_APP_GOOGLE_CLIENT_ID=$REACT_APP_GOOGLE_CLIENT_ID"
     - "az webapp deployment source config-zip --resource-group $RESOURCE_GROUP_NAME --name $APP_NAME --src deploy.zip"
 
 dev-deploy:
@@ -127,4 +130,6 @@ dev-deploy:
     - "az webapp config appsettings set --resource-group $RESOURCE_GROUP_NAME --name $DEV_APP_NAME --settings WEBSITE_RUN_FROM_PACKAGE='1'"
     - "az webapp config appsettings set --resource-group $RESOURCE_GROUP_NAME --name $DEV_APP_NAME --settings ATLAS_URI=$ATLAS_URI"
     - "az webapp config appsettings set --resource-group $RESOURCE_GROUP_NAME --name $DEV_APP_NAME --settings AZURE_SAS=$AZURE_SAS"
+    - "az webapp config appsettings set --resource-group $RESOURCE_GROUP_NAME --name $DEV_APP_NAME --settings SECRET=$SECRET"
+    - "az webapp config appsettings set --resource-group $RESOURCE_GROUP_NAME --name $DEV_APP_NAME --settings REACT_APP_GOOGLE_CLIENT_ID=$REACT_APP_GOOGLE_CLIENT_ID"
     - "az webapp deployment source config-zip --resource-group $RESOURCE_GROUP_NAME --name $DEV_APP_NAME --src deploy.zip"

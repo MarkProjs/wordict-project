@@ -1,14 +1,17 @@
-import '../NavBar.css';
+import './NavBar.css';
 import { NavLink } from 'react-router-dom';
+import usePreviousPage from './NavigationExtra/usePreviousPage';
+import UserMenu from './UserMenu';
 
 function NavBar() {
+  usePreviousPage();
   return(
     <>
       <nav className='Nav'>
+        <NavLink to='/' className='title'>
+          <h1>WORDICT</h1>
+        </NavLink>
         <div className='NavMenu'>
-          <NavLink to='/' className='mainNavLink'>
-            <h1>Home</h1>
-          </NavLink>
           <NavLink to="/dict" activestyle="true" className='mainNavLink'>
             Dictionary
           </NavLink>
@@ -18,6 +21,9 @@ function NavBar() {
           <NavLink to="/wordle-online" activestyle="true" className='mainNavLink'>
             Wordle Online
           </NavLink>
+          <NavLink to="/leaderboard" activestyle="true" className='mainNavLink'>
+            Leaderboard
+          </NavLink>
           <NavLink to="/profile" activestyle="true" className='mainNavLink'>
             Profile
           </NavLink>
@@ -25,9 +31,7 @@ function NavBar() {
             About Us
           </NavLink>
         </div>
-        <nav className='NavBtn'>
-          <NavLink to="" className='NavBtnLink'>Sign up</NavLink>
-        </nav>
+        <UserMenu/>
       </nav>
     </>
   );

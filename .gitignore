@@ -6,17 +6,17 @@ published_content/
 private_content/
 .commitmessage
 .vscode/
-.env
 
 **/node_modules/
 **/package-lock.json
-.env
 *.tmp
 *.bak
 *.swp
 *.env
+!client/.env
 
 .DS_Store
 
 coverage/
 junit.xml
+**/log.csv

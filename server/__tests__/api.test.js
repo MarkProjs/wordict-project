@@ -1,11 +1,13 @@
 import app from "../app.js";
 import request from "supertest";
-import controllers from "../controllers/controllers.js";
+import wordControllers from "../controllers/wordControllers";
+import userControllers from "../controllers/userControllers.js";
 import { jest } from '@jest/globals';
-jest.mock('../controllers/controllers.js');
+jest.mock('../controllers/wordControllers');
+jest.mock('../controllers/userControllers.js');
 
 // Mock Controllers
-controllers.getDefinition = jest.fn((e) => {
+wordControllers.getDefinition = jest.fn((e) => {
   if (e === 'monkey') {
     return {
       "word": "monkey",
@@ -19,18 +21,26 @@ controllers.getDefinition = jest.fn((e) => {
   }
 })
 
-controllers.getAllWords = jest.fn((e) => {
+wordControllers.getAllWords = jest.fn((e) => {
   const words = [
     'limit', 'elite', 'exuberant', 'destruction', 'present', 'three'
   ];
   if (e) {
-    return { "words": words.filter(word => word.length == e) }
+    e = parseInt(e);
+    return { "words": words.filter(word => word.length === e) }
   } else {
     return { "words": words }
   }
 })
 
-controllers.getUser = jest.fn(() => {
+userControllers.getAllUsers = jest.fn(() => {
+  return [
+    { name: "jacky", elo: 100 },
+    { name: "jeremy", elo: 90 }
+  ]
+})
+
+userControllers.getUser = jest.fn(() => {
   return {
     "name": "MonkeyMan",
     "image": "https://discovery.sndimg.com/content/dam/images/discovery/fullset/2021/4/30/" +
@@ -47,13 +57,13 @@ describe('Test Definition GET API', () => {
     const response = await request(app).get('/api/monkey/definition');
     expect(response.body.word).toEqual("monkey");
     expect(response.body.definitions).toBeDefined()
-  })
+  });
   // test for non existant word
   test('Test for non existant word', async () => {
     const response = await request(app).get('/api/asdasd/definition');
     expect(response.body.word).not.toBeDefined();
     expect(response.body.word).not.toEqual("monkey");
-  })
+  });
 });
 
 // tests for dictionary get api
@@ -71,15 +81,10 @@ describe('Test Dictionary GET API', () => {
     expect(response.body).not.toContain("present");
   })
 });
-
-// tests for user get api
-describe('Test User GET API', () => {
-  // test for latest user
-  test('Test Retrieving latest user', async () => {
-    const response = await request(app).get('/api/user');
-    expect(response.body.name).toEqual("MonkeyMan");
-    expect(response.body.image).toContain("//");
-    expect(response.body.favoriteWords).toBeDefined();
-    expect(response.body.elo).toEqual(100);
+describe('Test all users GET API', () => {
+  test('Retrieving all users', async () => {
+    const response = await request(app).get('/api/all-users');
+    expect(response.body[0].name).toEqual("jacky");
+    expect(response.body[0].elo).toEqual(100);
   })
 })

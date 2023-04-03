@@ -5,46 +5,58 @@ import com.example.utils.*;
 import com.mongodb.client.*;
 import org.bson.*;
 import java.io.IOException;
-import java.util.*; 
+import java.util.*;
 import io.github.cdimascio.dotenv.Dotenv;
-
-
-
 
 /**
  * Population script
  */
-public class App 
-{
-    
-    public static void main( String[] args ) throws IOException
-    {
-        //get filepath for svg and load into the interpreter
+public class App {
+
+    public static void main(String[] args) throws IOException {
+        // get filepath for csv and init dict and interpreter
         Dotenv dotenv = Dotenv.load();
-        String path = dotenv.get("SVG_PATH");
+        String dirPath = dotenv.get("CSV_PATH");
         CSVinterpreter interpreter;
-        interpreter = new CSVinterpreter(path);
-        System.out.println("FILES LOADED");
-
-        //get raw data and init dictionary
-        String[][] data = interpreter.getData();
         WordsDictionary dict = new WordsDictionary();
-        
-        System.out.println(data.length);
-        //loop over every line of svg
-        for(int i = 0; i < data.length; i++){
 
-            //get items and adujst word to lower case
+        for(char alphabet = 'A'; alphabet <='Z'; alphabet++ ){
+
+            //get dat for each letter and save to dict
+            System.out.println("Processing letter: "+ alphabet);
+            interpreter = new CSVinterpreter(dirPath+"\\"+alphabet+".csv", "\", \"");
+            String[][] data = interpreter.getData();
+            saveDataToDict(data, dict);
+        }
+
+        
+        System.out.println("Total words processed: " + dict.getWords().size());
+        System.out.println("DATA PROCESSED");
+
+        // finally save list to db
+        saveToDB(dict.getWords());
+        System.out.println("CLEARED DB AND SAVED");
+    }
+    /**
+     * takes the raw data and saves it to the dict
+     * @param data the raw data
+     * @param dict the dictionary
+     */
+    private static void saveDataToDict(String[][] data, WordsDictionary dict) {
+
+        // loop over every line of svg
+        for (int i = 0; i < data.length; i++) {
+            // get items and adujst word to lower case
             String word = data[i][0];
             word = word.toLowerCase();
             String type = data[i][1];
             String def = data[i][2];
-            
+
             // System.out.println(word);
             // System.out.println(def);
-            
+
             // check if word is already added
-            if(!dict.isWordAdded(word)){
+            if (!dict.isWordAdded(word)) {
                 // if no, prepare aditional items and the first definition
                 Definition firstDef = new Definition(type, def);
                 List<Definition> defs = new ArrayList<Definition>();
@@ -56,45 +68,44 @@ public class App
                 List<String> listOfSynonms = new ArrayList<String>();
 
                 // create and save word
-                Word newWord = new Word(word,length,defs, listOfRhymes, listOfSynonms);
+                Word newWord = new Word(word, length, defs, listOfRhymes, listOfSynonms);
                 dict.addWord(newWord);
-            }else{
+            } else {
                 // if its already added, create aditional Definition
                 // and add it to defintions
                 Definition newDef = new Definition(type, def);
                 dict.getWord(word).getDefinitions().add(newDef);
             }
-            //some logging
-            if(i % 1000 == 0){
-                System.out.println("Lines proccessed: "+i);
+            // some logging
+            if (i % 1000 == 0) {
+                System.out.println("Lines processed: " + i+"/"+data.length);
             }
         }
-        System.out.println("Total words proccessed: "+dict.getWords().size());
-        System.out.println("DATA PROCCESED");  
 
-        //finaly save list to db
-        saveToDB(dict.getWords());
-        System.out.println("CLEEARED DB AND SAVED");
+        System.out.println("Lines processed: " + data.length +"/"+data.length);
+        System.out.println();
     }
+
     /**
      * save a list to db
+     * 
      * @param words list to be saved
      */
-    private static void saveToDB(ArrayList<Word> words){
-        //setup
+    private static void saveToDB(ArrayList<Word> words) {
+        // setup
         Dotenv dotenv = Dotenv.load();
         String uri = dotenv.get("ATLAS_URI");
         MongoUtil util = new MongoUtil(uri);
 
-        //connect clinet, db and collection
+        // connect client, db and collection
         util.connectClient();
         util.connectDB("test");
         util.connectCollection("wordsv3", Word.class);
         System.out.println("CONNECTED TO DB");
 
-        //get collection
+        // get collection
         MongoCollection<Word> coll = (MongoCollection<Word>) util.getCollection();
-        //CLEAR COLLECTION AND SAVE ITEMS
+        // CLEAR COLLECTION AND SAVE ITEMS
         coll.deleteMany(new Document());
         coll.insertMany(words);
     }

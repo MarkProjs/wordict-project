@@ -1,13 +1,17 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef, useContext } from 'react';
 import Wordle from '../Wordle/Wordle.js';
 import validInputs from "../../controllers/ValidInput.json";
 import FetchModule from '../../controllers/FetchModule.js';
+import UserContext from '../../userContext.js';
 
 const WORDLE_PREFIX = "W-"
 
 function SinglePlayerWordle() {
 
+  const [isLoaded, setIsLoaded] = useState(false);
   const [word, setWord] = useState("");
+  const allWords = useRef([]);
+  const user = useContext(UserContext);
 
   // Contains all of the functions subscribed to the input event
   const inputEvent = new Map();
@@ -29,6 +33,14 @@ function SinglePlayerWordle() {
     inputEvent.forEach(func => func(e));
   }
 
+  /**
+   * Randomise the word for the game
+   */
+  function randomiseWord() {
+    let wordNum = Math.floor(Math.random() * allWords.current.length);
+    setWord(allWords.current[wordNum.valueOf()]);
+  }
+
   useEffect(() => {
     (async () => {
       let words = await FetchModule.fetchAllWords(5);
@@ -36,25 +48,33 @@ function SinglePlayerWordle() {
         words = ["Human", "Water", "Saint", "Popes", "Eight", "People", "Caterpillar", "Pillar",
           "Twins", "Tower", "Police"];
       }
-      let wordNum = Math.floor(Math.random() * words.length);
-      setWord(words[wordNum.valueOf()]);
+      allWords.current = words;
+      randomiseWord();
+      setIsLoaded(true);
     })();
   }, []);
 
   return (
-    <div className="wordle-container" onKeyUp={(e) => handleInput(e)} tabIndex={0}>
-      <Wordle 
-        id={WORDLE_PREFIX + 0}
-        person="You"
-        attempts={word.length + 1}
-        word={word}
-        submitKey={validInputs.submitKey}
-        deleteKey={validInputs.deleteKey}
-        subToInputEvent={subToInputEvent}
-        defaultValue={validInputs.empty}
-      />
-      
-    </div>
+    isLoaded
+    &&
+    <>
+      <button onClick={randomiseWord}>New Game</button>
+      <div className="wordle-container" onKeyUp={(e) => handleInput(e)} tabIndex={0}>
+        <Wordle 
+          id={WORDLE_PREFIX + 0}
+          person={user.username || "Guest"}
+          word={word}
+          submitKey={validInputs.submitKey}
+          deleteKey={validInputs.deleteKey}
+          subToInputEvent={subToInputEvent}
+          defaultValue={validInputs.empty}
+          shouldPost={user.isLoggedIn}
+          validWords={allWords.current}
+        />
+      </div>
+    </>
+    || 
+    <p>Page Is Loading...</p>  
   );
 }
 

@@ -9,11 +9,34 @@ async function fetchDefinition(word) {
   let data;
   try {
     let response = await fetch(url);
-    data = await response.json();
+    if (response.ok) {
+      data = await response.json();
+    } else {
+      data = null;
+    }
   } catch (e) {
     data = null;
   }
   return data;
+}
+
+/**
+ * NOTE: not currently in use
+ * returns true or false based on if the user is logged in on the back end
+ * @returns {Boolean} state of login
+ */
+async function loggedInCheck() {
+  let url = new URL('/auth/logged-in-check', location.origin);
+  let result = false;
+  try {
+    let response = await fetch(url);
+    if (response.ok) {
+      result = true;
+    }
+  } catch (e) {
+    console.error(e);
+  }
+  return result;
 }
 
 /**
@@ -29,7 +52,29 @@ async function fetchAllWords(length = undefined) {
   }
   try {
     let response = await fetch(url);
-    words = await response.json();
+    if (response.ok) {
+      words = await response.json();
+    } else {
+      words = [];
+    }
+  } catch (e) {
+    words = [];
+  }
+  return words;
+}
+
+
+async function fetchWordsStartWith(startsWith, signal) {
+  let words;
+  let url = new URL(`/api/dictionary`, location.origin);
+  url.searchParams.set("startsWith", startsWith);
+  try {
+    let response = await fetch(url, {signal});
+    if (response.ok) {
+      words = await response.json();
+    } else {
+      words = [];
+    }
   } catch (e) {
     words = [];
   }
@@ -41,19 +86,157 @@ async function fetchAllWords(length = undefined) {
  * @returns An object containing a user's data (name, image, etc.) or an empty object
  */
 async function fetchUser() {
-  let url = new URL("/api/user", location.origin);
+  let url = new URL("/auth/get-user-info", location.origin);
   let data;
   try {
     let response = await fetch(url);
-    data = await response.json();
+    if (response.ok) {
+      data = await response.json();
+    } else {
+      data = {};
+    }
   } catch (e) {
-    data = {};
+    data = {}
   }
   return data;
+}
+/**
+ * Get a user object from api
+ * @returns An object containing a user's data (name, image, etc.) or an empty object
+ */
+async function fetchUserFavorites() {
+  let url = new URL("/auth/get-user-favorites", location.origin);
+  let data;
+  try {
+    let response = await fetch(url);
+    if (response.ok) {
+      data = await response.json();
+    } else {
+      data = {};
+    }
+  } catch (e) {
+    data = {}
+  }
+  return data;
+}
+
+
+/**
+ * Update a user using api
+ * @param {JSON} data 
+ */
+async function updateUser(data, nameChanged, pictureChanged) {
+  if (nameChanged) {
+    let url = new URL("/auth/update-name", location.origin);
+    await fetch(url, {
+      method: 'POST',
+      body: data,
+    });
+  }
+  if (pictureChanged) {
+    let url = new URL("/auth/update-picture", location.origin);
+    await fetch(url, {
+      method: 'POST',
+      body: data,
+    });
+  }
+}
+
+/**
+ * Update a user's favorite words using api
+ * @param {JSON} data 
+ */
+async function updateUserFavoriteWords(data) {
+  let url = new URL("/auth/update-favorites", location.origin);
+  await fetch(url, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(data),
+  });
+}
+
+/** Get all users from api
+* @returns Array containing all users
+*/
+async function fetchAllUsers() {
+  let url = new URL("/api/all-users", location.origin);
+  let data;
+  try {
+    let response = await fetch(url);
+    if (response.ok) {
+      data = await response.json();
+    } else {
+      data = [];
+    }
+  } catch (e) {
+    data = [];
+  }
+  return data;
+}
+
+async function fetchPostElo(data) {
+  let url = new URL("/auth/update-elo", location.origin);
+  try {
+    await fetch(url, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data),
+    });
+  } catch (e) {
+    console.log(e);
+  }
+}
+
+/**
+ * login of the google authentication
+ */
+async function handleLogin(googleData) {
+  let url = new URL("/auth/login", location.origin);
+  let data;
+  try {
+    const res = await fetch(url, {
+      method: "POST",
+      body: JSON.stringify({ token: googleData.credential }),
+      headers: {
+        "Content-Type": "application/json"
+      }
+    });
+    if (res.ok) {
+      data = await res.json();
+    } else {
+      data = {user: {}};
+    }
+  } catch(e) {
+    data = {user: {}};
+  }
+
+  return data;
+}
+
+/**
+ * logging out of the authentication
+ */
+async function handleLogout() {
+  let url = new URL("/auth/logout", location.origin);
+  try {
+    await fetch(url);
+  } catch (e) {
+    console.log(e);
+  }
+
 }
 
 export default {
   fetchDefinition,
   fetchAllWords,
+  fetchWordsStartWith,
   fetchUser,
+  updateUser,
+  updateUserFavoriteWords,
+  fetchAllUsers,
+  fetchPostElo,
+  handleLogin,
+  handleLogout,
+  loggedInCheck,
+  fetchUserFavorites
 }

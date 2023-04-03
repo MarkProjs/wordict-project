@@ -1,0 +1,56 @@
+.Nav {
+    background: #000;
+    height: 80px;
+    display: flex;
+    justify-content: space-around;
+    align-items:center;
+}
+
+.NavMenu {
+    display: flex;
+    color: #fff;
+    height: 60%;
+    @media screen and (max-width: 768px) {
+        display: none;
+    }
+}
+
+.mainNavLink {
+    color: #fff;
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    padding: 0 1rem;
+    height: 100%;
+    transition: all 0.3s ease-in-out;
+    cursor: pointer;
+    border-radius: 0.2rem;
+}
+
+.mainNavLink.active {
+    color: #15cdfc;
+}
+
+.mainNavLink:hover:not(.mainNavLink.active) {
+    transition: all 0.2s ease-in-out;
+    background: #fff;
+    color: #010606;
+    border-radius: 0.2rem;
+}
+
+.title {
+    text-decoration: none;
+    color: #010606;
+}
+.title h1 {
+    font-size: 2rem;
+    font-weight:700; 
+    width:9.375rem;
+    text-align:center;
+    margin:auto; 
+    white-space:nowrap;
+    background:#fff; 
+    border:2px solid #ffffff;
+    border-radius: 0.8rem;
+    padding:5px 11px 3px 11px;
+}

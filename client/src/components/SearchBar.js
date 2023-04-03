@@ -1,12 +1,21 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useTransition, useRef, useContext } from 'react';
 import { useLocation } from "react-router-dom";
 import FetchModule from '../controllers/FetchModule';
+import userContext from '../userContext.js';
+import './SearchBar.css';
 
 function SearchBar() {
+  const user = useContext(userContext);
   const [searchInput, setSearchInput] = useState("");
   const [searchResult, setSearchResult] = useState();
-  const [words, setWords] = useState([]);
+  const [filteredWords, setFilteredWords] = useState([]);
   const locationData = useLocation();
+  const [isFavorite, setIsFavorite] = useState(false);
+  const [isPending, startTransition] = useTransition();
+  const isFetching = useRef();
+  const aborter = useRef(new AbortController())
+  const unfavoritedIcon = process.env.PUBLIC_URL + '/img/star_FILL0.svg';
+  const favoritedIcon = process.env.PUBLIC_URL + '/img/star_FILL1.svg';
 
   // Search input field with default value attribute set to searchInput (favorite word / no word)
   let searchInputField = <input
@@ -15,7 +24,29 @@ function SearchBar() {
     placeholder="Search here"
     list="words"
     defaultValue={searchInput}
+    onChange={inputUpdate}
   />;
+
+
+  async function inputUpdate(event) {
+    let newValue = event.target.value;
+    if (newValue && !isPending) {
+      startTransition(() => {
+        (async () => {
+          if (isFetching.current) {
+            aborter.current.abort();
+            aborter.current = new AbortController();
+          }
+          isFetching.current = true;
+          let words = await FetchModule.fetchWordsStartWith(newValue, aborter.current.signal);
+          isFetching.current = false;
+
+          setFilteredWords(words);
+        })()
+      });
+    }
+    setSearchInput(newValue);
+  }
 
   /**
    * Search word definition via form submission using event
@@ -31,11 +62,21 @@ function SearchBar() {
    * @param {URL} url 
    */
   async function findWord(word) {
+    setSearchInput(word);
     let data = await FetchModule.fetchDefinition(word);
     if (data === null) {
       data = { "word": "No results" };
     }
     setSearchResult(data);
+    // Fetch only if user is logged in
+    if (user.isLoggedIn) {
+      let userData = await FetchModule.fetchUserFavorites();
+      if (userData.favoriteWords.find(elem => elem === word)) {
+        setIsFavorite(true);
+      } else {
+        setIsFavorite(false);
+      }
+    }
   }
 
   useEffect(() => {
@@ -50,31 +91,42 @@ function SearchBar() {
         locationData.state.word = null;
         window.history.replaceState({}, document.title)
       }
-
-      // Fetch all the words for the dataset
-      let data = await FetchModule.fetchAllWords();
-      setWords(data);
     })();
   }, []);
 
   const dataList = <datalist id="words">
-    {words.map((item, key) =>
-      <option key={key} value={item} />
-    )}
+    {
+      filteredWords.map((item, key) => <option key={key} value={item} />)
+    }
   </datalist>;
+
+  /**
+   * Handler for favorite button
+   */
+  async function favoriteHandler() {
+    setIsFavorite(!isFavorite);
+    let data = { word: searchInput, favorite: isFavorite };
+    await FetchModule.updateUserFavoriteWords(data);
+  }
 
   return (
     <>
       <form onSubmit={searchWord}>
         {searchInputField}
         <input type="submit" value="Search" />
-        {dataList}
+        {searchInput ? dataList : <></>}
       </form>
       {searchResult ? <div className='definition'>
-        <h2>{searchResult.word}</h2>
-        <ol>
+        <div className='definition-top'>
+          {user.isLoggedIn ?
+            <img className='favorite' src={isFavorite ? favoritedIcon : unfavoritedIcon}
+              alt='favorite button' onClick={favoriteHandler} /> : <></>
+          }
+          <h2>{searchResult.word}</h2>
+        </div>
+        <ol >
           {searchResult.definitions ? searchResult.definitions.map((item, key) =>
-            <li key={key}>{item.definition}</li>
+            <li className='definition-line' key={key}>{item.definition}</li>
           ) : <></>}
         </ol>
       </div> : <></>}

@@ -1,7 +1,0 @@
-Method, URL, Duration(ms) 
-
-GET, /api/dictionary, 2798 
-GET, /api/abashing/definition, 73 
-GET, /api/dictionary, 2819 
-GET, /api/dictionary, 2837 
-GET, /api/abbey/definition, 74 

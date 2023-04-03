@@ -1,16 +1,14 @@
-import {Words, Users} from "../db/db.js"
-
-
+import { Words } from "../db/db.js"
 
 /**
+ * NOTE not currently used
  * @async
  * @param {Number} length the desired length for the random word
  * @returns the random word
  */
-async function getRandomWord(length){
-  let query = {length: length};
+async function getRandomWord(length) {
+  let query = { length: length };
   let count = await Words.count(query);
-  console.log(count);
   let randVal = Math.floor(Math.random() * count);
   let randomWord = await Words.getRandomUsingVal(randVal, query);
   return randomWord;
@@ -20,10 +18,9 @@ async function getRandomWord(length){
  * @param {String} word the word we want the definition for
  * @returns the object of the word with the definition
  */
-async function getDefinition(word){
-  let query = {word: word};
-  console.log(word)
-  let result = await Words.findOne(query).exec()
+async function getDefinition(word) {
+  let query = { word: word };
+  let result = await Words.findOne(query);
   return result;
 }
 /**
@@ -31,10 +28,13 @@ async function getDefinition(word){
  * @returns an object with a field count for the number of words and a field words
  * that's an array of all the words
  */
-async function getAllWords(length){
+async function getAllWords(length, startsWith) {
   let query = {};
-  if(length){
-    query = {length: length};
+  if (length) {
+    query.length = length;
+  }
+  if(startsWith){
+    query.word = {$regex: RegExp("^" + startsWith, "i") };
   }
   let returnObj = {};
   let arr = await Words.getOnlyWordFields(query);
@@ -46,13 +46,4 @@ async function getAllWords(length){
   return returnObj;
 }
 
-/**
- * @async
- * @returns the user
- */
-async function getUser(){
-  let result = await Users.getLatestUser();
-  return result;
-}
-
-export default {getRandomWord, getDefinition, getAllWords, getUser};
+export default { getRandomWord, getDefinition, getAllWords };
