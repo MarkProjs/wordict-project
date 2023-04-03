@@ -52,7 +52,7 @@ function RematchButton(props) {
         </button>
       }
       {
-        isRematchReceived && <p>Rematch Requested By Opponent</p>
+        isRematchReceived && <p>Rematch Requested By {socketContext.opponent.current}</p>
       }
     </>
   );
