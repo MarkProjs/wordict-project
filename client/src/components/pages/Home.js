@@ -5,6 +5,9 @@ function Home() {
     <div className='home'>
       <div className="intro">
         <h1>Welcome To WordDict!</h1>
+        <p className="motto">Search.</p>
+        <p className="motto">Play.</p>
+        <p className="motto">Learn.</p>
       </div>
       <div className="guideList">
         <h2>Here is a guide to maximize the experience in the website:</h2>
