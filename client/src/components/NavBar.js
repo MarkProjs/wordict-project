@@ -1,16 +1,18 @@
 import './NavBar.css';
 import { NavLink } from 'react-router-dom';
 import usePreviousPage from './NavigationExtra/usePreviousPage';
+import userMenu from './UserMenu';
+import UserMenu from './UserMenu';
 
 function NavBar() {
   usePreviousPage();
   return(
     <>
       <nav className='Nav'>
+        <NavLink to='/' className='mainNavLink'>
+          <h1>WORDICT</h1>
+        </NavLink>
         <div className='NavMenu'>
-          <NavLink to='/' className='mainNavLink'>
-            <h1>Home</h1>
-          </NavLink>
           <NavLink to="/dict" activestyle="true" className='mainNavLink'>
             Dictionary
           </NavLink>
@@ -30,6 +32,7 @@ function NavBar() {
             About Us
           </NavLink>
         </div>
+        <UserMenu/>
       </nav>
     </>
   );
