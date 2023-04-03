@@ -11,8 +11,11 @@ function UserMenu() {
     color: "#fff",
     background: "#256ce1",
     padding: "10px 22px",
+    'margin-inline-start': "10px",
     border: "none",
     outline: "none",
+    'border-radius': "1rem",
+    cursor: "pointer",
   }
   //handle the logout for google authentcation
   async function handleLogout(e) {
