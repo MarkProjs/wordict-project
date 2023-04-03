@@ -6,14 +6,24 @@ html {
   display: flex;
   justify-content: space-around;
   height: 100%;
+  margin-top: 1.5rem;
+}
+
+.intro h1 {
+  margin-bottom: 4.3rem;
 }
 
 .motto {
-  font-size:5rem;
-  font-weight:1000;
+  font-size: 3.3rem;
+  font-weight: 700;
 }
+
 .guideList {
   height: 100%;
+}
+
+.guideList h2 {
+  margin-bottom: 3rem;
 }
 
 .guideList ul {
@@ -25,16 +35,19 @@ html {
   justify-content: center;
   align-items: center;
   padding: 20px 0;
-  border:1px solid black;
-  margin-bottom: 0.2rem;
+  border: 1px solid black;
+  margin-bottom: 0.8rem;
   margin-top: 0.2rem;
   border-radius: 0.8rem;
   text-decoration: none;
   font-size: 1rem;
-  font-weight:700;
+  font-weight: 700;
+  box-shadow: 3px 3px 5px black;
 }
 
-.guideList a:visited {color: black}
+.guideList a:visited {
+  color: black
+}
 
 .guide1 {
   background: #daf0ff;
@@ -42,13 +55,20 @@ html {
 
 .guide2 {
   background: #b5e2ff;
+  margin-left: 1rem;
 }
+
 .guide3 {
   background: #8fd3fe;
+  margin-left: 2rem;
 }
+
 .guide4 {
   background: #6ac5fe;
+  margin-left: 3rem;
 }
+
 .guide5 {
   background: #45b6fe;
+  margin-left: 4rem;
 }

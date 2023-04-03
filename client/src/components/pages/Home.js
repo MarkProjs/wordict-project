@@ -4,7 +4,7 @@ function Home() {
   return(
     <div className='home'>
       <div className="intro">
-        <h1>Welcome To WordDict!</h1>
+        <h1>Welcome To WorDict!</h1>
         <p className="motto">Search.</p>
         <p className="motto">Play.</p>
         <p className="motto">Learn.</p>
