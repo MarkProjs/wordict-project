@@ -58,13 +58,13 @@ describe('Test Definition GET API', () => {
     const response = await request(app).get('/api/monkey/definition');
     expect(response.body.word).toEqual("monkey");
     expect(response.body.definitions).toBeDefined()
-  })
+  });
   // test for non existant word
   test('Test for non existant word', async () => {
     const response = await request(app).get('/api/asdasd/definition');
     expect(response.body.word).not.toBeDefined();
     expect(response.body.word).not.toEqual("monkey");
-  })
+  });
 });
 
 // tests for dictionary get api
@@ -82,24 +82,10 @@ describe('Test Dictionary GET API', () => {
     expect(response.body).not.toContain("present");
   })
 });
-
-//TODO figure out how to fake auth for tests
-// tests for user get api
-// describe('Test User GET API', () => {
-//   // test for latest user
-//   test('Test Retrieving latest user', async () => {
-//     const response = await request(app).get('/auth');
-//     expect(response.body.name).toEqual("MonkeyMan");
-//     expect(response.body.image).toContain("//");
-//     expect(response.body.favoriteWords).toBeDefined();
-//     expect(response.body.elo).toEqual(100);
-//   })
-// })
-
 describe('Test all users GET API', () => {
   test('Retrieving all users', async () => {
     const response = await request(app).get('/api/all-users');
-    expect(response.body[0].name).toEqual("jacky")
-    expect(response.body[0].elo).toEqual(100)
+    expect(response.body[0].name).toEqual("jacky");
+    expect(response.body[0].elo).toEqual(100);
   })
 })

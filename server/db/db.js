@@ -74,7 +74,23 @@ const userSchema = new mongoose.Schema({
   elo: Number
 });
 
-
+/**
+ * get the favorite words of a user
+ * @param {Object} query query to match a user
+ * @returns {Object} user data
+ */
+userSchema.statics.getUserFavorites = async function(query){
+  return await Users.findOne(query).select('favoriteWords');
+}
+/**
+ * get all the dat for a user, except their fav words
+ * @param {Object} query query to match a user
+ * @returns {Object} user data
+ */
+userSchema.statics.getUserData = async function(query){
+  let result = await Users.findOne(query).select('name elo email picture');
+  return result;
+}
 /**
  * Get all users sorted by elo
  * @async

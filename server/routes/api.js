@@ -1,44 +1,9 @@
 import express from "express";
-import fs from 'fs';
 import userControllers from "../controllers/userControllers.js";
 import wordControllers from "../controllers/wordControllers.js";
 
 const router = express.Router();
 router.use(express.json());
-
-/**
- * middleware function to log the duration of each API call
- */
-function logger(req, res, next) {
-  const start = Date.now();
-
-  res.on('finish', () => {
-    const duration = Date.now() - start;
-    const { method, originalUrl } = req;
-    const row = `${method}, ${originalUrl}, ${duration} \n`;
-    const title = `Method, URL, Duration(ms) \n`;
-    fs.appendFile('log.csv', row, (err) => {
-      if (err) {
-        console.error(err);
-      }
-    });
-
-    //check if the file exists and add title if not
-    if (!fs.existsSync('log.csv')) {
-      fs.writeFile('log.csv', title, (err) => {
-        if (err) {
-          console.error(err);
-        }
-      });
-    }
-  });
-  next();
-}
-
-/**
- * use the logger function to record the api call duration
- */
-router.use(logger);
 
 
 /**

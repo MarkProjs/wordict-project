@@ -9,8 +9,7 @@ import { Users } from "../db/db.js";
  */
 async function getUserInfo(user) {
   let query = {email: user.email};
-  let result = await Users.findOne(query).select('name elo email picture');
-  return result;
+  return await Users.getUserData(query);
 }
 /**
  * gets favortie words of user
@@ -20,8 +19,7 @@ async function getUserInfo(user) {
  */
 async function getUserFavorites(user){
   let query = {email: user.email};
-  let result = await Users.findOne(query).select('favoriteWords');
-  return result;
+  return Users.getUserFavorites(query);
 }
 /**
  * Get all users
@@ -32,7 +30,7 @@ async function getAllUsers() {
   let result = await Users.getAllUsersForLeaderboard();
   return result;
 }
-  
+ 
 /**
  * Post user elo
  * @param {Object} user the target user
@@ -42,18 +40,15 @@ async function getAllUsers() {
 async function updateElo(user, elo) {
   await Users.updateUserElo(user.email, elo);
 }
-
 /**
  * Update user picture
  * @param {Object} user the target user
  * @async
- * @param {String} elo New calculated elo of the user
+ * @param {String} picture New calculated elo of the user
  */
 async function updatePicture(user, picture) {
   await Users.updatePicture(user.email, picture);
 }
-
-
 // TODO remove log
 /**
  * update the user document with provided data
@@ -62,7 +57,7 @@ async function updatePicture(user, picture) {
  * @param {String} newName newName
  */
 async function updateName(user, newName) {
-  const doc = await Users.findOneAndUpdate(
+  await Users.findOneAndUpdate(
     { email: user.email },
     { name: newName },
     // { picture: picture},
@@ -70,13 +65,10 @@ async function updateName(user, newName) {
     // document as it was _before_ it was updated.
     { new: false }
   );
-  console.log(`user ${doc.email} has been updated`);
 }
-
-
-
 /**
  * update the user's favorite words
+ * isFavorites indicated if the word was a favorite prior to the call
  * @param {String} user target user
  * @param {String} word new word
  * @param {Boolean} isFavorite true: remove from favorites, false: add to favorites
@@ -91,20 +83,16 @@ async function postUserFavoriteWord(user, word, isFavorite) {
     await Users.removeUserFavoriteWord(user.email, word);
   }
 }
-
-
 /**
  * NOTE: currently not used
  * Uptade user favorite
  * @async
  * @param {Object} user the target user
- * @param {Array} elo New calculated elo of the user
+ * @param {Array} favoriteWords New calculated elo of the user
  */
 async function updateFavorites(user, favoriteWords) {
   await Users.updateFavorites(user.email, favoriteWords);
 }
-
-
 /**
  * add a user if they dont already exist
  * @param {Object} newUser 
@@ -122,7 +110,5 @@ async function addUserIfNew(newUser){
     await newWord.save();
   }
 }
-    
-
 export default {addUserIfNew, getUserInfo, getAllUsers, updateElo,
   updatePicture, updateFavorites, updateName, postUserFavoriteWord, getUserFavorites};
