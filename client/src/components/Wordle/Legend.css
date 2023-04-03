@@ -1,0 +1,23 @@
+.legend {
+    /* background-color: rgba(240, 248, 255, 0.7); */
+    padding: 0 0.5rem;
+    min-width: 35rem;
+    max-width: 40rem;
+    margin: auto;
+}
+
+.legend-content{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+}
+
+.legend-item {
+    display: flex;
+    flex-direction: row;
+}
+
+.mini {
+    height: 0.5rem;
+    width: 0.5rem;
+}
