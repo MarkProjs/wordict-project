@@ -92,7 +92,6 @@ function isAuthenticated(req, res, next) {
  * check if the user is logged in
  */
 router.get("/logged-in-check", isAuthenticated, (req, res) => {
-  console.log("AM HERE");
   res.sendStatus(200).end();
 });
 
@@ -102,7 +101,6 @@ router.get("/logged-in-check", isAuthenticated, (req, res) => {
 router.post("/update-elo", isAuthenticated, async (req, res) => {
   const user = req.session.user;
   const elo = req.body.elo;
-  c
   if (!elo) {
     return res.sendStatus(400).end()
   }
