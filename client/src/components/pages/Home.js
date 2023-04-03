@@ -5,16 +5,20 @@ function Home() {
     <div className='home'>
       <div className="intro">
         <h1>Welcome To WordDict!</h1>
-        <h2>Here is a guide to maximize the experience in the website:</h2>
       </div>
       <div className="guideList">
-        <li>
-          You can go to <a href="/dict">Dictionary</a> to search for a word!
-        </li>
-        <li>Play <a href="/wordle">Wordle</a>!</li>
-        <li>Test your skills against another player in <a href="">Wordle Online</a>!</li>
-        <li>Check your ranking in <a href="">Leaderboard</a>!</li>
-        <li><a href="/about">About Us</a></li>
+        <h2>Here is a guide to maximize the experience in the website:</h2>
+        <ul>
+          <li className="guide1">
+            You can go to&nbsp;<a href="/dict">Dictionary</a>&nbsp;to search for a word!
+          </li>
+          <li className="guide2">Play&nbsp;<a href="/wordle">Wordle</a>!</li>
+          <li className="guide3">
+            Test your skills against another player in&nbsp;<a href="">Wordle Online</a>!
+          </li>
+          <li className="guide4">Check your ranking in&nbsp;<a href="">Leaderboard</a>!</li>
+          <li className="guide5"><a href="/about">About Us</a></li>
+        </ul>
       </div>
     </div>
   );
