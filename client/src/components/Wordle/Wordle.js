@@ -5,6 +5,7 @@ import "./Wordle.css"
 import Popup from "./Popup.js";
 import LetterBank from "./LetterBank.js";
 import ValidGuess from "./ValidGuess.js";
+import Legend from '../Wordle/Legend.js';
 
 const ROW_PREFIX = "R-";
 const POP_PREFIX = "P-";
@@ -175,6 +176,7 @@ function Wordle(props) {
         id={"bank"}
         subToGuessEvent={subToGuessEvent}
       />
+      <Legend />
     </section>
   );
 }
