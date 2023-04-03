@@ -42,11 +42,12 @@
 .title h1 {
     font-size: 2rem;
     font-weight:700; 
-    width:150px;
+    width:9.375rem;
     text-align:center;
     margin:auto; 
     white-space:nowrap;
     background:#fff; 
     border:2px solid #ffffff;
+    border-radius: 0.8rem;
     padding:5px 11px 3px 11px;
 }
