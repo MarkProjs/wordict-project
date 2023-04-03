@@ -98,15 +98,17 @@ main {
 }
 
 .edit-container {
-  margin: auto;
   display: flex;
   flex-direction: row;
+  align-items: flex-start
 }
 
 .form-section {
   display: flex;
   flex-direction: column;
-  margin-right: 10rem;
+  margin-right: 7rem;
+  min-width: 20%;
+  max-width: 20%;
 }
 
 .form-section label {
@@ -138,12 +140,19 @@ button {
 
 .edit-form input[type=text] {
   width: 80%;
+  max-width: 12.75rem;
   font-size: medium;
 }
 
 .picture-section {
   display: flex;
   flex-direction: column;
+}
+
+.preview-section {
+  min-width: 65%;
+  max-width: 65%;
+  margin: none;
 }
 
 .preview-section article {
