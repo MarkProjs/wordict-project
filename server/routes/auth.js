@@ -4,7 +4,7 @@ import session from 'express-session';
 import { OAuth2Client } from 'google-auth-library';
 import dotenv from 'dotenv';
 import fileUpload from "express-fileupload";
-import imageUpload from "../controllers/blobController.js";
+import {imageUpload} from "../controllers/blobController.js";
 dotenv.config();
 
 const client = new OAuth2Client(process.env.REACT_APP_GOOGLE_CLIENT_ID);
@@ -41,12 +41,20 @@ router.use(sessionHandler);
  * Authentication post
  */
 router.post("/login", async (req, res) => {
-  //TODO: should validate that the token was sent first
   const { token } = req.body;
-  const ticket = await client.verifyIdToken({
-    idToken: token,
-    audience: process.env.REACT_APP_GOOGLE_CLIENT_ID
-  });
+  if (!token) {
+    return res.sendStatus(400).end();
+  }
+  let ticket;
+  try{
+    ticket = await client.verifyIdToken({
+      idToken: token,
+      audience: process.env.REACT_APP_GOOGLE_CLIENT_ID
+    });
+  }catch(e){
+    console.log("invalid token");
+  }
+  
   if (!ticket) {
     return res.sendStatus(401);
   }
@@ -209,5 +217,5 @@ router.get("/logout", isAuthenticated, function (req, res) {
   });
 });
 
-
+//isAuthenticated exported only for testing
 export default router;
