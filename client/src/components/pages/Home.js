@@ -17,9 +17,11 @@ function Home() {
           </li>
           <li className="guide2">Play&nbsp;<a href="/wordle">Wordle</a>!</li>
           <li className="guide3">
-            Test your skills against another player in&nbsp;<a href="">Wordle Online</a>!
+            Test your skills against another 
+            player in&nbsp;<a href="/wordle-online">Wordle Online</a>!
           </li>
-          <li className="guide4">Check your ranking in&nbsp;<a href="">Leaderboard</a>!</li>
+          <li className="guide4">Check your ranking 
+          in&nbsp;<a href="/leaderboard">Leaderboard</a>!</li>
           <li className="guide5"><a href="/about">About Us</a></li>
         </ul>
       </div>
