@@ -1,0 +1,17 @@
+html {
+  height: 70%;
+}
+
+.missOne{
+  width: 60%;
+}
+.AboutUs h1 {
+  font-size:4rem;
+}
+.AboutUs p{
+  font-weight:500;
+}
+
+#thanks {
+  font-size: 2rem;
+}
