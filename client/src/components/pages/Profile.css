@@ -52,7 +52,11 @@ main {
 
 ul {
   max-height: 15rem;
-  overflow-y: scroll;
+  overflow-y: auto;
+}
+
+.error {
+  color: #ca001b;
 }
 
 .favorites li {
