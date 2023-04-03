@@ -7,6 +7,13 @@ import FetchModule from '../controllers/FetchModule';
 function UserMenu() {
   const user = useContext(UserContext);
 
+  const logOutStyle = {
+    color: "#fff",
+    background: "#256ce1",
+    padding: "10px 22px",
+    border: "none",
+    outline: "none",
+  }
   //handle the logout for google authentcation
   async function handleLogout(e) {
     e.target.disabled = true
@@ -15,10 +22,9 @@ function UserMenu() {
   }
 
   return (
-    <div className="profile login">
-      <img src={user.picture} style={{ width: 50, height: 50 }} referrerPolicy="no-referrer" />
+    <div className="profile-login">
       <LogInBtn />
-      {user.isLoggedIn && <button onClick={handleLogout}>Logout</button>}
+      {user.isLoggedIn && <button onClick={handleLogout} style={logOutStyle}>Logout</button>}
     </div>
   );
 }

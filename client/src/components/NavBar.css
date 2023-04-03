@@ -2,9 +2,8 @@
     background: #000;
     height: 80px;
     display: flex;
-    justify-content: space-evenly;
-    padding: 0.5rem calc((100vw - 1000px) / 2);
-    z-index: 10;
+    justify-content: space-around;
+    align-items:center;
 }
 
 .NavMenu {
@@ -35,4 +34,20 @@
     transition: all 0.2s ease-in-out;
     background: #fff;
     color: #010606;
+}
+
+.title {
+    text-decoration: none;
+    color: #010606;
+}
+.title h1 {
+    font-size: 2rem;
+    font-weight:700; 
+    width:150px;
+    text-align:center;
+    margin:auto; 
+    white-space:nowrap;
+    background:#fff; 
+    border:2px solid #ffffff;
+    padding:5px 11px 3px 11px;
 }
