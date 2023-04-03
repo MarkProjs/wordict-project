@@ -61,7 +61,7 @@ router.post("/login", async (req, res) => {
   const { name, email, picture } = ticket.getPayload();
 
   const user = { "name": name, "email": email, "picture": picture };
-  userControllers.addUserIfNew(user);
+  await userControllers.addUserIfNew(user);
 
   req.session.regenerate(function (err) {
     if (err) {
