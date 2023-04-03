@@ -31,8 +31,7 @@ function Nav() {
             <LogIn />} />
           <Route path="/*" exact element= {<Error/>}/>
         </Routes>
-      </Router>
-      
+      </Router> 
     </>
   );
 }

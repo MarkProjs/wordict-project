@@ -8,7 +8,6 @@
 
 .NavMenu {
     display: flex;
-    margin-right: -24px;
     color: #fff;
 
     @media screen and (max-width: 768px) {

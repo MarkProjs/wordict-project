@@ -1,0 +1,17 @@
+.home {
+  display: flex;
+  justify-content: space-around;
+  background: linear-gradient(
+    to right,
+    #15cdfc 50%,
+    black 50%
+  );
+  height: 100vh;
+  width: 100vw;
+}
+
+
+.guideList {
+
+}
+
