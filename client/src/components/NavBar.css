@@ -9,7 +9,7 @@
 .NavMenu {
     display: flex;
     color: #fff;
-
+    height: 60%;
     @media screen and (max-width: 768px) {
         display: none;
     }
@@ -22,17 +22,20 @@
     text-decoration: none;
     padding: 0 1rem;
     height: 100%;
+    transition: all 0.3s ease-in-out;
     cursor: pointer;
+    border-radius: 0.2rem;
 }
 
 .mainNavLink.active {
     color: #15cdfc;
 }
 
-.mainNavLink:hover {
+.mainNavLink:hover:not(.mainNavLink.active) {
     transition: all 0.2s ease-in-out;
     background: #fff;
     color: #010606;
+    border-radius: 0.2rem;
 }
 
 .title {
