@@ -1,7 +1,6 @@
 import './NavBar.css';
 import { NavLink } from 'react-router-dom';
 import usePreviousPage from './NavigationExtra/usePreviousPage';
-import userMenu from './UserMenu';
 import UserMenu from './UserMenu';
 
 function NavBar() {
@@ -9,7 +8,7 @@ function NavBar() {
   return(
     <>
       <nav className='Nav'>
-        <NavLink to='/' className='mainNavLink'>
+        <NavLink to='/' className='title'>
           <h1>WORDICT</h1>
         </NavLink>
         <div className='NavMenu'>

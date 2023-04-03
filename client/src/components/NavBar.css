@@ -35,3 +35,19 @@
     background: #fff;
     color: #010606;
 }
+
+.title {
+    text-decoration: none;
+    color: #010606;
+}
+.title h1 {
+    font-size: 2rem;
+    font-weight:700; 
+    width:150px;
+    text-align:center;
+    margin:auto; 
+    white-space:nowrap;
+    background:#fff; 
+    border:2px solid #ffffff;
+    padding:5px 11px 3px 11px;
+}
