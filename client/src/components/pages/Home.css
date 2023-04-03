@@ -8,6 +8,10 @@ html {
   height: 100%;
 }
 
+.motto {
+  font-size:5rem;
+  font-weight:1000;
+}
 .guideList {
   height: 100%;
 }
@@ -20,7 +24,31 @@ html {
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 10px 0;
-  border-style: solid;
-  margin-bottom: 1rem;
+  padding: 20px 0;
+  border:1px solid black;
+  margin-bottom: 0.2rem;
+  margin-top: 0.2rem;
+  border-radius: 0.8rem;
+  text-decoration: none;
+  font-size: 1rem;
+  font-weight:700;
+}
+
+.guideList a:visited {color: black}
+
+.guide1 {
+  background: #86CEFA;
+}
+
+.guide2 {
+  background: #73B9EE;
+}
+.guide3 {
+  background: #5494DA;
+}
+.guide4 {
+  background: #3373C4;
+}
+.guide5 {
+  background: #1750AC;
 }
