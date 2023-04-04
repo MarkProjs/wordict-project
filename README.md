@@ -28,6 +28,10 @@ This app is currently a work in progress and more features are to be implemented
 ## Feature and Known Bugs
 
 ### Features
+- Login with Google
+- Favorite words
+- Leaderboard page
+- Rank points formula
 - Simple game of Wordle
 - Search page for word definitions
 - API to query our database of words
@@ -40,9 +44,18 @@ This app is currently a work in progress and more features are to be implemented
 - Favorite words in profile leading to dictionary
 - Visual accessibility features for Wordle game
 
+### Recent accomplishments
+- improved performance of dictionary page
+- better dictionary data set
+- better styling
+- multiplayer QoL improvements
+
 ### Bugs/Issues
-- Any String of characters is accepted by the game as a guess (doesn't check if it's a real word)
-- Profile editing shifts the entire screen when modifying the user name
+- styling when changing window width is inconsistent
+- no support for mobile users
+- niche glitch where the app doesn't use the whole window that we are unable to replicate
+- no support for big quantity of users
+- 
 
 ## Authors and acknowledgment
 Nolan Ganz
